@@ -181,7 +181,7 @@ typedef struct CAN_message_mc_voltage_information_t {
 //A9: MC Internal Voltages, ID_MC_INTERNAL_VOLTAGES
 //????
 
-//AA: MC Internal States: ID_MC_INTERNAL_STATES
+//AA: MC Internal States, ID_MC_INTERNAL_STATES
 typedef struct CAN_message_mc_internal_states_t {
     uint16_t vsm_state;
     uint8_t inverter_state;
@@ -377,29 +377,13 @@ typedef struct CAN_message_mcu_gps_readings_beta_t {
     int32_t speed;
 } CAN_message_mcu_gps_readings_beta_t;
 
-//end of structs
-//unknown structs
-
-typedef struct CAN_message_fcu_status_t {
-    uint8_t state;
-    uint8_t flags;
-    uint8_t start_button_press_id;
-} CAN_msg_fcu_status;
-
-
+//E9: ID_MCU_GPS_READINGS_GAMMA
 typedef struct CAN_message_mcu_gps_readings_gamma_t {
     uint8_t fix_quality;
     uint8_t satellite_count;
     uint32_t timestamp_seconds;
     uint16_t timestamp_milliseconds;
 } CAN_message_mcu_gps_readings_gamma_t;
-
-typedef struct CAN_message_rcu_status_t {
-    uint8_t state;
-    uint8_t flags;
-    uint16_t glv_battery_voltage;
-    int16_t temperature;
-} CAN_msg_rcu_status;
 
 typedef struct Telem_message {
     //bool cobs_flag;
@@ -439,11 +423,8 @@ typedef struct Telem_message {
         /* DF */CAN_message_fcu_accelerometer_values_t  fcu_accelerometer_values;
         /* E2 */CAN_message_bms_coulomb_counts_t        bms_coulomb_counts;
         /* E7 */CAN_message_mcu_gps_readings_alpha_t    mcu_gps_readings_alpha;
-        /* A8 */CAN_message_mcu_gps_readings_beta_t     mcu_gps_readings_beta;
-        //unknown hex IDs
-        /* ??? */CAN_message_mcu_gps_readings_gamma_t    mcu_gps_readings_gamma;
-        /* ??? */CAN_msg_fcu_status                      fcu_status;
-        /* ??? */CAN_msg_rcu_status                      rcu_status;
+        /* E8 */CAN_message_mcu_gps_readings_beta_t     mcu_gps_readings_beta;
+        /* E9 */CAN_message_mcu_gps_readings_gamma_t    mcu_gps_readings_gamma;
     } contents;
     uint16_t checksum;
 } Telem_message_t;
@@ -1142,34 +1123,7 @@ class MCU_GPS_readings_beta {
         CAN_message_mcu_gps_readings_beta_t message;
 };
 
-//unknown classes
-
-class FCU_status {
-    public:
-        FCU_status();
-        FCU_status(uint8_t buf[8]);
-        FCU_status(uint8_t state, uint8_t flags, uint8_t start_button_press_id);
-        void load(uint8_t buf[8]);
-        void write(uint8_t buf[8]);
-        uint8_t get_state();
-        uint8_t get_flags();
-        bool get_accelerator_implausibility();
-        bool get_accelerator_boost_mode();
-        bool get_brake_implausibility();
-        bool get_brake_pedal_active();
-        uint8_t get_start_button_press_id();
-        void set_state(uint8_t state);
-        void set_flags(uint8_t flags);
-        void set_accelerator_implausibility(bool accelerator_implausibility);
-        void set_accelerator_boost_mode(bool accelerator_boost_mode);
-        void set_brake_implausibility(bool brake_implausibility);
-        void set_brake_pedal_active(bool brake_pedal_active);
-        void set_start_button_press_id(uint8_t start_button_press_id);
-    private:
-        CAN_message_fcu_status_t message;
-};
-
-
+//E9: ID_MCU_GPS_READINGS_GAMMA
 class MCU_GPS_readings_gamma {
     public:
         MCU_GPS_readings_gamma();
@@ -1186,33 +1140,6 @@ class MCU_GPS_readings_gamma {
         void set_timestamp_milliseconds(uint16_t timestamp_milliseconds);
     private:
         CAN_message_mcu_gps_readings_gamma_t message;
-};
-
-class RCU_status {
-    public:
-        RCU_status();
-        RCU_status(uint8_t buf[8]);
-        RCU_status(uint8_t state, uint8_t flags, uint16_t glv_battery_voltage, int16_t temperature);
-        void load(uint8_t buf[8]);
-        void write(uint8_t buf[8]);
-        uint8_t get_state();
-        uint8_t get_flags();
-        bool get_bms_ok_high();
-        bool get_imd_okhs_high();
-        bool get_bms_imd_latched();
-        bool get_inverter_powered();
-        uint16_t get_glv_battery_voltage();
-        int16_t get_temperature();
-        void set_state(uint8_t state);
-        void set_flags(uint8_t flags);
-        void set_bms_ok_high(bool bms_ok_high);
-        void set_imd_okhs_high(bool imd_okhs_high);
-        void set_bms_imd_latched(bool bms_imd_latched);
-        void set_inverter_powered(bool inverter_powered);
-        void set_glv_battery_voltage(uint16_t glv_battery_voltage);
-        void set_temperature(int16_t temperature);
-    private:
-        CAN_message_rcu_status_t message;
 };
 
 #endif
