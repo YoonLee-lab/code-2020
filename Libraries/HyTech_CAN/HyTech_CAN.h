@@ -1,3 +1,34 @@
+/*
+
+ * A GENERAL_NOTE: the load functions in these classes take a byte array containing raw CAN buffer data.
+ * The data contained in this byte array is used to populate the struct.
+ *
+ * A GENERAL_NOTE: The write functions in these classes take a byte array that is meant to be populated
+ * with the data contained in the object. The byte array can then be used as the raw CAN buffer.
+ *
+ * TODO: If you make changes here, make sure to update https://hytechracing.me.gatech.edu/wiki/CAN_Data_Formats
+ */
+
+/**
+ * IMPORTANT:
+ * If you're adding more structs/functions to this, please follow the HEX order. I have rearranged the file to be
+ * easier to read and add stuff to. Please don't change the order without a good reason. Add comments wherever you
+ * believe is necessary. Better more comments than none.
+ * 
+ * CONVENTION:
+ * Add a one-line comment containing the hex ID, name you used in the doc and the macro ID.
+ * Do this for both the struct and the class.
+ * Add the class/struct in the correct place.
+ * 
+ * TODO:
+ * There is no information on: A8, A9, AF, DC, E1
+ * 
+ * OTHER:
+ * D0 and D2 are obsolete. Check documentation for more info.
+ * 
+ * --Varnika/Vivacia/mbudati3/Meghavarnika Budati
+ */
+
 #ifndef __HYTECH_CAN_H__
 #define __HYTECH_CAN_H__
 
@@ -66,34 +97,6 @@
 #define ID_MCU_GPS_READINGS_ALPHA 0xE7
 #define ID_MCU_GPS_READINGS_BETA 0xE8
 #define ID_MCU_GPS_READINGS_GAMMA 0xE9
-
-/*
-
- * A GENERAL_NOTE: the load functions in these classes take a byte array containing raw CAN buffer data.
- * The data contained in this byte array is used to populate the struct.
- *
- * A GENERAL_NOTE: The write functions in these classes take a byte array that is meant to be populated
- * with the data contained in the object. The byte array can then be used as the raw CAN buffer.
- *
- * TODO: If you make changes here, make sure to update https://hytechracing.me.gatech.edu/wiki/CAN_Data_Formats
- */
-
-/**
- * IMPORTANT:
- * If you're adding more structs/functions to this, please follow the HEX order. I have rearranged the file to be
- * easier to read and add stuff to. Please don't change the order without a good reason. Add comments wherever you
- * believe is necessary. Better more comments than none.
- * 
- * CONVENTION:
- * Add a one-line comment containing the hex ID, name you used in the doc and the macro ID.
- * Do this for both the struct and the class.
- * Add the class/struct in the correct place.
- * 
- * TODO:
- * There is no information on: A8, A9, AF, DC, E1
- * 
- * --Varnika/Vivacia/mbudati3/Meghavarnika Budati
- */
 
 // For compatibility with C.
 #ifndef __cplusplus
