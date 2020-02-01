@@ -9,9 +9,9 @@
  * STRUCT: CAN_message_mc_temperatures_1_t 
  * CLASS: MC_temperatures_1
  * DATA:
- *      module_a_temperature [0:1] int16
- *      module_b_temperature [2:3] int16
- *      module_c_temperature [4:5] int16
+ *      module_a_temperature          [0:1] int16
+ *      module_b_temperature          [2:3] int16
+ *      module_c_temperature          [4:5] int16
  *      gate_driver_board_temperature [6:7] int16
  */
 
