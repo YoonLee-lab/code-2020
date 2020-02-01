@@ -1,14 +1,35 @@
 /*
  * MC_command_message.cpp - CAN message parser: RMS Motor Controller command message
  * Created by Nathan Cheek, November 20, 2016.
+ * Documentation by Meghavarnika Budati, January 31, 2020. WIP
+ * 
+ * HEX ID: C0
+ * DESCR: MC Command Message
+ * MACRO: ID_MC_COMMAND_MESSAGE
+ * STRUCT: CAN_message_mc_command_message_t 
+ * CLASS: MC_command_message
+ * DATA:
+ *      torque_command         [0:1]
+ *      angular_velocity       [2:3]
+ *      direction              [4]
+ *      inverter_enable        [5]
+ *      commanded_torque_limit [6:7]
+ * 
  */
 
 #include "HyTech_CAN.h"
 
+/**
+ * Constructor, defining an empty message for MC_fault_codes
+ */
 MC_command_message::MC_command_message() {
     message = {};
 }
 
+/**
+ * Constructor, loading in the data from buffer
+ * @param buf: buffer to load data from
+ */
 MC_command_message::MC_command_message(uint8_t buf[8]) {
     load(buf);
 }
@@ -33,6 +54,10 @@ void MC_command_message::load(uint8_t buf[]) {
     memcpy(&(message.commanded_torque_limit), &buf[6], sizeof(uint16_t));
 }
 
+/**
+ * Writing data to the buffer
+ * @param buf: buffer to load data into
+ */
 void MC_command_message::write(uint8_t buf[8]) {
     memcpy(&buf[0], &(message.torque_command), sizeof(uint16_t));
     memcpy(&buf[2], &(message.angular_velocity), sizeof(uint16_t));

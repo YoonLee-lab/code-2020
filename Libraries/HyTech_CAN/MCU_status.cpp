@@ -1,6 +1,18 @@
 /*
  * MCU_status.cpp - CAN message parser: Main Control Unit status message
  * Created Feb, 2019.
+ * Documentation by Meghavarnika Budati, January 31, 2020. WIP
+ * 
+ * HEX ID: C3
+ * MACRO: ID_MCU_STATUS
+ * STRUCT: CAN_message_mcu_status_t 
+ * CLASS: MCU_status
+ * DATA:
+ *      state                [0]
+ *      flags                [1]
+ *      temperature          [2:3]
+ *      glv_battery_voltage  [4:5]
+ * 
  */
 
 #include "HyTech_CAN.h"
@@ -26,18 +38,18 @@ MCU_status::MCU_status(uint8_t buf[8]) {
     load(buf);
 }
 
-/* Constructor for MCU_status
+/** Constructor for MCU_status
  *
  * Used to copy data from msg variable in
  * microcontroller code to instance variable
  *
- * Param (uint8_t) - Board State
+ * @param state: (uint8_t) - Board State
  *     - Board state value
- * Param (uint8_t) - Board Flags
+ * @param flags: (uint8_t) - Board Flags
  *     - Indicators for BMS OK High, IMD OKHS High, and shutdown circuit B/C/D voltage above threshold
- * Param (int16_t) - Temperature
+ * @param temperature: (int16_t) - Temperature
  *     - Value from the board thermistor (in C) times 100
- * Param (uint16_t) - GLV Battery Voltage
+ * @param glv_battery_voltage: (uint16_t) - GLV Battery Voltage
  *     - Battery voltage reading (in Volts) times 1000
  */
 
@@ -48,12 +60,12 @@ MCU_status::MCU_status(uint8_t state, uint8_t flags, int16_t temperature, uint16
     set_glv_battery_voltage(glv_battery_voltage);
 }
 
-/* Load from buffer & write to variable instance
+/** Load from buffer & write to variable instance
  *
  * Used to copy data from msg variable in
  * microcontroller code to instance variable
  *
- * Param - Pass in buffer you are trying to read from
+ * @param buf: Pass in buffer you are trying to read from
  * Example: curMCU_status.load(msg.buf);
  */
 
@@ -66,12 +78,12 @@ void MCU_status::load(uint8_t buf[8]) {
     memcpy(&(message.glv_battery_voltage), &buf[4], sizeof(uint16_t));
 }
 
-/* Write to buffer
+/** Write to buffer
  *
  * Used to copy data from instance of this class
  * to msg variable in microcontroller code
  *
- * Param - Pass in buffer you are trying to modify
+ * @param buf: Pass in buffer you are trying to modify
  * Example: curMCU_status.write(msg.buf);
  */
 

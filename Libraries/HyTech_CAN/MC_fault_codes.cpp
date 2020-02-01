@@ -6,8 +6,8 @@
  * HEX ID: AB
  * DESCR: MC Fault Codes
  * MACRO: ID_MC_FAULT_CODES
- * STRUCT: MC_fault_codes 
- * CLASS: CAN_message_mc_fault_codes_t
+ * STRUCT: CAN_message_mc_fault_codes_t 
+ * CLASS: MC_fault_codes 
  * DATA:
  *      post_fault_lo [0:1]
  *      post_fault_hi [2:3]
