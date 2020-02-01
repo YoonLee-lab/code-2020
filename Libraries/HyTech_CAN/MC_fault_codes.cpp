@@ -1,19 +1,35 @@
 /*
  * MC_fault_codes.cpp - CAN message parser: RMS Motor Controller fault codes message
  * Created by Nathan Cheek, November 22, 2016.
+ * Documentation by Meghavarnika Budati, January 31, 2020. WIP
+ * 
+ * HEX ID: AB
+ * DESCR: MC Fault Codes
+ * MACRO: ID_MC_FAULT_CODES
+ * STRUCT: MC_fault_codes 
+ * CLASS: CAN_message_mc_fault_codes_t
+ * DATA:
+ *      post_fault_lo [0:1]
+ *      post_fault_hi [2:3]
+ *      run_fault_lo  [4:5]
+ *      run_fault_hi  [6:7]
+ * 
  */
 
 #include "HyTech_CAN.h"
 
+/**
+ * Constructor, defining an empty message for MC_fault_codes
+ */
 MC_fault_codes::MC_fault_codes() {
     message = {};
 }
 
+/**
+ * Constructor, loading in the data from buffer
+ * @param buf: buffer to load data from
+ */
 MC_fault_codes::MC_fault_codes(uint8_t buf[8]) {
-    load(buf);
-}
-
-void MC_fault_codes::load(uint8_t buf[8]) {
     message = {};
     memcpy(&(message.post_fault_lo), &buf[0], sizeof(int16_t));
     memcpy(&(message.post_fault_hi), &buf[2], sizeof(int16_t));
@@ -21,6 +37,10 @@ void MC_fault_codes::load(uint8_t buf[8]) {
     memcpy(&(message.run_fault_hi), &buf[6], sizeof(int16_t));
 }
 
+/**
+ * Writing data to the buffer
+ * @param buf: buffer to load data into
+ */
 void MC_fault_codes::write(uint8_t buf[8]) {
     memcpy(&buf[0], &(message.post_fault_lo), sizeof(int16_t));
     memcpy(&buf[2], &(message.post_fault_hi), sizeof(int16_t));

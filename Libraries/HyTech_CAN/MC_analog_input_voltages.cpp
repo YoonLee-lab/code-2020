@@ -19,7 +19,7 @@
 #include "HyTech_CAN.h"
 
 /**
- * Constructor, defining an empty message for MC_temperatures_2
+ * Constructor, defining an empty message for MC_analog_input_voltages
  */
 MC_analog_input_voltages::MC_analog_input_voltages() {
     message = {};

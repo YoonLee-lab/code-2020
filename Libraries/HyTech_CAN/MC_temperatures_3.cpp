@@ -21,7 +21,7 @@
 #include "HyTech_CAN.h"
 
 /**
- * Constructor, defining an empty message for MC_temperatures_2
+ * Constructor, defining an empty message for MC_temperatures_3
  */
 MC_temperatures_3::MC_temperatures_3() {
     message = {};

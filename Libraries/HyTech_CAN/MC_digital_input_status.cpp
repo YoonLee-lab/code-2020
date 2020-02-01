@@ -25,7 +25,7 @@
 #include "HyTech_CAN.h"
 
 /**
- * Constructor, defining an empty message for MC_temperatures_2
+ * Constructor, defining an empty message for MC_digital_input_status
  */
 MC_digital_input_status::MC_digital_input_status() {
     message = {};
