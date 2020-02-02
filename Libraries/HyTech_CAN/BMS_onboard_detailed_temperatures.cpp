@@ -43,7 +43,7 @@ void BMS_onboard_detailed_temperatures::load(uint8_t buf[8]) {
 }
 
 /**
- * Constructor, loading in the data from buffer
+ * Constructor, loading in the data from variables
  * @param ic_id: integrated circuit?
  * @param temperature_0: temperature 0
  * @param temperature_1: temperature 1

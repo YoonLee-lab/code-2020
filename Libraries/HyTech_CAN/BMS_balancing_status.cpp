@@ -1,6 +1,15 @@
-/*
+/**
  * BMS_balancing_status.cpp - CAN message parser: Battery Management System balancing status message
  * Created by Nathan Cheek, March 25, 2019.
+ * Documentation by Meghavarnika Budati, February 2, 2020.
+ * 
+ * HEXID: DE
+ * DESCR: Motor Controller Temperatures #1
+ * MACRO: ID_MC_TEMPERATURES_1
+ * STRUCT: CAN_message_mc_temperatures_1_t 
+ * CLASS: MC_temperatures_1
+ * DATA:
+ *      balancing_status[] (1 byte x 5)
  */
 
 #include "HyTech_CAN.h"
@@ -15,29 +24,51 @@
 
 // Make sure to cast things to uint64_t before doing large bit-shifts (>32 bits)
 
-
+/**
+ * Constructor, defining an empty message for MC_temperatures_1
+ */
 BMS_balancing_status::BMS_balancing_status() {
     message = {};
 }
 
+/**
+ * Constructor, loading in the data from buffer
+ * @param buf: buffer to load data from
+ */
 BMS_balancing_status::BMS_balancing_status(uint8_t buf[]) {
     load(buf);
 }
 
+/**
+ * Constructor, loading in the data from variables
+ * @param group_id: the ID of the group
+ * @param balancing: the data of the cell being balanced
+ */
 BMS_balancing_status::BMS_balancing_status(uint8_t group_id, int64_t balancing) {
     message = {};
     set_group_id(group_id);
     set_balancing(balancing);
 }
 
+/**
+ * Load in the data from buffer
+ * @param buf: buffer to load data from
+ */
 void BMS_balancing_status::load(uint8_t buf[]) {
     memcpy(&(message), &buf[0], sizeof(CAN_message_bms_balancing_status_t));
 }
 
+/**
+ * Writing data to the buffer
+ * @param buf: buffer to load data into
+ */
 void BMS_balancing_status::write(uint8_t buf[]) {
     memcpy(&buf[0], &(message), sizeof(CAN_message_bms_balancing_status_t));
 }
 
+/**
+ * Getter functions
+ */
 uint8_t BMS_balancing_status::get_group_id() {
     return message & 0xF;
 }
@@ -54,6 +85,9 @@ bool BMS_balancing_status::get_cell_balancing(uint8_t ic_id, uint16_t cell_id) {
     return (get_ic_balancing(ic_id) >> cell_id) & 0x1;
 }
 
+/**
+ * Setter functions
+ */
 void BMS_balancing_status::set_group_id(uint8_t group_id) {
     message = (message & 0xFFFFFFFFF0) | (group_id & 0xF);
 }

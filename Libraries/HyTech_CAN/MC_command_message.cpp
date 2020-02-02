@@ -35,7 +35,7 @@ MC_command_message::MC_command_message(uint8_t buf[8]) {
 }
 
 /**
- * Constructor, loading in the data from buffer
+ * Constructor, loading in the data from variables
  * @param torque_command: torque command
  * @param angular_velocity: angular velocity
  * @param direction: direction

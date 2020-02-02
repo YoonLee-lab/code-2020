@@ -1,9 +1,9 @@
-/*
+/**
  * MC_current_information.cpp - CAN message parser: RMS Motor Controller voltage information message
  * Created by Nathan Cheek, November 20, 2016.
  * Documentation by Meghavarnika Budati, January 31, 2020.
  * 
- * HEX ID: A6
+ * HEXID: A6
  * DESCR: MC Current Information
  * MACRO: ID_MC_CURRENT_INFORMATION
  * STRUCT: CAN_message_mc_current_information_t 

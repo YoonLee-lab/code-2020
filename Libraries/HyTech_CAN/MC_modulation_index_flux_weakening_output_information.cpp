@@ -1,9 +1,10 @@
-/*
- * MC_modulation_index_flux_weakening_output_information.cpp - CAN message parser: RMS Motor Controller modulation index & flux weakening output information message
+/**
+ * MC_modulation_index_flux_weakening_output_information.cpp
+ * CAN message parser: RMS Motor Controller modulation index & flux weakening output information message
  * Created by Ryan Gallaway, December 1, 2016.
  * Documentation by Meghavarnika Budati, January 31, 2020. WIP
  * 
- * HEX ID: AD
+ * HEXID: AD
  * DESCR: MC Modulation Index Flux Weakening Output Information
  * MACRO: ID_MC_MODULATION_INDEX_FLUX_WEAKENING_OUTPUT_INFORMATION
  * STRUCT: CAN_message_mc_modulation_index_flux_weakening_output_information_t 

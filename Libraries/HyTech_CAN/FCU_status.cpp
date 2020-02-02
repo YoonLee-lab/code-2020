@@ -1,4 +1,5 @@
-/*
+/**
+ * OBSOLETE: old code, kept here just for documentation - Meghavarnika Budati, February 2
  * FCU_status.cpp - CAN message parser: Front Control Unit status message
  * Created by Nathan Cheek, December 22, 2017.
  */

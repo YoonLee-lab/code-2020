@@ -1,9 +1,9 @@
-/*
+/**
  * MC_firmware_information.cpp - CAN message parser: RMS Motor Controller firmware information message
  * Created by Nathan Cheek, November 23, 2016.
  * Documentation by Meghavarnika Budati, January 31, 2020. WIP
  * 
- * HEX ID: AE
+ * HEXID: AE
  * DESCR: MC Firmware Information
  * MACRO: ID_MC_FIRMWARE_INFORMATION
  * STRUCT: CAN_message_mc_firmware_information_t 

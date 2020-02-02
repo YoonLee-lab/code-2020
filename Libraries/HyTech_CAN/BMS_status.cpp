@@ -1,18 +1,41 @@
-/*
+/**
  * BMS_status.cpp - CAN message parser: Battery Management System status message
  * Created by Shrivathsav Seshan, Feb 16, 2017.
+ * Documentation by Meghavarnika Budati, February 2, 2020.
+ * 
+ * HEXID: DB
+ * DESCR: BMS Status
+ * MACRO: ID_BMS_STATUS
+ * STRUCT: CAN_message_bms_status_t 
+ * CLASS: BMS_status
+ * DATA:
+ *      state       [0]
+ *      error_flags [1:2]
+ *      current     [3:4]
+ *      flags       [5]
  */
 
 #include "HyTech_CAN.h"
 
+/**
+ * Constructor, defining an empty message for MC_temperatures_1
+ */
 BMS_status::BMS_status() {
     message = {};
 }
 
+/**
+ * Constructor, loading in the data from buffer
+ * @param buf: buffer to load data from
+ */
 BMS_status::BMS_status(uint8_t buf[]) {
     load(buf);
 }
 
+/**
+ * Load in the data from buffer
+ * @param buf: buffer to load data from
+ */
 void BMS_status::load(uint8_t buf[]) {
     memcpy(&(message.state), &buf[0], sizeof(uint8_t));
     memcpy(&(message.error_flags), &buf[1], sizeof(uint16_t));
@@ -20,6 +43,10 @@ void BMS_status::load(uint8_t buf[]) {
     memcpy(&(message.flags), &buf[5], sizeof(uint8_t));
 }
 
+/**
+ * Writing data to the buffer
+ * @param buf: buffer to load data into
+ */
 void BMS_status::write(uint8_t buf[]) {
     memcpy(&buf[0], &(message.state), sizeof(uint8_t));
     memcpy(&buf[1], &(message.error_flags), sizeof(uint16_t));
@@ -27,6 +54,9 @@ void BMS_status::write(uint8_t buf[]) {
     memcpy(&buf[5], &(message.flags), sizeof(uint8_t));
 }
 
+/**
+ * Getter functions
+ */
 uint8_t BMS_status::get_state() {
     return message.state;
 }
@@ -87,6 +117,9 @@ bool BMS_status::get_shutdown_h_above_threshold() {
     return (message.flags & 0x02) >> 1;
 }
 
+/**
+ * Setter functions
+ */
 void BMS_status::set_state(uint8_t state) {
     message.state = state;
 }

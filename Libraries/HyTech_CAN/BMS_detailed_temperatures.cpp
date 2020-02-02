@@ -1,19 +1,47 @@
-/*
+/**
  * BMS_detailed_temperatures.cpp - CAN message parser: Battery Management System detailed temperatures message
  * Created by Nathan Cheek, December 17, 2017.
+ * Documentation by Meghavarnika Budati, February 2, 2020.
+ * 
+ * HEXID: DA
+ * DESCR: BMS Detailed Temperatures
+ * MACRO: ID_BMS_DETAILED_TEMPERATURES
+ * STRUCT: CAN_message_bms_detailed_temperatures_t 
+ * CLASS: BMS_detailed_temperatures
+ * DATA:
+ *      ic_id         [0]
+ *      temperature_0 [1:2]
+ *      temperature_1 [3:4]
+ *      temperature_2 [4:6]
+ *
  */
 
 #include "HyTech_CAN.h"
 
+/**
+ * Constructor, defining an empty message for MC_temperatures_1
+ */
 BMS_detailed_temperatures::BMS_detailed_temperatures() {
     message = {};
 }
 
+/**
+ * Constructor, loading in the data from buffer
+ * @param buf: buffer to load data from
+ */
 BMS_detailed_temperatures::BMS_detailed_temperatures(uint8_t buf[]) {
     load(buf);
 }
 
-BMS_detailed_temperatures::BMS_detailed_temperatures(uint8_t ic_id, int16_t temperature_0, int16_t temperature_1, int16_t temperature_2) {
+/**
+ * Constructor, loading in the data from variables
+ * @param ic_id: integrated circuit? ID
+ * @param temperature_0: temperature 0
+ * @param temperature_1: temperature 1
+ * @param temperature_2: temperature 2
+ */
+BMS_detailed_temperatures::BMS_detailed_temperatures(uint8_t ic_id,
+    int16_t temperature_0, int16_t temperature_1, int16_t temperature_2) {
     message = {};
     set_ic_id(ic_id);
     set_temperature_0(temperature_0);
@@ -21,6 +49,10 @@ BMS_detailed_temperatures::BMS_detailed_temperatures(uint8_t ic_id, int16_t temp
     set_temperature_2(temperature_2);
 }
 
+/**
+ * Load in the data from buffer
+ * @param buf: buffer to load data from
+ */
 void BMS_detailed_temperatures::load(uint8_t buf[]) {
     memcpy(&(message.ic_id), &buf[0], sizeof(uint8_t));
     memcpy(&(message.temperature_0), &buf[1], sizeof(int16_t));
@@ -28,6 +60,10 @@ void BMS_detailed_temperatures::load(uint8_t buf[]) {
     memcpy(&(message.temperature_2), &buf[5], sizeof(int16_t));
 }
 
+/**
+ * Writing data to the buffer
+ * @param buf: buffer to load data into
+ */
 void BMS_detailed_temperatures::write(uint8_t buf[]) {
     memcpy(&buf[0], &(message.ic_id), sizeof(uint8_t));
     memcpy(&buf[1], &(message.temperature_0), sizeof(int16_t));
@@ -35,6 +71,9 @@ void BMS_detailed_temperatures::write(uint8_t buf[]) {
     memcpy(&buf[5], &(message.temperature_2), sizeof(int16_t));
 }
 
+/**
+ * Getter functions
+ */
 uint8_t BMS_detailed_temperatures::get_ic_id() {
     return message.ic_id;
 }
@@ -62,6 +101,9 @@ int16_t BMS_detailed_temperatures::get_temperature(uint8_t temperature_id) {
     return 0;
 }
 
+/**
+ * Setter functions
+ */
 void BMS_detailed_temperatures::set_ic_id(uint8_t ic_id) {
     message.ic_id = ic_id;
 }

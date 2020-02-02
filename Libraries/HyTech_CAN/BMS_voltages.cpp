@@ -1,7 +1,7 @@
 /**
  * BMS_voltages.cpp - CAN message parser: Battery Management System voltages message
  * Created by Shrivathsav Seshan, January 10, 2017.
- * Documentation by Meghavarnika Budati, January 31, 2020.
+ * Documentation by Meghavarnika Budati, February 2, 2020.
  * 
  * HEXID: D7
  * DESCR: BMS Voltages
@@ -45,7 +45,7 @@ void BMS_voltages::load(uint8_t buf[8]) {
 }
 
 /**
- * Constructor, loading in the data from buffer
+ * Constructor, loading in the data from variables
  * @param average_voltage: average voltage
  * @param low_voltage: low voltage
  * @param high_voltage: high voltage
@@ -59,7 +59,7 @@ BMS_voltages::BMS_voltages(uint16_t average_voltage, uint16_t low_voltage, uint1
     message.total_voltage = total_voltage;
 }
 
-/*
+/**
  * Populates the specified byte array using the data stored in this object.
  * @param buf: buffer to load data from
  */

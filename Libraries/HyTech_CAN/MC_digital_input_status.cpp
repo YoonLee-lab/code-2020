@@ -1,9 +1,9 @@
-/*
+/**
  * MC_digital_input_status.cpp - CAN message parser: RMS Motor Controller digital input status message
  * Created by Ryan Gallaway, December 1, 2016.
  * Documentation by Meghavarnika Budati, January 31, 2020.
  * 
- * HEX ID: A4
+ * HEXID: A4
  * DESCR: MC Digital Input Status
  * MACRO: ID_MC_DIGITAL_INPUT_STATUS
  * STRUCT: CAN_message_mc_digital_input_status_t 

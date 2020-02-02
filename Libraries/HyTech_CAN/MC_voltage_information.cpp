@@ -1,9 +1,9 @@
-/*
+/**
  * MC_voltage_information.cpp - CAN message parser: RMS Motor Controller voltage information message
  * Created by Nathan Cheek, November 20, 2016.
  * Documentation by Meghavarnika Budati, January 31, 2020.
  * 
- * HEX ID: A7
+ * HEXID: A7
  * DESCR: MC Voltage Information
  * MACRO: ID_MC_VOLTAGE_INFORMATION
  * STRUCT: CAN_message_mc_voltage_information_t 

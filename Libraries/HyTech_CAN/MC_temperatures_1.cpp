@@ -1,9 +1,9 @@
-/*
+/**
  * MC_temperatures_1.cpp - CAN message parser: RMS Motor Controller temperatures 1 message
  * Created by Nathan Cheek, November 22, 2016.
  * Documentation by Meghavarnika Budati, January 31, 2020.
  * 
- * HEX ID: A0
+ * HEXID: A0
  * DESCR: Motor Controller Temperatures #1
  * MACRO: ID_MC_TEMPERATURES_1
  * STRUCT: CAN_message_mc_temperatures_1_t 

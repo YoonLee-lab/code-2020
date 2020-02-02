@@ -43,7 +43,7 @@ void GLV_current_readings::load(uint8_t buf[8]) {
 }
 
 /**
- * Constructor, loading in the data from buffer
+ * Constructor, loading in the data from variables
  * @param ecu_current_value: ecu current value 
  * @param cooling_current_value: cooling current value 
  */

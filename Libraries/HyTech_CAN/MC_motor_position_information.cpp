@@ -1,9 +1,9 @@
-/*
+/**
  * MC_motor_position_information.cpp - CAN message parser: RMS Motor Controller motor position information message
  * Created by Nathan Cheek, November 22, 2016.
  * Documentation by Meghavarnika Budati, January 31, 2020.
  * 
- * HEX ID: A5
+ * HEXID: A5
  * DESCR: MC Motor Position Information
  * MACRO: ID_MC_MOTOR_POSITION_INFORMATION
  * STRUCT: CAN_message_mc_motor_position_information_t 

@@ -1,4 +1,5 @@
-/*
+/**
+ * OBSOLETE: this is left here for documentation, code is no longer used. - Meghavarnika Budati, February 2, 2020.
  * RCU_status.cpp - CAN message parser: Power Control Unit status message
  * Created by Nathan Cheek, November 20, 2016.
  */

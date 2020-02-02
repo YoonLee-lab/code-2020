@@ -1,9 +1,9 @@
-/*
+/**
  * MC_analog_input_voltages.cpp - CAN message parser: RMS Motor Controller analog input voltages message
  * Created by Ryan Gallaway, December 1, 2016.
  * Documentation by Meghavarnika Budati, January 31, 2020.
  * 
- * HEX ID: A3
+ * HEXID: A3
  * DESCR: MC Analog Inputs Voltages
  * MACRO: ID_MC_ANALOG_INPUTS_VOLTAGES
  * STRUCT: CAN_message_mc_analog_input_voltages_t  

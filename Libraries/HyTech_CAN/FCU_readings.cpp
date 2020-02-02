@@ -16,7 +16,8 @@
  */
 #include "HyTech_CAN.h"
 
-/*  Blank Constructor for FCU_readings
+/**
+ * Blank Constructor for FCU_readings
  *
  * Used to initialize instance of FCU_readings with no data
  */

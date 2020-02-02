@@ -34,7 +34,7 @@ MC_read_write_parameter_command::MC_read_write_parameter_command(uint8_t buf[8])
 }
 
 /**
- * Writing data to the buffer
+ * Getting data from the variables
  * @param parameter_address: parameter address
  * @param rw_command: read/write command
  * @param data: data

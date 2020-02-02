@@ -44,7 +44,7 @@ void BMS_onboard_temperatures::load(uint8_t buf[]) {
 }
 
 /**
- * Constructor, loading in the data from buffer
+ * Constructor, loading in the data from variables
  * @param average_temperature: average temperature 
  * @param low_temperature: low temperature
  * @param high_temperature: high temperature

@@ -1,9 +1,9 @@
-/*
+/**
  * MC_torque_timer_information.cpp - CAN message parser: RMS Motor Controller torque timer information message
  * Created by Nathan Cheek, November 22, 2016.
  * Documentation by Meghavarnika Budati, January 31, 2020.
  * 
- * HEX ID: AC
+ * HEXID: AC
  * DESCR: MC Torque Timer Information
  * MACRO: ID_MC_TORQUE_TIMER_INFORMATION
  * STRUCT: CAN_message_mc_torque_timer_information_t 
