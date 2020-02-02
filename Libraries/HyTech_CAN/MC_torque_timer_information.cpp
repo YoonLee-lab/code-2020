@@ -29,6 +29,14 @@ MC_torque_timer_information::MC_torque_timer_information() {
  * @param buf: buffer to load data from
  */
 MC_torque_timer_information::MC_torque_timer_information(uint8_t buf[8]) {
+    load(buf);
+}
+
+/**
+ * Load in the data from buffer
+ * @param buf: buffer to load data from
+ */
+void MC_torque_timer_information::load(uint8_t buf[8]) {
     message = {};
     memcpy(&(message.commanded_torque), &buf[0], sizeof(int16_t));
     memcpy(&(message.torque_feedback), &buf[2], sizeof(int16_t));

@@ -36,6 +36,14 @@ MC_digital_input_status::MC_digital_input_status() {
  * @param buf: buffer to load data from
  */
 MC_digital_input_status::MC_digital_input_status(uint8_t buf[]) {
+    load(buf);
+}
+
+/**
+ * Load in the data from buffer
+ * @param buf: buffer to load data from
+ */
+void MC_digital_input_status::load(uint8_t buf[]) {
     message = {};
     memcpy(&(message.digital_input_1), &buf[0], sizeof(bool));
     memcpy(&(message.digital_input_2), &buf[1], sizeof(bool));

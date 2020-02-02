@@ -32,6 +32,14 @@ MC_temperatures_2::MC_temperatures_2() {
  * @param buf: buffer to load data from
  */
 MC_temperatures_2::MC_temperatures_2(uint8_t buf[8]) {
+    load(buf);
+}
+
+/**
+ * Load in the data from buffer
+ * @param buf: buffer to load data from
+ */
+void MC_temperatures_2::load(uint8_t buf[8]) {
     message = {};
     memcpy(&(message.control_board_temperature), &buf[0], sizeof(int16_t));
     memcpy(&(message.rtd_1_temperature), &buf[2], sizeof(int16_t));

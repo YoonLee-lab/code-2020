@@ -30,6 +30,14 @@ MC_read_write_parameter_response::MC_read_write_parameter_response() {
  * @param buf: buffer to load data from
  */
 MC_read_write_parameter_response::MC_read_write_parameter_response(uint8_t buf[8]) {
+    load(buf);
+}
+
+/**
+ * Load in the data from buffer
+ * @param buf: buffer to load data from
+ */
+void MC_read_write_parameter_response::load(uint8_t buf[8]) {
     message = {};
     memcpy(&(message.parameter_address), &buf[0], sizeof(uint16_t));
     memcpy(&(message.write_success), &buf[2], sizeof(bool));

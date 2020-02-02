@@ -1,9 +1,9 @@
-/*
+/**
  * MC_fault_codes.cpp - CAN message parser: RMS Motor Controller fault codes message
  * Created by Nathan Cheek, November 22, 2016.
  * Documentation by Meghavarnika Budati, January 31, 2020. WIP
  * 
- * HEX ID: AB
+ * HEXID: AB
  * DESCR: MC Fault Codes
  * MACRO: ID_MC_FAULT_CODES
  * STRUCT: CAN_message_mc_fault_codes_t 

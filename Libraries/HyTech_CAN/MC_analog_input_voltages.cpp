@@ -30,6 +30,14 @@ MC_analog_input_voltages::MC_analog_input_voltages() {
  * @param buf: buffer to load data from
  */
 MC_analog_input_voltages::MC_analog_input_voltages(uint8_t buf[8]) {
+    load(buf);
+}
+
+/**
+ * Load in the data from buffer
+ * @param buf: buffer to load data from
+ */
+void MC_analog_input_voltages::load(uint8_t buf[8]) {
     message = {};
     memcpy(&(message.analog_input_1), &buf[0], sizeof(int16_t));
     memcpy(&(message.analog_input_2), &buf[2], sizeof(int16_t));

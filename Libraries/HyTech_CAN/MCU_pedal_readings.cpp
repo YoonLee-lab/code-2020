@@ -1,6 +1,19 @@
-/*
+/**
  * MCU_pedal_readings.cpp - CAN message parser: Main Control Unit pedal readings message
  * Created Feb, 2019.
+ * Documentation by Meghavarnika Budati, February 2, 2020. WIP
+ * 
+ * HEXID: C4
+ * MACRO: ID_MCU_PEDAL_READINGS
+ * STRUCT: CAN_message_mcu_pedal_readings_t 
+ * CLASS: MCU_pedal_readings
+ * DATA:
+ *      accelerator_pedal_raw_1 [0:1]
+ *      accelerator_pedal_raw_2 [2:3]
+ *      brake_pedal_raw         [4:5]
+ *      pedal_flags             [6]
+ *      torque_map_mode         [7]
+ *
  */
 
 #include "HyTech_CAN.h"
@@ -14,32 +27,55 @@ MCU_pedal_readings::MCU_pedal_readings() {
     message = {};
 }
 
-/* Constructor for MCU_pedal_readings using a buffer
+/**
+ * Constructor for MCU_pedal_readings using a buffer
  *
  * Used to initialize instance of MCU_pedal_readings with data
  * that's in an 8xbyte array (typically msg.buf)
- *
- * Param - Pass in buffer you are trying to initialize data from
+ * 
+ * @param buf: Pass in buffer you are trying to initialize data from
  */
 
 MCU_pedal_readings::MCU_pedal_readings(uint8_t buf[8]) {
     load(buf);
 }
 
-/* Constructor for MCU_pedal_readings
+/**
+ * Used to copy data from msg variable in
+ * microcontroller code to instance variable
+ * 
+ * @param buf: buffer to get data from
+ */
+void MCU_pedal_readings::load(uint8_t buf[8]) {
+    message = {};
+
+    memcpy(&(message.accelerator_pedal_raw_1), &buf[0], sizeof(uint16_t));
+    memcpy(&(message.accelerator_pedal_raw_2), &buf[2], sizeof(uint16_t));
+    memcpy(&(message.brake_pedal_raw), &buf[4], sizeof(uint16_t));
+    memcpy(&(message.pedal_flags), &buf[6], sizeof(uint8_t));
+    memcpy(&(message.torque_map_mode), &buf[7], sizeof(uint8_t));
+}
+
+/**
+ * Constructor for MCU_pedal_readings
  *
  * Used to copy data from msg variable in
  * microcontroller code to instance variable
  *
- * Param (uint16_t) - Accelerator Pedal Raw Value 1
+ * @param accelerator_pedal_raw_1: (uint16_t) 
+ *     - Accelerator Pedal Raw Value 1
  *     - Raw voltage readings from accelerator pedal sensor 1
- * Param (uint16_t) - Accelerator Pedal Raw Value 2
+ * @param accelerator_pedal_raw_2: (uint16_t)
+ *     - Accelerator Pedal Raw Value 2
  *     - Raw voltage readings from accelerator pedal sensor 2
- * Param (uint16_t) - Brake Pedal Raw Value
+ * @param brake_pedal_raw: (uint16_t)
+ *     - Brake Pedal Raw Value
  *     - Raw voltage readings from brake pedal sensor
- * Param (uint8_t) - Pedal Flags
+ * @param pedal_flags: (uint16_t) 
+ *     - Pedal Flags
  *     - Indicators for accelerator/brake implausibility and active brake pedal
- * Param (uint8_t) - Torque Map Mode
+ * @param torque_map_mode: (uint16_t) 
+ *     - Torque Map Mode
  *     - Torque map mode selection
  */
 
@@ -51,32 +87,13 @@ MCU_pedal_readings::MCU_pedal_readings(uint16_t accelerator_pedal_raw_1, uint16_
     set_torque_map_mode(torque_map_mode);
 }
 
-/* Load from buffer & write to variable instance
- *
- * Used to copy data from msg variable in
- * microcontroller code to instance variable
- *
- * Param - Pass in buffer you are trying to read from
- * Example: curMCU_pedal_readings.load(msg.buf);
- */
-
-void MCU_pedal_readings::load(uint8_t buf[8]) {
-    message = {};
-
-    memcpy(&(message.accelerator_pedal_raw_1), &buf[0], sizeof(uint16_t));
-    memcpy(&(message.accelerator_pedal_raw_2), &buf[2], sizeof(uint16_t));
-    memcpy(&(message.brake_pedal_raw), &buf[4], sizeof(uint16_t));
-    memcpy(&(message.pedal_flags), &buf[6], sizeof(uint8_t));
-    memcpy(&(message.torque_map_mode), &buf[7], sizeof(uint8_t));
-
-}
-
-/* Write to buffer
+/**
+ *  Write to buffer
  *
  * Used to copy data from instance of this class
  * to msg variable in microcontroller code
  *
- * Param - Pass in buffer you are trying to modify
+ * @param buf: Pass in buffer you are trying to modify
  * Example: curMCU_pedal_readings.write(msg.buf);
  */
 

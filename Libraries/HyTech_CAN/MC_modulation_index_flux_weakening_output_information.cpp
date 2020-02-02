@@ -30,6 +30,14 @@ MC_modulation_index_flux_weakening_output_information::MC_modulation_index_flux_
  * @param buf: buffer to load data from
  */
 MC_modulation_index_flux_weakening_output_information::MC_modulation_index_flux_weakening_output_information(uint8_t buf[8]) {
+    load(buf);
+}
+
+/**
+ * Load in the data from buffer
+ * @param buf: buffer to load data from
+ */
+void MC_modulation_index_flux_weakening_output_information::load(uint8_t buf[8]) {
     message = {};
     memcpy(&(message.modulation_index), &buf[0], sizeof(uint16_t));
     memcpy(&(message.flux_weakening_output), &buf[2], sizeof(int16_t));

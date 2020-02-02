@@ -32,6 +32,14 @@ MC_temperatures_3::MC_temperatures_3() {
  * @param buf: buffer to load data from
  */
 MC_temperatures_3::MC_temperatures_3(uint8_t buf[8]) {
+    load(buf);
+}
+
+/**
+ * Load in the data from buffer
+ * @param buf: buffer to load data from
+ */
+void MC_temperatures_3::load(uint8_t buf[8]) {
     message = {};
     memcpy(&(message.rtd_4_temperature), &buf[0], sizeof(int16_t));
     memcpy(&(message.rtd_5_temperature), &buf[2], sizeof(int16_t));

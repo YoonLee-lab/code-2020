@@ -30,6 +30,14 @@ MC_firmware_information::MC_firmware_information() {
  * @param buf: buffer to load data from
  */
 MC_firmware_information::MC_firmware_information(uint8_t buf[8]) {
+    load(buf);
+}
+
+/**
+ * Load in the data from buffer
+ * @param buf: buffer to load data from
+ */
+void MC_firmware_information::load(uint8_t buf[8]) {
     message = {};
     memcpy(&(message.eeprom_version_project_code), &buf[0], sizeof(uint16_t));
     memcpy(&(message.software_version), &buf[2], sizeof(uint16_t));

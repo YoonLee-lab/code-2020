@@ -30,6 +30,14 @@ MC_current_information::MC_current_information() {
  * @param buf: buffer to load data from
  */
 MC_current_information::MC_current_information(uint8_t buf[8]) {
+    load(buf);
+}
+
+/**
+ * Load in the data from buffer
+ * @param buf: buffer to load data from
+ */
+void MC_current_information::load(uint8_t buf[8]) {
     memcpy(&(message.phase_a_current), &buf[0], sizeof(int16_t));
     memcpy(&(message.phase_b_current), &buf[2], sizeof(int16_t));
     memcpy(&(message.phase_c_current), &buf[4], sizeof(int16_t));

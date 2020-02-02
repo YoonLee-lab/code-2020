@@ -30,6 +30,14 @@ MC_motor_position_information::MC_motor_position_information() {
  * @param buf: buffer to load data from
  */
 MC_motor_position_information::MC_motor_position_information(uint8_t buf[8]) {
+    load(buf);
+}
+
+/**
+ * Load in the data from buffer
+ * @param buf: buffer to load data from
+ */
+void MC_motor_position_information::load(uint8_t buf[8]) {
     message = {};
     memcpy(&(message.motor_angle), &buf[0], sizeof(int16_t));
     memcpy(&(message.motor_speed), &buf[2], sizeof(int16_t));

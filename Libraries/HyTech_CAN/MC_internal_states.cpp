@@ -1,9 +1,9 @@
-/*
+/**
  * MC_internal_states.cpp - CAN message parser: RMS Motor Controller internal states message
  * Created by Nathan Cheek, November 20, 2016.
  * Documentation by Meghavarnika Budati, January 31, 2020. WIP
  * 
- * HEX ID: AA
+ * HEXID: AA
  * DESCR: MC Internal States
  * MACRO: ID_MC_INTERNAL_STATES
  * STRUCT: CAN_message_mc_internal_states_t 
@@ -33,6 +33,14 @@ MC_internal_states::MC_internal_states() {
  * @param buf: buffer to load data from
  */
 MC_internal_states::MC_internal_states(uint8_t buf[8]) {
+    load(buf);
+}
+
+/**
+ * Load in the data from buffer
+ * @param buf: buffer to load data from
+ */
+void MC_internal_states::load(uint8_t buf[8]) {
     message = {};
     memcpy(&(message.vsm_state), &buf[0], sizeof(uint16_t));
     memcpy(&(message.inverter_state), &buf[2], sizeof(uint8_t));

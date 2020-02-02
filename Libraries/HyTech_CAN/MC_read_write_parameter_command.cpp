@@ -1,9 +1,9 @@
-/*
+/**
  * MC_read_write_parameter_command.cpp - CAN message parser: RMS Motor Controller read / write parameter command message - sent to PM
  * Created by Nathan Cheek, November 22, 2016.
- * Documentation by Meghavarnika Budati, January 31, 2020. WIP
+ * Documentation by Meghavarnika Budati, January 31, 2020.
  * 
- * HEX ID: C1
+ * HEXID: C1
  * DESCR: MC Read/Write Parameter Command
  * MACRO: ID_MC_READ_WRITE_PARAMETER_COMMAND
  * STRUCT: CAN_message_mc_read_write_parameter_command_t 
@@ -35,7 +35,9 @@ MC_read_write_parameter_command::MC_read_write_parameter_command(uint8_t buf[8])
 
 /**
  * Writing data to the buffer
- * @param buf: buffer to load data into
+ * @param parameter_address: parameter address
+ * @param rw_command: read/write command
+ * @param data: data
  */
 MC_read_write_parameter_command::MC_read_write_parameter_command(uint16_t parameter_address, bool rw_command, uint32_t data) {
     message = {};
@@ -44,6 +46,10 @@ MC_read_write_parameter_command::MC_read_write_parameter_command(uint16_t parame
     set_data(data);
 }
 
+/**
+ * Load in the data from buffer
+ * @param buf: buffer to load data from
+ */
 void MC_read_write_parameter_command::load(uint8_t buf[8]) {
     message = {};
     memcpy(&(message.parameter_address), &buf[0], sizeof(uint16_t));
@@ -52,6 +58,10 @@ void MC_read_write_parameter_command::load(uint8_t buf[8]) {
     memcpy(&(message.data), &buf[4], sizeof(int32_t));
 }
 
+/**
+ * Writing data to the buffer
+ * @param buf: buffer to load data into
+ */
 void MC_read_write_parameter_command::write(uint8_t buf[8]) {
     memcpy(&buf[0], &(message.parameter_address), sizeof(uint16_t));
     memcpy(&buf[2], &(message.rw_command), sizeof(bool));
@@ -59,6 +69,9 @@ void MC_read_write_parameter_command::write(uint8_t buf[8]) {
     memcpy(&buf[4], &(message.data), sizeof(int32_t));
 }
 
+/**
+ * Getter functions
+ */
 uint16_t MC_read_write_parameter_command::get_parameter_address() {
     return message.parameter_address;
 }
@@ -71,6 +84,9 @@ uint32_t MC_read_write_parameter_command::get_data() {
     return message.data;
 }
 
+/**
+ * Setter functions
+ */
 void MC_read_write_parameter_command::set_parameter_address(uint16_t parameter_address) {
     message.parameter_address = parameter_address;
 }

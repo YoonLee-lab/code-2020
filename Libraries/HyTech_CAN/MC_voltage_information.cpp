@@ -30,6 +30,14 @@ MC_voltage_information::MC_voltage_information() {
  * @param buf: buffer to load data from
  */
 MC_voltage_information::MC_voltage_information(uint8_t buf[8]) {
+    load(buf);
+}
+
+/**
+ * Load in the data from buffer
+ * @param buf: buffer to load data from
+ */
+void MC_voltage_information::load(uint8_t buf[8]) {
     message = {};
     memcpy(&(message.dc_bus_voltage), &buf[0], sizeof(int16_t));
     memcpy(&(message.output_voltage), &buf[2], sizeof(int16_t));
