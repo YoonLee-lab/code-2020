@@ -26,7 +26,7 @@
  * OTHER:
  * D0 and D2 are obsolete. Check documentation for more info.
  * 
- * --Varnika/Vivacia/mbudati3/Meghavarnika Budati
+ * --Varnika/Vivacia/Meghavarnika Budati
  */
 
 #ifndef __HYTECH_CAN_H__
@@ -55,48 +55,51 @@
 #define BMS_STATE_BALANCING 3
 #define BMS_STATE_BALANCING_OVERHEATED 4
 
-/*
+/**
  * CAN ID definitions
+ * Refer to documentation for meaning of abbreviations/
+ * general abbreviations used.
  */
-#define ID_MC_TEMPERATURES_1 0xA0
-#define ID_MC_TEMPERATURES_2 0xA1
-#define ID_MC_TEMPERATURES_3 0xA2
-#define ID_MC_ANALOG_INPUTS_VOLTAGES 0xA3
-#define ID_MC_DIGITAL_INPUT_STATUS 0xA4
-#define ID_MC_MOTOR_POSITION_INFORMATION 0xA5
-#define ID_MC_CURRENT_INFORMATION 0xA6
-#define ID_MC_VOLTAGE_INFORMATION 0xA7
-#define ID_MC_FLUX_INFORMATION 0xA8
-#define ID_MC_INTERNAL_VOLTAGES 0xA9
-#define ID_MC_INTERNAL_STATES 0xAA
-#define ID_MC_FAULT_CODES 0xAB
-#define ID_MC_TORQUE_TIMER_INFORMATION 0xAC
-#define ID_MC_MODULATION_INDEX_FLUX_WEAKENING_OUTPUT_INFORMATION 0xAD
-#define ID_MC_FIRMWARE_INFORMATION 0xAE
-#define ID_MC_DIAGNOSTIC_DATA 0xAF
-#define ID_MC_COMMAND_MESSAGE 0xC0
-#define ID_MC_READ_WRITE_PARAMETER_COMMAND 0xC1
-#define ID_MC_READ_WRITE_PARAMETER_RESPONSE 0xC2
-#define ID_MCU_STATUS 0xC3
-#define ID_MCU_PEDAL_READINGS 0xC4
-#define ID_GLV_CURRENT_READINGS 0xCC
-#define ID_BMS_ONBOARD_TEMPERATURES 0xD5
-#define ID_BMS_ONBOARD_DETAILED_TEMPERATURES 0xD6 // TODO rename to bms_detailed_onboard_temperatures when we're not in the middle of a development cycle
-#define ID_BMS_VOLTAGES 0xD7
-#define ID_BMS_DETAILED_VOLTAGES 0xD8
-#define ID_BMS_TEMPERATURES 0xD9
-#define ID_BMS_DETAILED_TEMPERATURES 0xDA
-#define ID_BMS_STATUS 0xDB
-#define ID_FH_WATCHDOG_TEST 0xDC
-#define ID_CCU_STATUS 0xDD
-#define ID_BMS_BALANCING_STATUS 0xDE // TODO rename to bms_balancing_cells when we're not in the middle of a development cycle
-#define ID_FCU_ACCELEROMETER 0xDF // TODO rename to mcu_accelerometer_readings when we're not in the middle of a development cycle
-#define ID_BMS_READ_WRITE_PARAMETER_COMMAND 0xE0 // TODO define this message
-#define ID_BMS_PARAMETER_RESPONSE 0xE1 // TODO define this message
-#define ID_BMS_COULOMB_COUNTS 0xE2
-#define ID_MCU_GPS_READINGS_ALPHA 0xE7
-#define ID_MCU_GPS_READINGS_BETA 0xE8
-#define ID_MCU_GPS_READINGS_GAMMA 0xE9
+#define MC_TEMP_1 0xA0
+#define MC_TEMP_2 0xA1
+#define MC_TEMP_3 0xA2
+#define MC_A_INP_VOLT 0xA3
+#define MC_D_INP_STAT 0xA4
+#define MC_MOTOR_POS_INFO 0xA5
+#define MC_CURR_INFO 0xA6
+#define MC_VOLT_INFO 0xA7
+#define MC_FLUX_INFO 0xA8               //UNKNOWN
+#define MC_INT_INFO 0xA9                //UNKNOWN
+#define MC_INT_STATES 0xAA
+#define MC_FAULT_CODES 0xAB
+#define MC_TOR_TIMER_INFO 0xAC
+#define MC_MOD_INDEX_FLUX_WEAKENING_OUT_INFO 0xAD
+#define MC_FIRM_INFO 0xAE
+#define MC_DIAG_DATA 0xAF               //UNKNOWN
+#define MC_COMM_MSG 0xC0
+#define MC_RW_PARAM_COMM 0xC1
+#define MC_RW_PARAM_RESP 0xC2
+#define MCU_STAT 0xC3
+#define MCU_PEDAL_READ 0xC4
+#define GLV_CURR_READ 0xCC
+#define FCU_READ 0xD3
+#define BMS_ONB_TEMP 0xD5
+#define BMS_ONB_DET_TEMP 0xD6           // TODO rename to bms_detailed_onboard_temperatures when we're not in the middle of a development cycle
+#define BMS_VOLT 0xD7
+#define BMS_DET_VOLT 0xD8
+#define BMS_TEMP 0xD9
+#define BMS_DET_TEMP 0xDA
+#define BMS_STAT 0xDB
+#define FH_WATCHDOG_TEST 0xDC           //UNKNOWN
+#define CCU_STAT 0xDD
+#define BMS_BAL_STAT 0xDE               // TODO rename to bms_balancing_cells when we're not in the middle of a development cycle
+#define FCU_ACCEL 0xDF                  // TODO rename to mcu_accelerometer_readings when we're not in the middle of a development cycle
+#define BMS_RW_PARAM_COMM 0xE0          // TODO define this message
+#define BMS_PARAM_RESP 0xE1             //UNKNOWN
+#define BMS_COUL_COUNTS 0xE2
+#define MCU_GPS_READ_ALPHA 0xE7
+#define MCU_GPS_READ_BETA 0xE8
+#define MCU_GPS_READ_GAMMA 0xE9
 
 // For compatibility with C.
 #ifndef __cplusplus
@@ -110,40 +113,40 @@
  */
 #pragma pack(push,1)
 
-//A0: Motor Controller Temperatures #1, ID_MC_TEMPERATURES_1
-typedef struct CAN_message_mc_temperatures_1_t {
+//A0: Motor Controller Temperatur
+typedef struct MCTemp1_t {
     int16_t module_a_temperature;
     int16_t module_b_temperature;
     int16_t module_c_temperature;
     int16_t gate_driver_board_temperature;
-} CAN_message_mc_temperatures_1_t;
+} MCTemp1_t;
 
-//A1: Motor Controller Temperatures #2, ID_MC_TEMPERATURES_2
-typedef struct CAN_message_mc_temperatures_2_t {
+//A1: Motor Controller Temperatures #2, MC_TEMP_2
+typedef struct MCTemp2_t {
     int16_t control_board_temperature;
     int16_t rtd_1_temperature;
     int16_t rtd_2_temperature;
     int16_t rtd_3_temperature;
-} CAN_message_mc_temperatures_2_t;
+} MCTemp2_t;
 
-//A2: Motor Controller Temperatures #3, ID_MC_TEMPERATURES_3
-typedef struct CAN_message_mc_temperatures_3_t {
+//A2: Motor Controller Temperatures #3, MC_TEMP_3
+typedef struct MCTemp3_t {
     int16_t rtd_4_temperature;
     int16_t rtd_5_temperature;
     int16_t motor_temperature;
     int16_t torque_shudder;
-} CAN_message_mc_temperatures_3_t;
+} MCTemp3_t;
 
-//A3: MC Analog Inputs Voltages, ID_MC_ANALOG_INPUTS_VOLTAGES
-typedef struct CAN_message_mc_analog_input_voltages_t {
+//A3: MC Analog Inputs Voltages, MC_A_INP_VOLT
+typedef struct MCAInpVolt_t {
     int16_t analog_input_1;
     int16_t analog_input_2;
     int16_t analog_input_3;
     int16_t analog_input_4;
-} CAN_message_mc_analog_input_voltages_t;
+} MCAInpVolt_t;
 
-//A4: MC Digital Input Status, ID_MC_DIGITAL_INPUT_STATUS
-typedef struct CAN_message_mc_digital_input_status_t {
+//A4: MC Digital Input Status, MC_D_INP_STAT
+typedef struct MCDInpStat_t {
     bool digital_input_1;
     bool digital_input_2;
     bool digital_input_3;
@@ -152,40 +155,40 @@ typedef struct CAN_message_mc_digital_input_status_t {
     bool digital_input_6;
     bool digital_input_7;
     bool digital_input_8;
-} CAN_message_mc_digital_input_status_t;
+} MCDInpStat_t;
 
-//A5: MC Motor Position Information, ID_MC_MOTOR_POSITION_INFORMATION
-typedef struct CAN_message_mc_motor_position_information_t {
+//A5: MC Motor Position Information, MC_MOTOR_POS_INFO
+typedef struct MCMotorPosInfo_t {
     int16_t motor_angle;
     int16_t motor_speed;
     int16_t electrical_output_frequency;
     int16_t delta_resolver_filtered;
-} CAN_message_mc_motor_position_information_t;
+} MCMotorPosInfo_t;
 
-//A6: MC Current Information, ID_MC_CURRENT_INFORMATION
-typedef struct CAN_message_mc_current_information_t {
+//A6: MC Current Information, MC_CURR_INFO
+typedef struct MCCurrInfo_t {
     int16_t phase_a_current;
     int16_t phase_b_current;
     int16_t phase_c_current;
     int16_t dc_bus_current;
-} CAN_message_mc_current_information_t;
+} MCCurrInfo_t;
 
-//A7: MC Voltage Information, ID_MC_VOLTAGE_INFORMATION
-typedef struct CAN_message_mc_voltage_information_t {
+//A7: MC Voltage Information, MC_VOLT_INFO
+typedef struct MCVoltInfo_t {
     int16_t dc_bus_voltage;
     int16_t output_voltage;
     int16_t phase_ab_voltage;
     int16_t phase_bc_voltage;
-} CAN_message_mc_voltage_information_t;
+} MCVoltInfo_t;
 
-//A8: MC Flux Information, ID_MC_FLUX_INFORMATION
+//A8: MC Flux Information, MC_FLUX_INFO
 // ???
 
-//A9: MC Internal Voltages, ID_MC_INTERNAL_VOLTAGES
+//A9: MC Internal Voltages, MC_INT_INFO
 //????
 
-//AA: MC Internal States, ID_MC_INTERNAL_STATES
-typedef struct CAN_message_mc_internal_states_t {
+//AA: MC Internal States, MC_INT_STATES
+typedef struct MCIntStates_t {
     uint16_t vsm_state;
     uint8_t inverter_state;
     uint8_t relay_state;
@@ -193,244 +196,244 @@ typedef struct CAN_message_mc_internal_states_t {
     uint8_t inverter_command_mode;
     uint8_t inverter_enable;
     uint8_t direction_command;
-} CAN_message_mc_internal_states_t;
+} MCIntStates_t;
 
-//AB: MC Fault Codes, ID_MC_FAULT_CODES
-typedef struct CAN_message_mc_fault_codes_t {
+//AB: MC Fault Codes, MC_FAULT_CODES
+typedef struct MCFaultCodes_t {
     uint16_t post_fault_lo;
     uint16_t post_fault_hi;
     uint16_t run_fault_lo;
     uint16_t run_fault_hi;
-} CAN_message_mc_fault_codes_t;
+} MCFaultCodes_t;
 
-//AC: MC Torque Timer Information, ID_MC_TORQUE_TIMER_INFORMATION
-typedef struct CAN_message_mc_torque_timer_information_t {
+//AC: MC Torque Timer Information, MC_TOR_TIMER_INFO
+typedef struct MCTorTimerInfo_t {
     int16_t commanded_torque;
     int16_t torque_feedback;
     uint32_t power_on_timer;
-} CAN_message_mc_torque_timer_information_t;
+} MCTorTimerInfo_t;
 
 //AD: MC Modulation Index Flux Weakening Output Information,
-//ID_MC_MODULATION_INDEX_FLUX_WEAKENING_OUTPUT_INFORMATION
-typedef struct CAN_message_mc_modulation_index_flux_weakening_output_information_t {
+//MC_MOD_INDEX_FLUX_WEAKENING_OUT_INFO
+typedef struct MCModIndexFluxWeakeningOutInfo_t {
     uint16_t modulation_index; // TODO Signed or Unsigned?
     int16_t flux_weakening_output;
     int16_t id_command;
     int16_t iq_command;
-} CAN_message_mc_modulation_index_flux_weakening_output_information_t;
+} MCModIndexFluxWeakeningOutInfo_t;
 
-//AE: MC Firmware Information, ID_MC_FIRMWARE_INFORMATION
-typedef struct CAN_message_mc_firmware_information_t {
+//AE: MC Firmware Information, MC_FIRM_INFO
+typedef struct MCFirmInfo_t {
     uint16_t eeprom_version_project_code;
     uint16_t software_version;
     uint16_t date_code_mmdd;
     uint16_t date_code_yyyy;
-} CAN_message_mc_firmware_information_t;
+} MCFirmInfo_t;
 
-//AF: MC Diagnostic Data, ID_MC_DIAGNOSTIC_DATA
+//AF: MC Diagnostic Data, MC_DIAG_DATA
 // ???
 
-//C0: MC Command Message, ID_MC_COMMAND_MESSAGE
-typedef struct CAN_message_mc_command_message_t {
+//C0: MC Command Message, MC_COMM_MSG
+typedef struct MCCommMsg_t {
     int16_t torque_command;
     int16_t angular_velocity;
     bool direction;
     uint8_t inverter_enable_discharge_enable;
     int16_t commanded_torque_limit;
-} CAN_message_mc_command_message_t;
+} MCCommMsg_t;
 
-//C1: MC Read/Write Parameter Command, ID_MC_READ_WRITE_PARAMETER_COMMAND
-typedef struct CAN_message_mc_read_write_parameter_command_t {
+//C1: MC Read/Write Parameter Command, MC_RW_PARAM_COMM
+typedef struct MCRWParamComm_t {
     uint16_t parameter_address;
     bool rw_command;
     uint8_t reserved1;
     uint32_t data;
-} CAN_message_mc_read_write_parameter_command_t;
+} MCRWParamComm_t;
 
-//C2: MC Read/Write Parameter Response, ID_MC_READ_WRITE_PARAMETER_RESPONSE
-typedef struct CAN_message_mc_read_write_parameter_response_t {
+//C2: MC Read/Write Parameter Response, MC_RW_PARAM_RESP
+typedef struct MCRWParamResp_t {
     uint16_t parameter_address;
     bool write_success;
     uint8_t reserved1;
     uint32_t data;
-} CAN_message_mc_read_write_parameter_response_t;
+} MCRWParamResp_t;
 
-//C3: ID_MCU_STATUS
-typedef struct CAN_message_mcu_status_t {
+//C3: MCU_STAT
+typedef struct MCUStat_t {
     uint8_t state;
     uint8_t flags;
     int16_t temperature;
     uint16_t glv_battery_voltage;
-} CAN_message_mcu_status_t;
+} MCUStat_t;
 
-//C4: ID_MCU_PEDAL_READINGS
-typedef struct CAN_message_mcu_pedal_readings_t {
+//C4: MCU_PEDAL_READ
+typedef struct MCUPedalRead_t {
     uint16_t accelerator_pedal_raw_1;
     uint16_t accelerator_pedal_raw_2;
     uint16_t brake_pedal_raw;
     uint8_t pedal_flags;
     uint8_t torque_map_mode;
-} CAN_message_mcu_pedal_readings_t;
+} MCUPedalRead_t;
 
-//CC: GLV Current Readings, ID_GLV_CURRENT_READINGS
-typedef struct CAN_message_glv_current_readings_t {
+//CC: GLV Current Readings, GLV_CURR_READ
+typedef struct GLVCurrRead_t {
 	uint16_t ecu_current_value;
 	uint16_t cooling_current_value;
-} CAN_message_glv_current_readings_t;
+} GLVCurrRead_t;
 
 //D3: ID_FCU_READINGS
-typedef struct CAN_message_fcu_readings_t {
+typedef struct FCURead_t {
 	uint16_t accelerator_pedal_raw_1;
 	uint16_t accelerator_pedal_raw_2;
 	uint16_t brake_pedal_raw;
 	int16_t temperature;
-} CAN_msg_fcu_readings;
+} FCURead_t;
 
-//D5: Battery Monitoring System Onboard Temps, ID_BMS_ONBOARD_TEMPERATURES
-typedef struct CAN_message_bms_onboard_temperatures_t {
+//D5: Battery Monitoring System Onboard Temps, BMS_ONB_TEMP
+typedef struct BMSOnbTemp_t {
     int16_t average_temperature;
     int16_t low_temperature;
     int16_t high_temperature;
-} CAN_message_bms_onboard_temperatures_t;
+} BMSOnbTemp_t;
 
-//D6: BMS Onboard Detailed Temps, ID_BMS_ONBOARD_DETAILED_TEMPERATURES
-typedef struct CAN_message_bms_onboard_detailed_temperatures_t {
+//D6: BMS Onboard Detailed Temps, BMS_ONB_DET_TEMP
+typedef struct BMSOnbDetTemp_t {
 	uint8_t ic_id;
     int16_t temperature_0;
     int16_t temperature_1;
-} CAN_message_bms_onboard_detailed_temperatures_t;
+} BMSOnbDetTemp_t;
 
-//D7: BMS Voltages, ID_BMS_VOLTAGES
-typedef struct CAN_message_bms_voltages_t {
+//D7: BMS Voltages, BMS_VOLT
+typedef struct BMSVolt_t {
     uint16_t average_voltage;
     uint16_t low_voltage;
     uint16_t high_voltage;
     uint16_t total_voltage;
-} CAN_message_bms_voltages_t;
+} BMSVolt_t;
 
-//D8: BMS Detailed Voltages, ID_BMS_DETAILED_VOLTAGES
-typedef struct CAN_message_bms_detailed_voltages_t {
+//D8: BMS Detailed Voltages, BMS_DET_VOLT
+typedef struct BMSDetVolt_t {
 	uint8_t ic_id_group_id;
     uint16_t voltage_0;
     uint16_t voltage_1;
     uint16_t voltage_2;
-} CAN_message_bms_detailed_voltages_t;
+} BMSDetVolt_t;
 
-//D9: BMS Temperatures, ID_BMS_TEMPERATURES
-typedef struct CAN_message_bms_temperatures_t {
+//D9: BMS Temperatures, BMS_TEMP
+typedef struct BMSTemp_t {
     int16_t average_temperature;
     int16_t low_temperature;
     int16_t high_temperature;
-} CAN_message_bms_temperatures_t;
+} BMSTemp_t;
 
-//DA: BMS Detailed Temperatures, ID_BMS_DETAILED_TEMPERATURES
-typedef struct CAN_message_bms_detailed_temperatures_t {
+//DA: BMS Detailed Temperatures, BMS_DET_TEMP
+typedef struct BMSDetTemp_t {
 	uint8_t ic_id;
     int16_t temperature_0;
     int16_t temperature_1;
     int16_t temperature_2;
-} CAN_message_bms_detailed_temperatures_t;
+} BMSDetTemp_t;
 
-//DB: BMS Status, ID_BMS_STATUS
-typedef struct CAN_message_bms_status_t {
+//DB: BMS Status, BMS_STAT
+typedef struct BMSStat_t {
 	uint8_t state;
     uint16_t error_flags;
     int16_t current;
     uint8_t flags;
-} CAN_message_bms_status_t;
+} BMSStat_t;
 
-//DC: FH Watchdog Test, ID_FH_WATCHDOG_TEST
+//DC: FH Watchdog Test, FH_WATCHDOG_TEST
 // ???
 
-//DD: Charge Control Unit Status, ID_CCU_STATUS
-typedef struct CAN_message_ccu_status_t {
+//DD: Charge Control Unit Status, CCU_STAT
+typedef struct CCUStat_t {
     bool charger_enabled;
-} CAN_message_ccu_status_t;
+} CCUStat_t;
 
-//DE: BMS Balancing Status, ID_BMS_BALANCING_STATUS
-typedef struct CAN_message_bms_balancing_status_t {
+//DE: BMS Balancing Status, BMS_BAL_STAT
+typedef struct BMSBalStat_t {
 	uint8_t balancing_status[5];
-} CAN_message_bms_balancing_status_t;
+} BMSBalStat_t;
 
-//DF: ID_FCU_ACCELEROMETER
-typedef struct CAN_message_fcu_accelerometer_values_t {
+//DF: FCU_ACCEL
+typedef struct FCUAccel_t {
    uint8_t XValue_x100;
    uint8_t YValue_x100;
    uint8_t ZValue_x100;
-} CAN_message_fcu_accelerometer_values_t;
+} FCUAccel_t;
 
-//E1: ID_BMS_PARAMETER_RESPONSE
+//E1: BMS_PARAM_RESP
 // ???
 
-//E2: BMS Coulomb Counts, ID_BMS_COULOMB_COUNTS
-typedef struct CAN_message_bms_coulomb_counts_t {
+//E2: BMS Coulomb Counts, BMS_COUL_COUNTS
+typedef struct BMSCoulCounts_t {
     uint32_t total_charge;
     uint32_t total_discharge;
-} CAN_message_bms_coulomb_counts_t;
+} BMSCoulCounts_t;
 
 //E7: ID_ECU_GPS_READINGS_ALPHA
-typedef struct CAN_message_mcu_gps_readings_alpha_t {
+typedef struct MCUGpsAlpha_t {
     int32_t latitude;
     int32_t longitude;
-} CAN_message_mcu_gps_readings_alpha_t;
+} MCUGpsAlpha_t;
 
 //E8: ID_ECU_GPS_READINGS_BETA
-typedef struct CAN_message_mcu_gps_readings_beta_t {
+typedef struct MCUGpsBeta_t {
     int32_t altitude;
     int32_t speed;
-} CAN_message_mcu_gps_readings_beta_t;
+} MCUGpsBeta_t;
 
-//E9: ID_MCU_GPS_READINGS_GAMMA
-typedef struct CAN_message_mcu_gps_readings_gamma_t {
+//E9: MCU_GPS_READ_GAMMA
+typedef struct MCUGpsGamma_t {
     uint8_t fix_quality;
     uint8_t satellite_count;
     uint32_t timestamp_seconds;
     uint16_t timestamp_milliseconds;
-} CAN_message_mcu_gps_readings_gamma_t;
+} MCUGpsGamma_t;
 
-typedef struct Telem_message {
+typedef struct telemMsg {
     //bool cobs_flag;
     uint32_t msg_id;
     uint8_t length;
     union {
-        /* A0 */CAN_message_mc_temperatures_1_t         mc_temperatures_1;
-        /* A1 */CAN_message_mc_temperatures_2_t         mc_temperatures_2;
-        /* A2 */CAN_message_mc_temperatures_3_t         mc_temperatures_3;
-        /* A3 */CAN_message_mc_analog_input_voltages_t  mc_analog_input_voltages;
-        /* A4 */CAN_message_mc_digital_input_status_t   mc_digital_input_status;
-        /* A5 */CAN_message_mc_motor_position_information_t mc_motor_position_information;
-        /* A6 */CAN_message_mc_current_information_t    mc_current_information;
-        /* A7 */CAN_message_mc_voltage_information_t    mc_voltage_information;
-        /* AA */CAN_message_mc_internal_states_t        mc_internal_states;
-        /* AB */CAN_message_mc_fault_codes_t            mc_fault_codes;
-        /* AC */CAN_message_mc_torque_timer_information_t mc_torque_timer_information;
-        /* AD */CAN_message_mc_modulation_index_flux_weakening_output_information_t
-                mc_modulation_index_flux_weakening_output_information;
-        /* AE */CAN_message_mc_firmware_information_t   mc_firmware_information;
-        /* C0 */CAN_message_mc_command_message_t        mc_command_message;
-        /* C1 */CAN_message_mc_read_write_parameter_command_t mc_read_write_parameter_command;
-        /* C2 */CAN_message_mc_read_write_parameter_response_t mc_read_write_parameter_response;
-        /* C3 */CAN_message_mcu_status_t                mcu_status;
-        /* C4 */CAN_message_mcu_pedal_readings_t        mcu_pedal_readings;
-        /* CC */CAN_message_glv_current_readings_t      glv_current_readings;
-        /* D3 */CAN_msg_fcu_readings                    fcu_readings;
-        /* D5 */CAN_message_bms_onboard_temperatures_t  bms_onboard_temperatures;
-        /* D6 */CAN_message_bms_onboard_detailed_temperatures_t bms_onboard_detailed_temperatures;
-        /* D7 */CAN_message_bms_voltages_t              bms_voltages;
-        /* D8 */CAN_message_bms_detailed_voltages_t     bms_detailed_voltages;
-        /* D9 */CAN_message_bms_temperatures_t          bms_temperatures;
-        /* DA */CAN_message_bms_detailed_temperatures_t bms_detailed_temperatures;
-        /* DB */CAN_message_bms_status_t                bms_status;
-        /* DD */CAN_message_ccu_status_t                ccu_status;
-        /* DE */CAN_message_bms_balancing_status_t      bms_balancing_status;
-        /* DF */CAN_message_fcu_accelerometer_values_t  fcu_accelerometer_values;
-        /* E2 */CAN_message_bms_coulomb_counts_t        bms_coulomb_counts;
-        /* E7 */CAN_message_mcu_gps_readings_alpha_t    mcu_gps_readings_alpha;
-        /* E8 */CAN_message_mcu_gps_readings_beta_t     mcu_gps_readings_beta;
-        /* E9 */CAN_message_mcu_gps_readings_gamma_t    mcu_gps_readings_gamma;
+        /* A0 */MCTemp1_t         mcTemp1;
+        /* A1 */MCTemp2_t         mcTemp2;
+        /* A2 */MCTemp3_t         mcTemp3;
+        /* A3 */MCAInpVolt_t      mcAInpVolt;
+        /* A4 */MCDInpStat_t      mcDInpStat;
+        /* A5 */MCMotorPosInfo_t  mcMotorPosInfo;
+        /* A6 */MCCurrInfo_t      mcCurrInfo;
+        /* A7 */MCVoltInfo_t      mcVoltInfo;
+        /* AA */MCIntStates_t     mcIntStates;
+        /* AB */MCFaultCodes_t    mc_fault_codes;
+        /* AC */MCTorTimerInfo_t  mcTorTimerInfo;
+        /* AD */MCModIndexFluxWeakeningOutInfo_t
+                mcModIndexFluxWeakeningOutInfo;
+        /* AE */MCFirmInfo_t      mcFirmInfo;
+        /* C0 */MCCommMsg_t       mcCommMsg;
+        /* C1 */MCRWParamComm_t   mcRwParamComm;
+        /* C2 */MCRWParamResp_t   mcRwParamResp;
+        /* C3 */MCUStat_t         mcuStat;
+        /* C4 */MCUPedalRead_t    mcuPedalRead;
+        /* CC */GLVCurrRead_t     glvCurrRead;
+        /* D3 */FCURead_t         fcuRead;
+        /* D5 */BMSOnbTemp_t      bmsOnbTemp;
+        /* D6 */BMSOnbDetTemp_t   bmsOnbDetTemp;
+        /* D7 */BMSVolt_t         bmsVolt;
+        /* D8 */BMSDetVolt_t      bmsDetVolt;
+        /* D9 */BMSTemp_t         bmsTemp;
+        /* DA */BMSDetTemp_t      bmsDetTemp;
+        /* DB */BMSStat_t         bmsStat;
+        /* DD */CCUStat_t         ccuStat;
+        /* DE */BMSBalStat_t      bmsBalStat;
+        /* DF */FCUAccel_t        fcuAccel;
+        /* E2 */BMSCoulCounts_t   bmsCoulCounts;
+        /* E7 */MCUGpsAlpha_t     mcuGpsAlpha;
+        /* E8 */MCUGpsBeta_t      mcuGpsBeta;
+        /* E9 */MCUGpsGamma_t     mcuGpsGamma;
     } contents;
     uint16_t checksum;
-} Telem_message_t;
+} telemMsg_t;
 
 #pragma pack(pop)
 
@@ -438,7 +441,7 @@ typedef struct Telem_message {
 
 // Relevant classes
 
-//A0: Motor Controller Temperatures #1, ID_MC_TEMPERATURES_1
+//A0: Motor Controller Temperatur
 class MC_temperatures_1 {
     public:
         MC_temperatures_1();
@@ -450,10 +453,10 @@ class MC_temperatures_1 {
         int16_t get_module_c_temperature();
         int16_t get_gate_driver_board_temperature();
     private:
-        CAN_message_mc_temperatures_1_t message;
+        MCTemp1_t message;
 };
 
-//A1: Motor Controller Temperatures #2, ID_MC_TEMPERATURES_2
+//A1: Motor Controller Temperatures #2, MC_TEMP_2
 class MC_temperatures_2 {
     public:
         MC_temperatures_2();
@@ -465,10 +468,10 @@ class MC_temperatures_2 {
         int16_t get_rtd_2_temperature();
         int16_t get_rtd_3_temperature();
     private:
-        CAN_message_mc_temperatures_2_t message;
+        MCTemp2_t message;
 };
 
-//A2: Motor Controller Temperatures #3, ID_MC_TEMPERATURES_3
+//A2: Motor Controller Temperatures #3, MC_TEMP_3
 class MC_temperatures_3 {
     public:
         MC_temperatures_3();
@@ -480,10 +483,10 @@ class MC_temperatures_3 {
         int16_t get_motor_temperature();
         int16_t get_torque_shudder();
     private:
-        CAN_message_mc_temperatures_3_t message;
+        MCTemp3_t message;
 };
 
-//A3: MC Analog Inputs Voltages, ID_MC_ANALOG_INPUTS_VOLTAGES
+//A3: MC Analog Inputs Voltages, MC_A_INP_VOLT
 class MC_analog_input_voltages {
     public:
         MC_analog_input_voltages();
@@ -495,10 +498,10 @@ class MC_analog_input_voltages {
         int16_t get_analog_input_3();
         int16_t get_analog_input_4();
     private:
-        CAN_message_mc_analog_input_voltages_t message;
+        MCAInpVolt_t message;
 };
 
-//A4: MC Digital Input Status, ID_MC_DIGITAL_INPUT_STATUS
+//A4: MC Digital Input Status, MC_D_INP_STAT
 class MC_digital_input_status {
     public:
         MC_digital_input_status();
@@ -514,10 +517,10 @@ class MC_digital_input_status {
         bool get_digital_input_7();
         bool get_digital_input_8();
     private:
-        CAN_message_mc_digital_input_status_t message;
+        MCDInpStat_t message;
 };
 
-//A5: MC Motor Position Information, ID_MC_MOTOR_POSITION_INFORMATION
+//A5: MC Motor Position Information, MC_MOTOR_POS_INFO
 class MC_motor_position_information {
     public:
         MC_motor_position_information();
@@ -529,10 +532,10 @@ class MC_motor_position_information {
         int16_t get_electrical_output_frequency();
         int16_t get_delta_resolver_filtered();
     private:
-        CAN_message_mc_motor_position_information_t message;
+        MCMotorPosInfo_t message;
 };
 
-//A6: MC Current Information, ID_MC_CURRENT_INFORMATION
+//A6: MC Current Information, MC_CURR_INFO
 class MC_current_information {
     public:
         MC_current_information();
@@ -544,10 +547,10 @@ class MC_current_information {
         int16_t get_phase_c_current();
         int16_t get_dc_bus_current();
     private:
-        CAN_message_mc_current_information_t message;
+        MCCurrInfo_t message;
 };
 
-//A7: MC Voltage Information, ID_MC_VOLTAGE_INFORMATION
+//A7: MC Voltage Information, MC_VOLT_INFO
 class MC_voltage_information {
     public:
         MC_voltage_information();
@@ -559,10 +562,10 @@ class MC_voltage_information {
         int16_t get_phase_ab_voltage();
         int16_t get_phase_bc_voltage();
     private:
-        CAN_message_mc_voltage_information_t message;
+        MCVoltInfo_t message;
 };
 
-//AA: MC Internal States: ID_MC_INTERNAL_STATES
+//AA: MC Internal States: MC_INT_STATES
 class MC_internal_states {
     public:
         MC_internal_states();
@@ -584,10 +587,10 @@ class MC_internal_states {
         bool get_inverter_enable_lockout();
         bool get_direction_command();
     private:
-        CAN_message_mc_internal_states_t message;
+        MCIntStates_t message;
 };
 
-//AB: MC Fault Codes, ID_MC_FAULT_CODES
+//AB: MC Fault Codes, MC_FAULT_CODES
 class MC_fault_codes {
     public:
         MC_fault_codes();
@@ -663,10 +666,10 @@ class MC_fault_codes {
         bool get_run_hi_resolver_not_connected();
         bool get_run_hi_inverter_discharge_active();
     private:
-        CAN_message_mc_fault_codes_t message;
+        MCFaultCodes_t message;
 };
 
-//AC: MC Torque Timer Information, ID_MC_TORQUE_TIMER_INFORMATION
+//AC: MC Torque Timer Information, MC_TOR_TIMER_INFO
 class MC_torque_timer_information {
     public:
         MC_torque_timer_information();
@@ -677,11 +680,11 @@ class MC_torque_timer_information {
         int16_t get_torque_feedback();
         uint32_t get_power_on_timer();
     private:
-        CAN_message_mc_torque_timer_information_t message;
+        MCTorTimerInfo_t message;
 };
 
 //AD: MC Modulation Index Flux Weakening Output Information,
-//ID_MC_MODULATION_INDEX_FLUX_WEAKENING_OUTPUT_INFORMATION
+//MC_MOD_INDEX_FLUX_WEAKENING_OUT_INFO
 class MC_modulation_index_flux_weakening_output_information {
     public:
         MC_modulation_index_flux_weakening_output_information();
@@ -693,10 +696,10 @@ class MC_modulation_index_flux_weakening_output_information {
         int16_t get_id_command();
         int16_t get_iq_command();
     private:
-        CAN_message_mc_modulation_index_flux_weakening_output_information_t message;
+        MCModIndexFluxWeakeningOutInfo_t message;
 };
 
-//AE: MC Firmware Information, ID_MC_FIRMWARE_INFORMATION
+//AE: MC Firmware Information, MC_FIRM_INFO
 class MC_firmware_information {
     public:
         MC_firmware_information();
@@ -708,10 +711,10 @@ class MC_firmware_information {
         uint16_t get_date_code_mmdd();
         uint16_t get_date_code_yyyy();
     private:
-        CAN_message_mc_firmware_information_t message;
+        MCFirmInfo_t message;
 };
 
-//C0: MC Command Message, ID_MC_COMMAND_MESSAGE
+//C0: MC Command Message, MC_COMM_MSG
 class MC_command_message {
     public:
         MC_command_message();
@@ -732,10 +735,10 @@ class MC_command_message {
         void set_discharge_enable(bool discharge_enable);
         void set_commanded_torque_limit(int16_t commanded_torque_limit);
     private:
-        CAN_message_mc_command_message_t message;
+        MCCommMsg_t message;
 };
 
-//C1: MC Read/Write Parameter Command, ID_MC_READ_WRITE_PARAMETER_COMMAND
+//C1: MC Read/Write Parameter Command, MC_RW_PARAM_COMM
 class MC_read_write_parameter_command {
     public:
         MC_read_write_parameter_command();
@@ -750,10 +753,10 @@ class MC_read_write_parameter_command {
         void set_rw_command(bool rw_command);
         void set_data(uint32_t data);
     private:
-        CAN_message_mc_read_write_parameter_command_t message;
+        MCRWParamComm_t message;
 };
 
-//C2: MC Read/Write Parameter Response, ID_MC_READ_WRITE_PARAMETER_RESPONSE
+//C2: MC Read/Write Parameter Response, MC_RW_PARAM_RESP
 class MC_read_write_parameter_response {
     public:
         MC_read_write_parameter_response();
@@ -764,10 +767,10 @@ class MC_read_write_parameter_response {
         bool get_write_success();
         uint32_t get_data();
     private:
-        CAN_message_mc_read_write_parameter_response_t message;
+        MCRWParamResp_t message;
 };
 
-//C3: ID_MCU_STATUS
+//C3: MCU_STAT
 class MCU_status {
     public:
         MCU_status();
@@ -800,10 +803,10 @@ class MCU_status {
         void set_temperature(int16_t temperature);
         void set_glv_battery_voltage(uint16_t glv_battery_voltage);
     private:
-        CAN_message_mcu_status_t message;
+        MCUStat_t message;
 };
 
-//C4: ID_MCU_PEDAL_READINGS
+//C4: MCU_PEDAL_READ
 class MCU_pedal_readings {
     public:
         MCU_pedal_readings();
@@ -828,10 +831,10 @@ class MCU_pedal_readings {
         void set_brake_pedal_active(bool brake_pedal_active);
         void set_torque_map_mode(uint8_t torque_map_mode);
     private:
-        CAN_message_mcu_pedal_readings_t message;
+        MCUPedalRead_t message;
 };
 
-//CC: GLV Current Readings, ID_GLV_CURRENT_READINGS
+//CC: GLV Current Readings, GLV_CURR_READ
 class GLV_current_readings {
 	public:
 		GLV_current_readings();
@@ -844,7 +847,7 @@ class GLV_current_readings {
 		void set_ecu_current_value(uint16_t ecu_current_value);
 		void set_cooling_current_value(uint16_t cooling_current_value);
 	private:
-		CAN_message_glv_current_readings_t message;
+		GLVCurrRead_t message;
 };
 
 //D3: ID_FCU_READINGS
@@ -864,10 +867,10 @@ class FCU_readings {
         void set_brake_pedal_raw(uint16_t brake_pedal_raw);
         void set_temperature(int16_t temperature);
     private:
-        CAN_message_fcu_readings_t message;
+        FCURead_t message;
 };
 
-//D5: Battery Monitoring System Onboard Temps, ID_BMS_ONBOARD_TEMPERATURES
+//D5: Battery Monitoring System Onboard Temps, BMS_ONB_TEMP
 class BMS_onboard_temperatures {
     public:
         BMS_onboard_temperatures();
@@ -882,10 +885,10 @@ class BMS_onboard_temperatures {
         void set_low_temperature(int16_t low_temperature);
         void set_high_temperature(int16_t high_temperature);
     private:
-        CAN_message_bms_onboard_temperatures_t message;
+        BMSOnbTemp_t message;
 };
 
-//D6: BMS Onboard Detailed Temps, ID_BMS_ONBOARD_DETAILED_TEMPERATURES
+//D6: BMS Onboard Detailed Temps, BMS_ONB_DET_TEMP
 class BMS_onboard_detailed_temperatures {
     public:
         BMS_onboard_detailed_temperatures();
@@ -902,10 +905,10 @@ class BMS_onboard_detailed_temperatures {
         void set_temperature_1(int16_t temperature_1);
         void set_temperature(uint8_t temperature_id, int16_t temperature);
     private:
-        CAN_message_bms_onboard_detailed_temperatures_t message;
+        BMSOnbDetTemp_t message;
 };
 
-//D7: BMS Voltages, ID_BMS_VOLTAGES
+//D7: BMS Voltages, BMS_VOLT
 class BMS_voltages {
     public:
         BMS_voltages();
@@ -922,10 +925,10 @@ class BMS_voltages {
         void set_high(uint16_t high_voltage);
         void set_total(uint16_t total_voltage);
     private:
-        CAN_message_bms_voltages_t message;
+        BMSVolt_t message;
 };
 
-//D8: BMS Detailed Voltages, ID_BMS_DETAILED_VOLTAGES
+//D8: BMS Detailed Voltages, BMS_DET_VOLT
 class BMS_detailed_voltages {
     public:
         BMS_detailed_voltages();
@@ -946,10 +949,10 @@ class BMS_detailed_voltages {
         void set_voltage_2(uint16_t voltage_2);
         void set_voltage(uint8_t voltage_id, uint16_t voltage);
     private:
-        CAN_message_bms_detailed_voltages_t message;
+        BMSDetVolt_t message;
 };
 
-//D9: BMS Temperatures, ID_BMS_TEMPERATURES
+//D9: BMS Temperatures, BMS_TEMP
 class BMS_temperatures {
     public:
         BMS_temperatures();
@@ -964,10 +967,10 @@ class BMS_temperatures {
         void set_low_temperature(int16_t low_temperature);
         void set_high_temperature(int16_t high_temperature);
     private:
-        CAN_message_bms_temperatures_t message;
+        BMSTemp_t message;
 };
 
-//DA: BMS Detailed Temperatures, ID_BMS_DETAILED_TEMPERATURES
+//DA: BMS Detailed Temperatures, BMS_DET_TEMP
 class BMS_detailed_temperatures {
     public:
         BMS_detailed_temperatures();
@@ -986,10 +989,10 @@ class BMS_detailed_temperatures {
         void set_temperature_2(int16_t temperature_2);
         void set_temperature(uint8_t temperature_id, int16_t temperature);
     private:
-        CAN_message_bms_detailed_temperatures_t message;
+        BMSDetTemp_t message;
 };
 
-//DB: BMS Status, ID_BMS_STATUS
+//DB: BMS Status, BMS_STAT
 class BMS_status {
     public:
         BMS_status();
@@ -1028,10 +1031,10 @@ class BMS_status {
         void set_shutdown_g_above_threshold(bool shutdown_g_above_threshold);
         void set_shutdown_h_above_threshold(bool shutdown_h_above_threshold);
     private:
-        CAN_message_bms_status_t message;
+        BMSStat_t message;
 };
 
-//DD: Charge Control Unit Status, ID_CCU_STATUS
+//DD: Charge Control Unit Status, CCU_STAT
 class CCU_status {
     public:
         CCU_status();
@@ -1041,10 +1044,10 @@ class CCU_status {
         bool get_charger_enabled();
         void set_charger_enabled(bool charger_enabled);
     private:
-        CAN_message_ccu_status_t message;
+        CCUStat_t message;
 };
 
-//DE: BMS Balancing Status, ID_BMS_BALANCING_STATUS
+//DE: BMS Balancing Status, BMS_BAL_STAT
 class BMS_balancing_status {
     public:
         BMS_balancing_status();
@@ -1062,10 +1065,10 @@ class BMS_balancing_status {
         void set_ic_balancing(uint8_t ic_id, uint16_t balancing_status);
         void set_cell_balancing(uint8_t ic_id, uint8_t cell_id, bool balancing_status);
     private:
-        uint64_t message; // Using a 64-bit datatype here instead of CAN_message_bms_balancing_status_t because it is much easier than dealing with an array
+        uint64_t message; // Using a 64-bit datatype here instead of BMSBalStat_t because it is much easier than dealing with an array
 };
 
-//DF: ID_FCU_ACCELEROMETER
+//DF: FCU_ACCEL
 class FCU_accelerometer_values {
     public:
         FCU_accelerometer_values();
@@ -1077,10 +1080,10 @@ class FCU_accelerometer_values {
         uint8_t get_z();
         void set_values(uint8_t x, uint8_t y, uint8_t z);
     private:
-        CAN_message_fcu_accelerometer_values_t message;
+        FCUAccel_t message;
 };
 
-//E2: BMS Coulomb Counts, ID_BMS_COULOMB_COUNTS
+//E2: BMS Coulomb Counts, BMS_COUL_COUNTS
 class BMS_coulomb_counts {
     public:
         BMS_coulomb_counts();
@@ -1093,7 +1096,7 @@ class BMS_coulomb_counts {
         void set_total_charge(uint32_t total_charge);
         void set_total_discharge(uint32_t total_discharge);
     private:
-        CAN_message_bms_coulomb_counts_t message;
+        BMSCoulCounts_t message;
 };
 
 //E7: ID_ECU_GPS_READINGS_ALPHA
@@ -1108,7 +1111,7 @@ class MCU_GPS_readings_alpha {
         void set_latitude(int32_t latitude);
         void set_longitude(int32_t longitude);
     private:
-        CAN_message_mcu_gps_readings_alpha_t message;
+        MCUGpsAlpha_t message;
 };
 
 //E8: ID_ECU_GPS_READINGS_BETA
@@ -1123,10 +1126,10 @@ class MCU_GPS_readings_beta {
         void set_altitude(int32_t altitude);
         void set_speed(int32_t speed);
     private:
-        CAN_message_mcu_gps_readings_beta_t message;
+        MCUGpsBeta_t message;
 };
 
-//E9: ID_MCU_GPS_READINGS_GAMMA
+//E9: MCU_GPS_READ_GAMMA
 class MCU_GPS_readings_gamma {
     public:
         MCU_GPS_readings_gamma();
@@ -1142,7 +1145,7 @@ class MCU_GPS_readings_gamma {
         void set_timestamp_seconds(uint32_t timestamp_seconds);
         void set_timestamp_milliseconds(uint16_t timestamp_milliseconds);
     private:
-        CAN_message_mcu_gps_readings_gamma_t message;
+        MCUGpsGamma_t message;
 };
 
 #endif
