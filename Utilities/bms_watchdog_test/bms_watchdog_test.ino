@@ -7,7 +7,7 @@
  * causing it to unlatch the BMS_OK signal.
  */
 
-#include <HyTech_FlexCAN.h>
+#include <FlexCAN_T4.h>
 #include "HyTech_CAN.h"
 
 static CAN_message_t msg;

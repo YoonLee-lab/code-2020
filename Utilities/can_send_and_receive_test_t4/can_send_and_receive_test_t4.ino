@@ -2,10 +2,12 @@
  * Test program that sends and receives CAN messages. Use this to test if CAN Bus is operational.
  * Created by Nathan Cheek, December 20, 2017
  */
-#include <HyTech_FlexCAN.h>
+// #include <HyTech_FlexCAN.h>
+#include <FlexCAN_T4.h>
 #include <Metro.h>
 
-FlexCAN CAN(500000);
+// FlexCAN CAN(500000);
+FlexCAN_T4<CAN1> CAN;
 CAN_message_t msg;
 Metro timer_can = Metro(1000);
 Metro timer_light = Metro(3);
@@ -13,6 +15,7 @@ Metro timer_light = Metro(3);
 void setup() {
     Serial.begin(115200); // Initialize serial for PC communication
     CAN.begin();
+    CAN.setBaudRate(500000);
     delay(200);
     Serial.println("CAN transceiver initialized");
     Serial.println("CAN TEST SENDER/RECEIVER");
@@ -27,7 +30,7 @@ void loop() {
         msg.id = 0x1;
         msg.len = sizeof(uint32_t);
         memcpy(msg.buf, &t, sizeof(uint32_t));
-        digitalWrite(13, CAN.write(msg) ? HIGH : LOW);
+        CAN.write(msg);
         Serial.print("Sent 0x");
         Serial.print(msg.id, HEX);
         Serial.print(": ");
@@ -47,10 +50,10 @@ void loop() {
             Serial.print(" ");
         }
         Serial.println();
-        // digitalWrite(13, HIGH);
+        digitalWrite(13, HIGH);
         timer_light.reset();
     }
     if (timer_light.check()) { // Turn off LED
-        // digitalWrite(13, LOW);
+        digitalWrite(13, LOW);
     }
 }

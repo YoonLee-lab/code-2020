@@ -9,7 +9,7 @@
 //
 
 #include <Metro.h>
-#include <HyTech_FlexCAN.h>
+#include <FlexCAN_T4.h>
 
 Metro sysTimer = Metro(1);// milliseconds
 

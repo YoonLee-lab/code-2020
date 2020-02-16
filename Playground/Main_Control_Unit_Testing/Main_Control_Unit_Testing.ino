@@ -1,5 +1,5 @@
 #include <ADC_SPI.h>
-#include <HyTech_FlexCAN.h>
+#include <FlexCAN_T4.h>
 #include <HyTech_CAN.h>
 #include <kinetis_flexcan.h>
 #include <Metro.h>

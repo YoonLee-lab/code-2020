@@ -1,5 +1,5 @@
 #include <ADC_SPI.h>
-#include <HyTech_FlexCAN.h>
+#include <FlexCAN_T4.h>
 #include <HyTech_CAN.h>
 #include <kinetis_flexcan.h>
 #include <Metro.h>
@@ -157,7 +157,7 @@ static CAN_message_t rx_msg;
 static CAN_message_t tx_msg;
 ADC_SPI ADC(ADC_CS, ADC_SPI_SPEED);
 MCP23S17 EXPANDER(0, EXPANDER_CS, EXPANDER_SPI_SPEED);
-FlexCAN CAN(500000);
+FlexCAN_T4<CAN_DEV_TABLE::CAN1> CAN;
 
 void setup() {
     EXPANDER.begin();

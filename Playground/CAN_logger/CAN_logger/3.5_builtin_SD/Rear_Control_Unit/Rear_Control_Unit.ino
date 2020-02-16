@@ -6,7 +6,7 @@
  * Configured for Rear Control Unit rev5
  */
 #include <HyTech_CAN.h>
-#include <HyTech_FlexCAN.h>
+#include <FlexCAN_T4.h>
 #include <kinetis_flexcan.h>
 #include <Metro.h>
 #include <XBTools.h>

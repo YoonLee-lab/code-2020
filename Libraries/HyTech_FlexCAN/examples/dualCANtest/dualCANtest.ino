@@ -5,7 +5,7 @@
 // This test transmits all data coming from CAN0 to CAN1 and vice versa (at 1Mbps)
 //
 
-#include <HyTech_FlexCAN.h>
+#include <FlexCAN_T4.h>
 
 #ifndef __MK66FX1M0__
   #error "Teensy 3.6 with dual CAN bus is required to run this example"

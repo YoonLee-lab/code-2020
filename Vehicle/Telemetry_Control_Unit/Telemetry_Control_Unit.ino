@@ -1,14 +1,14 @@
 /*
  * Teensy 3.5 Telemetry Control Unit code
- * Written by Soohyun Kim, with assistance by Ryan Gallaway and Nathan Cheek. 
- * 
+ * Written by Soohyun Kim, with assistance by Ryan Gallaway and Nathan Cheek.
+ *
  * Rev 2 - 4/23/2019
  */
 
 #include <SD.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_ADXL345_U.h>
-#include <HyTech_FlexCAN.h>
+#include <FlexCAN_T4.h>
 #include <HyTech_CAN.h>
 #include <kinetis_flexcan.h>
 #include <Wire.h>
@@ -23,7 +23,7 @@
 #define BMS_HIGH 134 // ~3V on BMS_OK line
 #define IMD_HIGH 134 // ~3V on OKHS line
 
-FlexCAN CAN(500000);
+FlexCAN_T4<CAN_DEV_TABLE::CAN1> CAN;
 static CAN_message_t msg_rx;
 static CAN_message_t msg_tx;
 static CAN_message_t xb_msg;
@@ -69,7 +69,7 @@ BMS_onboard_temperatures bms_onboard_temperatures;
 BMS_onboard_detailed_temperatures bms_onboard_detailed_temperatures[8];
 BMS_status bms_status;
 BMS_balancing_status bms_balancing_status[2];
-BMS_coulomb_counts bms_coulomb_counts;                                                
+BMS_coulomb_counts bms_coulomb_counts;
 CCU_status ccu_status;
 MC_temperatures_1 mc_temperatures_1;
 MC_temperatures_2 mc_temperatures_2;
@@ -103,7 +103,7 @@ static int flag_bms_detailed_temperatures;
 static int flag_bms_onboard_temperatures;
 static int flag_bms_onboard_detailed_temperatures;
 static int flag_bms_status;
-static int flag_bms_balancing_status;                                               
+static int flag_bms_balancing_status;
 static int flag_bms_coulomb_counts;
 static int flag_ccu_status;
 static int flag_mc_temperatures_1;
@@ -204,12 +204,12 @@ void loop() {
 
     /* Process accelerometer readings occasionally */
     if (timer_accelerometer.check()) {
-        process_accelerometer(); 
+        process_accelerometer();
     }
 
     /* Process current sensor readings occasionally */
     if (timer_current.check()) {
-        process_current();  
+        process_current();
     }
 
     /* Process GPS readings */
@@ -393,10 +393,10 @@ void process_accelerometer() {
     /* Get a new sensor event */
     sensors_event_t event;
     accel.getEvent(&event);
-    
+
     /* Read accelerometer values into accelerometer class */
     fcu_accelerometer_values.set_values((uint8_t) (event.acceleration.x*100), (uint8_t) (event.acceleration.y*100), (uint8_t) (event.acceleration.z*100));
-    
+
     /* Send message over XBee */
     fcu_accelerometer_values.write(xb_msg.buf);
     xb_msg.id = ID_FCU_ACCELEROMETER;
@@ -423,7 +423,7 @@ void process_current() {
     double current_cooling = ((double)(analogRead(A12)-96))*0.029412;
     //Serial.println(current_cooling);
     //Serial.println(current_ecu);
-      
+
     current_readings.set_ecu_current_value((short)((int)(current_ecu*100)));
     current_readings.set_cooling_current_value((short)((int)(current_cooling*100)));
 
@@ -436,7 +436,7 @@ void process_current() {
     current_readings.write(xb_msg.buf);
     xb_msg.id = ID_GLV_CURRENT_READINGS;
     xb_msg.len = sizeof(CAN_message_glv_current_readings_t);
-    write_xbee_data();   
+    write_xbee_data();
 }
 
 void process_gps() {
@@ -735,7 +735,7 @@ void send_xbee() {
         xb_msg.id = ID_MCU_PEDAL_READINGS;
         write_xbee_data();
     }
-    
+
     if (timer_debug_bms_balancing_status.check()) {
         for (int i = 0; i < 2; i++) {
             bms_balancing_status[i].write(xb_msg.buf);

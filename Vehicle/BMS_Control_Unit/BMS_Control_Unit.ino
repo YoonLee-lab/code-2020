@@ -31,7 +31,7 @@
 #include <ADC_SPI.h>
 #include <Arduino.h>
 // #include <EEPROM.h> TODO add EEPROM functionality so we can configure parameters over CAN
-#include <HyTech_FlexCAN.h>
+#include <FlexCAN_T4.h>
 #include <HyTech_CAN.h>
 #include <kinetis_flexcan.h>
 #include <LT_SPI.h>
@@ -335,7 +335,7 @@ void setup() {
         }
         Serial.println();
     }
-    
+
     Serial.println("Setup Complete!");
 }
 
@@ -445,7 +445,7 @@ void loop() {
             bms_onboard_detailed_temperatures[i].write(tx_msg.buf);
             CAN.write(tx_msg);
         }
-        
+
         tx_msg.id = ID_BMS_BALANCING_STATUS;
         tx_msg.len = sizeof(CAN_message_bms_balancing_status_t);
         for (int i = 0; i < (TOTAL_IC + 3) / 4; i++) {
@@ -859,7 +859,7 @@ double calculate_onboard_temp(double aux_voltage, double v_ref) {
     double b = 3380;    // B constant of the thermistor
     double R0 = 10000;  // Resistance of thermistor at 25C
     double temperature = 1 / ((1 / T0) + (1 / b) * log(thermistor_resistance / R0)) - (double) 273.15;
-    
+
     return (int16_t) (temperature * 100);
 }
 
