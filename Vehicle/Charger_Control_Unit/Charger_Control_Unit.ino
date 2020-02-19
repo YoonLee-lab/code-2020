@@ -63,6 +63,8 @@ void setup() {
 }
 
 void loop() {
+    CAN.events();
+
     if (timer_update_CAN.check()) {
         ccu_status.write(tx_msg.buf);
         tx_msg.id = ID_CCU_STATUS;

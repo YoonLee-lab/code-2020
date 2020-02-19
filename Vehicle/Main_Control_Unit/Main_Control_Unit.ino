@@ -213,6 +213,7 @@ void setup() {
 }
 
 void loop() {
+    CAN.events();
 
     read_pedal_values();
     read_dashboard_buttons();

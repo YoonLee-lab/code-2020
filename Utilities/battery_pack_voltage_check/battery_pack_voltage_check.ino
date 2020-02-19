@@ -50,7 +50,8 @@ void setup() {
 }
 
 void loop() {
-    parse_can_message();
+    // parse_can_message();
+    CAN.events();
     process_voltages();
     print_cells();
     print_temps();
@@ -142,8 +143,8 @@ void print_temps() {
 /*
  * Parse incoming CAN messages
  */
-void parse_can_message() {
-    while (CAN.read(rx_msg)) {
+void parse_can_message(const CAN_message_t & msg) {
+    // while (CAN.read(rx_msg)) {
         if (rx_msg.id == ID_BMS_DETAILED_TEMPERATURES) {
             BMS_detailed_temperatures temp = BMS_detailed_temperatures(rx_msg.buf);
             bms_detailed_temperatures[temp.get_ic_id()].load(rx_msg.buf);
@@ -174,5 +175,5 @@ void parse_can_message() {
             BMS_onboard_detailed_temperatures temp = BMS_onboard_detailed_temperatures(rx_msg.buf);
             bms_onboard_detailed_temperatures[temp.get_ic_id()].load(rx_msg.buf);
         }
-    }
+    // }
 }
