@@ -402,10 +402,6 @@ FCTP_FUNC void FCTP_OPT::writeIMASKBit(uint8_t mb_num, bool set) {
 }
 
 FCTP_FUNC void FCTP_OPT::writeTxMailbox(uint8_t mb_num, const CAN_message_t &msg) {
-  Serial.print("Remote: ");
-  Serial.print(msg.flags.remote);
-  Serial.print(". Extended: ");
-  Serial.println(msg.flags.extended);
   writeIFLAGBit(mb_num);
   uint32_t code = 0;
   volatile uint32_t *mbxAddr = &(*(volatile uint32_t*)(_bus + 0x80 + (mb_num * 0x10)));
@@ -858,6 +854,14 @@ FCTP_FUNC int FCTP_OPT::write(const CAN_message_t &msg) {
     }
   }
   return 0; /* transmit entry failed, no mailboxes or queues available */
+}
+
+FCTP_FUNC int FCTP_OPT::write_blocking(const CAN_message_t &msg, uint16_t timeout) {
+  uint32_t startMillis = millis();
+  while (millis() - startMillis < timeout)
+    if (write(msg))
+      return 1;
+  return 0;
 }
 
 FCTP_FUNC void FCTP_OPT::onReceive(const FLEXCAN_MAILBOX &mb_num, _MB_ptr handler) {

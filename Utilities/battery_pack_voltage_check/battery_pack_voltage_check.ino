@@ -8,7 +8,7 @@
 
 #include <FlexCAN_T4.h>
 #include <HyTech_CAN.h>
-#include <kinetis_flexcan.h>
+// #include <kinetis_flexcan.h>
 
 #define TOTAL_IC 8                      // Number of ICs in the system
 #define CELLS_PER_IC 9                  // Number of cells per IC
@@ -26,18 +26,22 @@ BMS_onboard_temperatures bms_onboard_temperatures;
 uint16_t cell_voltages[TOTAL_IC][12]; // contains 12 battery cell voltages. Numbers are stored in 0.1 mV units.
 
 static CAN_message_t rx_msg;
-FlexCAN CAN(500000);
+FlexCAN_T4<CAN1> CAN;
 
 void setup() {
 
     Serial.begin(115200);
     CAN.begin();
+    CAN.setBaudRate(500000);
 
     /* Configure CAN rx interrupt */
-    interrupts();
-    NVIC_ENABLE_IRQ(IRQ_CAN_MESSAGE);
-    attachInterruptVector(IRQ_CAN_MESSAGE,parse_can_message);
-    FLEXCAN0_IMASK1 = FLEXCAN_IMASK1_BUF5M;
+    // interrupts();
+    // NVIC_ENABLE_IRQ(IRQ_CAN_MESSAGE);
+    // attachInterruptVector(IRQ_CAN_MESSAGE,parse_can_message);
+    // FLEXCAN0_IMASK1 = FLEXCAN_IMASK1_BUF5M;
+
+    CAN.enableMBInterrupts();
+    CAN.onReceive(parse_can_message);
     /* Configure CAN rx interrupt */
 
     delay(1000);

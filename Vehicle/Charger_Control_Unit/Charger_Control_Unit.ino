@@ -32,7 +32,8 @@ BMS_balancing_status bms_balancing_status[(TOTAL_IC + 3) / 4]; // Round up TOTAL
 
 static CAN_message_t rx_msg;
 static CAN_message_t tx_msg;
-FlexCAN CAN(500000);
+// FlexCAN CAN(500000);
+FlexCAN_T4<CAN1> CAN;
 
 Metro timer_update_CAN = Metro(100);
 Metro timer_update_serial = Metro(500);
@@ -43,12 +44,15 @@ void setup() {
 
     Serial.begin(115200);
     CAN.begin();
+    CAN.setBaudRate(500000);
 
     /* Configure CAN rx interrupt */
-    interrupts();
-    NVIC_ENABLE_IRQ(IRQ_CAN_MESSAGE);
-    attachInterruptVector(IRQ_CAN_MESSAGE,parse_can_message);
-    FLEXCAN0_IMASK1 = FLEXCAN_IMASK1_BUF5M;
+    // interrupts();
+    // NVIC_ENABLE_IRQ(IRQ_CAN_MESSAGE);
+    // attachInterruptVector(IRQ_CAN_MESSAGE,parse_can_message);
+    // FLEXCAN0_IMASK1 = FLEXCAN_IMASK1_BUF5M;
+    CAN.enableMBInterrupts();
+    CAN.onReceive(parse_can_message);
     /* Configure CAN rx interrupt */
 
     delay(1000);
@@ -65,7 +69,7 @@ void loop() {
         tx_msg.len = sizeof(CAN_message_ccu_status_t);
         CAN.write(tx_msg);
     }
-    
+
     if (timer_update_serial.check()) {
         print_cells();
         print_temps();
@@ -188,7 +192,7 @@ void parse_can_message() {
             BMS_onboard_detailed_temperatures temp = BMS_onboard_detailed_temperatures(rx_msg.buf);
             bms_onboard_detailed_temperatures[temp.get_ic_id()].load(rx_msg.buf);
         }
-        
+
         if (rx_msg.id == ID_BMS_STATUS) {
             bms_status = BMS_status(rx_msg.buf);
             ccu_status.set_charger_enabled(bms_status.get_state() == BMS_STATE_CHARGING);

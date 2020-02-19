@@ -4,10 +4,10 @@
  * Read and write RMS parameters
  */
 
-#include <FlexCAN.h>
+#include <FlexCAN_T4.h>
 #include <HyTech_CAN.h>
 
-FlexCAN CAN(500000);
+FlexCAN_T4<CAN1> CAN;
 static CAN_message_t msg_tx;
 static CAN_message_t msg_rx;
 String command_incoming;
@@ -17,6 +17,7 @@ bool wait_confirmation = false;
 void setup() {
   Serial.begin(115200);
   CAN.begin();
+  CAN.setBaudRate(500000);
   delay(100);
   Serial.println("CAN transceiver initialized");
   Serial.println("Welcome to RMS Parameters Interface. Please use either:");
@@ -51,7 +52,7 @@ void loop() {
     if (newChar != '\n') {
       command_incoming += newChar;
     } else {
-      command_finished = true;      
+      command_finished = true;
     }
   }
 
@@ -62,7 +63,7 @@ void loop() {
     String command = command_incoming;
     command_incoming = "";
     command_finished = false;
-    
+
     if (wait_confirmation) { // Next command needs to be 'y' to otherwise message is discarded
       wait_confirmation = false;
       if (command == 'y' || command == 'Y') {
@@ -73,7 +74,7 @@ void loop() {
       }
       return;
     }
-    
+
     if (command.substring(0,4) == "read") {
       command = command.substring(5);
       int address = command.toInt();
@@ -125,4 +126,3 @@ void print_help() {
   Serial.println("read <parameter address>");
   Serial.println("write <parameter address> <parameter value>");
 }
-

@@ -385,8 +385,8 @@ void digitalClockDisplay() {
     Serial.print(" ");
     Serial.print(month());
     Serial.print(" ");
-    Serial.print(year()); 
-    Serial.println(); 
+    Serial.print(year());
+    Serial.println();
 }
 
 void printDigits(int digits){

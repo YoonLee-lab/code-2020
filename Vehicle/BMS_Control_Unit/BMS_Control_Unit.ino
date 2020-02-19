@@ -33,7 +33,7 @@
 // #include <EEPROM.h> TODO add EEPROM functionality so we can configure parameters over CAN
 #include <FlexCAN_T4.h>
 #include <HyTech_CAN.h>
-#include <kinetis_flexcan.h>
+// #include <kinetis_flexcan.h>
 #include <LT_SPI.h>
 #include <LTC68042.h>
 #include <Metro.h>
@@ -204,8 +204,8 @@ uint8_t rx_cfg[TOTAL_IC][8];
 /**
  * CAN Variables
  */
-FlexCAN CAN(500000);
-const CAN_filter_t can_filter_ccu_status = {0, 0, ID_CCU_STATUS}; // Note: If this is passed into CAN.begin() it will be treated as a mask. Instead, pass it into CAN.setFilter(), making sure to fill all slots 0-7 with duplicate filters as necessary
+FlexCAN_T4<CAN1> CAN;
+// const CAN_filter_t can_filter_ccu_status = {0, 0, ID_CCU_STATUS}; // Note: If this is passed into CAN.begin() it will be treated as a mask. Instead, pass it into CAN.setFilter(), making sure to fill all slots 0-7 with duplicate filters as necessary
 static CAN_message_t rx_msg;
 static CAN_message_t tx_msg;
 
@@ -242,8 +242,9 @@ void setup() {
 
     Serial.begin(115200); // Init serial for PC communication
     CAN.begin(); // Init CAN for vehicle communication
+    CAN.setBaudRate(500000);
     for (int i = 0; i < 8; i++) { // Fill all filter slots with Charger Control Unit message filter (CAN controller requires filling all slots)
-        CAN.setFilter(can_filter_ccu_status, i);
+        CAN.setMBFilter(i, ID_CCU_STATUS);
     }
 
     /* Configure CAN rx interrupt */
@@ -393,42 +394,42 @@ void loop() {
 
     if (timer_can_update_fast.check()) {
 
-        tx_msg.timeout = 4; // Use blocking mode, wait up to 4ms to send each message instead of immediately failing (keep in mind this is slower)
+        // tx_msg.timeout = 4; // Use blocking mode, wait up to 4ms to send each message instead of immediately failing (keep in mind this is slower)
 
         bms_status.write(tx_msg.buf);
         tx_msg.id = ID_BMS_STATUS;
         tx_msg.len = sizeof(CAN_message_bms_status_t);
-        CAN.write(tx_msg);
+        CAN.write_blocking(tx_msg, 4);
 
-        tx_msg.timeout = 0;
+        // tx_msg.timeout = 0;
 
     }
 
     if (timer_can_update_slow.check()) {
 
-        tx_msg.timeout = 4; // Use blocking mode, wait up to 4ms to send each message instead of immediately failing (keep in mind this is slower)
+        // tx_msg.timeout = 4; // Use blocking mode, wait up to 4ms to send each message instead of immediately failing (keep in mind this is slower)
 
         bms_voltages.write(tx_msg.buf);
         tx_msg.id = ID_BMS_VOLTAGES;
         tx_msg.len = sizeof(CAN_message_bms_voltages_t);
-        CAN.write(tx_msg);
+        CAN.write_blocking(tx_msg, 4);
 
         bms_temperatures.write(tx_msg.buf);
         tx_msg.id = ID_BMS_TEMPERATURES;
         tx_msg.len = sizeof(CAN_message_bms_temperatures_t);
-        CAN.write(tx_msg);
+        CAN.write_blocking(tx_msg, 4);
 
         bms_onboard_temperatures.write(tx_msg.buf);
         tx_msg.id = ID_BMS_ONBOARD_TEMPERATURES;
         tx_msg.len = sizeof(CAN_message_bms_onboard_temperatures_t);
-        CAN.write(tx_msg);
+        CAN.write_blocking(tx_msg, 4);
 
         tx_msg.id = ID_BMS_DETAILED_VOLTAGES;
         tx_msg.len = sizeof(CAN_message_bms_detailed_voltages_t);
         for (int i = 0; i < TOTAL_IC; i++) {
             for (int j = 0; j < 3; j++) {
                 bms_detailed_voltages[i][j].write(tx_msg.buf);
-                CAN.write(tx_msg);
+                CAN.write_blocking(tx_msg, 4);
             }
         }
 
@@ -436,24 +437,24 @@ void loop() {
         tx_msg.len = sizeof(CAN_message_bms_detailed_temperatures_t);
         for (int i = 0; i < TOTAL_IC; i++) {
             bms_detailed_temperatures[i].write(tx_msg.buf);
-            CAN.write(tx_msg);
+            CAN.write_blocking(tx_msg, 4);
         }
 
         tx_msg.id = ID_BMS_ONBOARD_DETAILED_TEMPERATURES;
         tx_msg.len = sizeof(CAN_message_bms_onboard_detailed_temperatures_t);
         for (int i = 0; i < TOTAL_IC; i++) {
             bms_onboard_detailed_temperatures[i].write(tx_msg.buf);
-            CAN.write(tx_msg);
+            CAN.write_blocking(tx_msg, 4);
         }
 
         tx_msg.id = ID_BMS_BALANCING_STATUS;
         tx_msg.len = sizeof(CAN_message_bms_balancing_status_t);
         for (int i = 0; i < (TOTAL_IC + 3) / 4; i++) {
             bms_balancing_status[i].write(tx_msg.buf);
-            CAN.write(tx_msg);
+            CAN.write_blocking(tx_msg, 4);
         }
 
-        tx_msg.timeout = 0;
+        // tx_msg.timeout = 0;
 
     }
 

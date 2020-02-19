@@ -23,7 +23,7 @@
 #define BMS_HIGH 134 // ~3V on BMS_OK line
 #define IMD_HIGH 134 // ~3V on OKHS line
 
-FlexCAN_T4<CAN_DEV_TABLE::CAN1> CAN;
+FlexCAN_T4<CAN1> CAN;
 static CAN_message_t msg_rx;
 static CAN_message_t msg_tx;
 static CAN_message_t xb_msg;
@@ -146,6 +146,7 @@ void setup() {
     XB.begin(115200);
     FLEXCAN0_MCR &= 0xFFFDFFFF; // Enables CAN message self-reception
     CAN.begin();
+    CAN.setBaudRate(500000);
 
     /* Set up accelerometer */
     setup_accelerometer();

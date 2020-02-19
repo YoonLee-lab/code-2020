@@ -157,7 +157,7 @@ static CAN_message_t rx_msg;
 static CAN_message_t tx_msg;
 ADC_SPI ADC(ADC_CS, ADC_SPI_SPEED);
 MCP23S17 EXPANDER(0, EXPANDER_CS, EXPANDER_SPI_SPEED);
-FlexCAN_T4<CAN_DEV_TABLE::CAN1> CAN;
+FlexCAN_T4<CAN1> CAN;
 
 void setup() {
     EXPANDER.begin();
@@ -186,12 +186,15 @@ void setup() {
 
     Serial.begin(115200);
     CAN.begin();
+    CAN.setBaudRate(500000);
 
     /* Configure CAN rx interrupt */
-    interrupts();
-    NVIC_ENABLE_IRQ(IRQ_CAN_MESSAGE);
-    attachInterruptVector(IRQ_CAN_MESSAGE,parse_can_message);
-    FLEXCAN0_IMASK1 = FLEXCAN_IMASK1_BUF5M;
+    // interrupts();
+    // NVIC_ENABLE_IRQ(IRQ_CAN_MESSAGE);
+    // attachInterruptVector(IRQ_CAN_MESSAGE,parse_can_message);
+    // FLEXCAN0_IMASK1 = FLEXCAN_IMASK1_BUF5M;
+    CAN.enableMBInterrupts();
+    CAN.onReceive(parse_can_message);
     /* Configure CAN rx interrupt */
 
     delay(500);

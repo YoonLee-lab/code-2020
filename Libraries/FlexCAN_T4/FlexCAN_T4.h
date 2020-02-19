@@ -435,6 +435,7 @@ FCTP_CLASS class FlexCAN_T4 : public FlexCAN_T4_Base {
     int write(const CAN_message_t &msg); /* use any available mailbox for transmitting */
     int write(const CANFD_message_t &msg) { return 0; } /* to satisfy base class for external pointers */
     int write(FLEXCAN_MAILBOX mb_num, const CAN_message_t &msg); /* use a single mailbox for transmitting */
+    int write_blocking(const CAN_message_t &msg, uint16_t timeout);
     uint64_t events();
     uint8_t setRFFN(FLEXCAN_RFFN_TABLE rffn = RFFN_8); /* Number Of Rx FIFO Filters (0 == 8 filters, 1 == 16 filters, etc.. */
     uint8_t setRFFN(uint8_t rffn) { return setRFFN((FLEXCAN_RFFN_TABLE)constrain(rffn, 0, 15)); }

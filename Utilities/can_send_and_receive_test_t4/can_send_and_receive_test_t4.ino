@@ -24,10 +24,9 @@ void setup() {
 }
 
 void loop() {
-
     if (timer_can.check()) { // Send a message on CAN
         uint32_t t = millis();
-        msg.id = 0x1;
+        msg.id = 0x2;
         msg.len = sizeof(uint32_t);
         memcpy(msg.buf, &t, sizeof(uint32_t));
         CAN.write(msg);
