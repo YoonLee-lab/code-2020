@@ -16,7 +16,7 @@ Date Modified: March 4, 2020
 
 Note: Right now I'm changing the order of CAN messages here. I'm not changing the contents, just making it in hex-number order. This is to make it more readable and easier to add things to. If I change any of the contents, this is to add the message types that haven't been recorded yet.
 
-Contact: Varnika/Meghavarnika Budati/Vivacia <mbudati3@gatech.edu>
+Contact: Varnika/Meghavarnika Budati
 
 Please document all CAN message types here.
 
