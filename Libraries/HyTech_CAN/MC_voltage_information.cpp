@@ -5,8 +5,8 @@
  * 
  * HEXID: A7
  * DESCR: MC Voltage Information
- * MACRO: ID_MC_VOLTAGE_INFORMATION
- * STRUCT: CAN_message_mc_voltage_information_t 
+ * MACRO: MC_VOLT_INFO, previously: ID_MC_VOLTAGE_INFORMATION
+ * STRUCT: MCVoltInfo_t, previously: CAN_message_mc_voltage_information_t 
  * CLASS: MC_voltage_information
  * DATA:
  *      dc_bus_voltage   [0:1]

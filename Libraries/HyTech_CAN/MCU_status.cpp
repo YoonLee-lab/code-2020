@@ -1,11 +1,11 @@
 /**
  * MCU_status.cpp - CAN message parser: Main Control Unit status message
  * Created Feb, 2019.
- * Documentation by Meghavarnika Budati, January 31, 2020. WIP
+ * Documentation by Meghavarnika Budati, January 31, 2020.
  * 
  * HEXID: C3
- * MACRO: ID_MCU_STATUS
- * STRUCT: CAN_message_mcu_status_t 
+ * MACRO: MC_STAT, previously: ID_MCU_STATUS
+ * STRUCT: MCUStat_t, previously: CAN_message_mcu_status_t 
  * CLASS: MCU_status
  * DATA:
  *      state                [0]

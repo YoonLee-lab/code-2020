@@ -4,10 +4,10 @@
  * Documentation by Meghavarnika Budati, February 2, 2020.
  * 
  * HEXID: DE
- * DESCR: Motor Controller Temperatures #1
- * MACRO: ID_MC_TEMPERATURES_1
- * STRUCT: CAN_message_mc_temperatures_1_t 
- * CLASS: MC_temperatures_1
+ * DESCR: BMS Balancing Status
+ * MACRO: BMS_BAL_STAT, previously: ID_BMS_BALANCING_STATUS
+ * STRUCT: BMSBalStat_t, previously: CAN_message_bms_balancing_status_t 
+ * CLASS: BMS_balancing_status
  * DATA:
  *      balancing_status[] (1 byte x 5)
  */
@@ -25,7 +25,7 @@
 // Make sure to cast things to uint64_t before doing large bit-shifts (>32 bits)
 
 /**
- * Constructor, defining an empty message for MC_temperatures_1
+ * Constructor, defining an empty message for BMS_balancing_status
  */
 BMS_balancing_status::BMS_balancing_status() {
     message = {};
@@ -55,7 +55,7 @@ BMS_balancing_status::BMS_balancing_status(uint8_t group_id, int64_t balancing) 
  * @param buf: buffer to load data from
  */
 void BMS_balancing_status::load(uint8_t buf[]) {
-    memcpy(&(message), &buf[0], sizeof(CAN_message_bms_balancing_status_t));
+    memcpy(&(message), &buf[0], sizeof(BMSBalStat_t));
 }
 
 /**
@@ -63,7 +63,7 @@ void BMS_balancing_status::load(uint8_t buf[]) {
  * @param buf: buffer to load data into
  */
 void BMS_balancing_status::write(uint8_t buf[]) {
-    memcpy(&buf[0], &(message), sizeof(CAN_message_bms_balancing_status_t));
+    memcpy(&buf[0], &(message), sizeof(BMSBalStat_t));
 }
 
 /**

@@ -5,8 +5,8 @@
  * 
  * HEXID: A3
  * DESCR: MC Analog Inputs Voltages
- * MACRO: ID_MC_ANALOG_INPUTS_VOLTAGES
- * STRUCT: CAN_message_mc_analog_input_voltages_t  
+ * MACRO: MC_A_INP_VOLT, previously: ID_MC_ANALOG_INPUTS_VOLTAGES
+ * STRUCT: MCAInpVolt_t, previously: CAN_message_mc_analog_input_voltages_t  
  * CLASS: MC_analog_input_voltages
  * DATA:
  *      analog_input_1 [0:1]

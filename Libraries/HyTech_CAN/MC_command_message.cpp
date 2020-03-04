@@ -5,8 +5,8 @@
  * 
  * HEXID: C0
  * DESCR: MC Command Message
- * MACRO: ID_MC_COMMAND_MESSAGE
- * STRUCT: CAN_message_mc_command_message_t 
+ * MACRO: MC_COMM_MSG, previously: ID_MC_COMMAND_MESSAGE
+ * STRUCT: MCCommMsg_t, previously: CAN_message_mc_command_message_t 
  * CLASS: MC_command_message
  * DATA:
  *      torque_command         [0:1]
@@ -20,7 +20,7 @@
 #include "HyTech_CAN.h"
 
 /**
- * Constructor, defining an empty message for MC_fault_codes
+ * Constructor, defining an empty message for MC_command_message
  */
 MC_command_message::MC_command_message() {
     message = {};

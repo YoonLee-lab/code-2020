@@ -5,8 +5,8 @@
  * 
  * HEXID: A1
  * DESCR: Motor Controller Temperatures #2
- * MACRO: ID_MC_TEMPERATURES_2
- * STRUCT: CAN_message_mc_temperatures_2_t 
+ * MACRO: MC_TEMP_2, previously: ID_MC_TEMPERATURES_2
+ * STRUCT: MCTemp2_t, previously: CAN_message_mc_temperatures_2_t 
  * CLASS: MC_temperatures_2
  * DATA:
  *      control_board_temperature [0:1]

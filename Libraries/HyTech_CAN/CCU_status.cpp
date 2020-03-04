@@ -5,8 +5,8 @@
  * 
  * HEXID: DD
  * DESCR: Charge Control Unit Status
- * MACRO: ID_CCU_STATUS
- * STRUCT: CAN_message_ccu_status_t 
+ * MACRO: CCU_STAT, previously: ID_CCU_STATUS
+ * STRUCT: CCUStat_t, previously: CAN_message_ccu_status_t 
  * CLASS: CCU_status
  * DATA:
  *      charger_enabled [0]
@@ -15,7 +15,7 @@
 #include "HyTech_CAN.h"
 
 /**
- * Constructor, defining an empty message for MC_temperatures_1
+ * Constructor, defining an empty message for CCU_status
  */
 CCU_status::CCU_status() {
     message = {};

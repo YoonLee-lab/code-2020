@@ -5,9 +5,9 @@
  * 
  * HEXID: D9
  * DESCR: BMS Temperatures
- * MACRO: ID_BMS_VOLTAGES
- * STRUCT: CAN_message_bms_voltages_t 
- * CLASS: BMS_voltages
+ * MACRO: BMS_TEMP, previously: ID_BMS_TEMPERATURES
+ * STRUCT: BMSTemp_t, previously: CAN_message_bms_temperatures_t 
+ * CLASS: BMS_temperatures
  * DATA:
  *      average_temperature [0:1]
  *      low_temperature     [2:3]
@@ -18,7 +18,7 @@
 #include "HyTech_CAN.h"
 
 /**
- * Constructor, defining an empty message for MC_temperatures_3
+ * Constructor, defining an empty message for BMS_temperatures
  */
 BMS_temperatures::BMS_temperatures() {
     message = {};

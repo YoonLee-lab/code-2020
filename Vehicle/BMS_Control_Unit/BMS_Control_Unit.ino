@@ -196,7 +196,7 @@ uint8_t rx_cfg[TOTAL_IC][8];
  * CAN Variables
  */
 FlexCAN CAN(500000);
-const CAN_filter_t can_filter_ccu_status = {0, 0, ID_CCU_STATUS}; // Note: If this is passed into CAN.begin() it will be treated as a mask. Instead, pass it into CAN.setFilter(), making sure to fill all slots 0-7 with duplicate filters as necessary
+const CAN_filter_t can_filter_ccu_status = {0, 0, CCU_STAT}; // Note: If this is passed into CAN.begin() it will be treated as a mask. Instead, pass it into CAN.setFilter(), making sure to fill all slots 0-7 with duplicate filters as necessary
 static CAN_message_t rx_msg;
 static CAN_message_t tx_msg;
 
@@ -386,8 +386,8 @@ void loop() {
         tx_msg.timeout = 4; // Use blocking mode, wait up to 4ms to send each message instead of immediately failing (keep in mind this is slower)
 
         bms_status.write(tx_msg.buf);
-        tx_msg.id = ID_BMS_STATUS;
-        tx_msg.len = sizeof(CAN_message_bms_status_t);
+        tx_msg.id = BMS_STAT;
+        tx_msg.len = sizeof(BMSStat_t);
         CAN.write(tx_msg);
 
         tx_msg.timeout = 0;
@@ -399,22 +399,22 @@ void loop() {
         tx_msg.timeout = 4; // Use blocking mode, wait up to 4ms to send each message instead of immediately failing (keep in mind this is slower)
 
         bms_voltages.write(tx_msg.buf);
-        tx_msg.id = ID_BMS_VOLTAGES;
-        tx_msg.len = sizeof(CAN_message_bms_voltages_t);
+        tx_msg.id = BMS_VOLT;
+        tx_msg.len = sizeof(BMSVolt_t);
         CAN.write(tx_msg);
 
         bms_temperatures.write(tx_msg.buf);
-        tx_msg.id = ID_BMS_TEMPERATURES;
-        tx_msg.len = sizeof(CAN_message_bms_temperatures_t);
+        tx_msg.id = BMS_TEMP;
+        tx_msg.len = sizeof(BMSTemp_t);
         CAN.write(tx_msg);
 
         bms_onboard_temperatures.write(tx_msg.buf);
-        tx_msg.id = ID_BMS_ONBOARD_TEMPERATURES;
-        tx_msg.len = sizeof(CAN_message_bms_onboard_temperatures_t);
+        tx_msg.id = BMS_ONB_TEMP;
+        tx_msg.len = sizeof(BMSOnbTemp_t);
         CAN.write(tx_msg);
 
-        tx_msg.id = ID_BMS_DETAILED_VOLTAGES;
-        tx_msg.len = sizeof(CAN_message_bms_detailed_voltages_t);
+        tx_msg.id = BMS_DET_VOLT;
+        tx_msg.len = sizeof(BMSDetVolt_t);
         for (int i = 0; i < TOTAL_IC; i++) {
             for (int j = 0; j < 3; j++) {
                 bms_detailed_voltages[i][j].write(tx_msg.buf);
@@ -422,22 +422,22 @@ void loop() {
             }
         }
 
-        tx_msg.id = ID_BMS_DETAILED_TEMPERATURES;
-        tx_msg.len = sizeof(CAN_message_bms_detailed_temperatures_t);
+        tx_msg.id = BMS_DET_TEMP;
+        tx_msg.len = sizeof(BMSDetTemp_t);
         for (int i = 0; i < TOTAL_IC; i++) {
             bms_detailed_temperatures[i].write(tx_msg.buf);
             CAN.write(tx_msg);
         }
 
-        tx_msg.id = ID_BMS_ONBOARD_DETAILED_TEMPERATURES;
-        tx_msg.len = sizeof(CAN_message_bms_onboard_detailed_temperatures_t);
+        tx_msg.id = BMS_ONB_DET_TEMP;
+        tx_msg.len = sizeof(BMSOnbDetTemp_t);
         for (int i = 0; i < TOTAL_IC; i++) {
             bms_onboard_detailed_temperatures[i].write(tx_msg.buf);
             CAN.write(tx_msg);
         }
         
-        tx_msg.id = ID_BMS_BALANCING_STATUS;
-        tx_msg.len = sizeof(CAN_message_bms_balancing_status_t);
+        tx_msg.id = BMS_BAL_STAT;
+        tx_msg.len = sizeof(BMSBalStat_t);
         for (int i = 0; i < (TOTAL_IC + 3) / 4; i++) {
             bms_balancing_status[i].write(tx_msg.buf);
             CAN.write(tx_msg);
@@ -1101,7 +1101,7 @@ void cfg_set_undervoltage_comparison_voltage(uint16_t voltage) {
 
 void parse_can_message() {
     while (CAN.read(rx_msg)) {
-        if (rx_msg.id == ID_CCU_STATUS) { // Enter charging mode if CCU status message is received
+        if (rx_msg.id == CCU_STAT) { // Enter charging mode if CCU status message is received
             timer_charge_timeout.reset();
             if (bms_status.get_state() == BMS_STATE_DISCHARGING && (timer_charge_enable_limit.check() || !charge_mode_entered)) {
                 bms_status.set_state(BMS_STATE_CHARGING);
@@ -1109,10 +1109,10 @@ void parse_can_message() {
                 charge_mode_entered = true;
             }
         }
-
-        if (rx_msg.id == ID_FH_WATCHDOG_TEST) { // Stop sending pulse to watchdog timer in order to test its functionality
-            fh_watchdog_test = true;
-        }
+        // OBSOLETE
+        // if (rx_msg.id == ID_FH_WATCHDOG_TEST) { // Stop sending pulse to watchdog timer in order to test its functionality
+        //     fh_watchdog_test = true;
+        // }
     }
 }
 

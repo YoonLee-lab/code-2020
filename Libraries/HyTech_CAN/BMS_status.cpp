@@ -5,8 +5,8 @@
  * 
  * HEXID: DB
  * DESCR: BMS Status
- * MACRO: ID_BMS_STATUS
- * STRUCT: CAN_message_bms_status_t 
+ * MACRO: BMS_STAT, previously: ID_BMS_STATUS
+ * STRUCT: BMSStat_t, previously: CAN_message_bms_status_t 
  * CLASS: BMS_status
  * DATA:
  *      state       [0]
@@ -18,7 +18,7 @@
 #include "HyTech_CAN.h"
 
 /**
- * Constructor, defining an empty message for MC_temperatures_1
+ * Constructor, defining an empty message for BMS_status
  */
 BMS_status::BMS_status() {
     message = {};

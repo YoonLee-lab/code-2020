@@ -29,7 +29,7 @@ void loop() {
    * Handle incoming messages
    */
   while (CAN.read(msg_rx)) {
-    if (msg_rx.id == ID_MC_READ_WRITE_PARAMETER_RESPONSE) {
+    if (msg_rx.id == MC_RW_PARAM_RESP) {
       MC_read_write_parameter_response message = MC_read_write_parameter_response(msg_rx.buf);
       Serial.print("Address: ");
       Serial.print(message.get_parameter_address());
@@ -83,8 +83,8 @@ void loop() {
       }
       MC_read_write_parameter_command message = MC_read_write_parameter_command(address, 0, 0);
       message.write(msg_tx.buf);
-      msg_tx.id = ID_MC_READ_WRITE_PARAMETER_COMMAND;
-      msg_tx.len = sizeof(CAN_message_mc_read_write_parameter_command_t);
+      msg_tx.id = MC_RW_PARAM_COMM;
+      msg_tx.len = sizeof(MCRWParamComm_t);
       Serial.print("Message to send: READ ");
       Serial.print(address);
       Serial.println(" [y/n]");
@@ -105,8 +105,8 @@ void loop() {
       int data = command.toInt();
       MC_read_write_parameter_command message = MC_read_write_parameter_command(address, 1, data);
       message.write(msg_tx.buf);
-      msg_tx.id = ID_MC_READ_WRITE_PARAMETER_COMMAND;
-      msg_tx.len = sizeof(CAN_message_mc_read_write_parameter_command_t);
+      msg_tx.id = MC_RW_PARAM_COMM;
+      msg_tx.len = sizeof(MCRWParamComm_t);
       Serial.print("Message to send: WRITE ");
       Serial.print(address);
       Serial.print(" ");

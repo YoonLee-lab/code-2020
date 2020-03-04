@@ -69,10 +69,10 @@ int write_xbee_data() {
 
 int main() {
     //MC_command_message command = MC_command_message(250, 0, 0, 1, 0, 0);
-    FCU_status command = FCU_status(3, 0, 1);
-    xb_msg.id = ID_FCU_STATUS;
+    // FCU_status command = FCU_status(3, 0, 1); OBSOLETE
+    // xb_msg.id = ID_FCU_STATUS;
     //xb_msg.len = sizeof(CAN_message_mc_command_message_t);
-    xb_msg.len = sizeof(CAN_message_fcu_status_t);
+    // xb_msg.len = sizeof(CAN_message_fcu_status_t);
     write_xbee_data();
     return 0;
 }

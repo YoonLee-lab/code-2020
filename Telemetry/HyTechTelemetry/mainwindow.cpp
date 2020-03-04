@@ -32,24 +32,25 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_update(quint32 id, quint8 length, QByteArray msg) {
-    if (id == ID_RCU_STATUS) {
-        RCU_status rcus((unsigned char*) msg.data());
-        ui->glv_voltage->display(rcus.get_glv_battery_voltage() / 10.0);
-        ui->rcu_temperature->display(rcus.get_temperature() / 100.0);
-    }
-    if (id == ID_FCU_STATUS) {
-        FCU_status fcus((unsigned char*) msg.data());
-        if (fcus.get_accelerator_implausibility())
-            set_label(ui->accel_implausibility, 1, "BAD");
-        else
-            set_label(ui->accel_implausibility, 0, "OK");
+    //  OBSOLETE
+    // if (id == ID_RCU_STATUS) {
+    //     RCU_status rcus((unsigned char*) msg.data());
+    //     ui->glv_voltage->display(rcus.get_glv_battery_voltage() / 10.0);
+    //     ui->rcu_temperature->display(rcus.get_temperature() / 100.0);
+    // }
+    // if (id == ID_FCU_STATUS) {
+    //     FCU_status fcus((unsigned char*) msg.data());
+    //     if (fcus.get_accelerator_implausibility())
+    //         set_label(ui->accel_implausibility, 1, "BAD");
+    //     else
+    //         set_label(ui->accel_implausibility, 0, "OK");
 
-        if (fcus.get_brake_implausibility())
-            set_label(ui->brake_implausibility, 1, "BAD");
-        else
-            set_label(ui->brake_implausibility, 0, "OK");
-    }
-    if (id == ID_BMS_STATUS) {
+    //     if (fcus.get_brake_implausibility())
+    //         set_label(ui->brake_implausibility, 1, "BAD");
+    //     else
+    //         set_label(ui->brake_implausibility, 0, "OK");
+    // }
+    if (id == BMS_STAT) {
         BMS_status bmss((unsigned char*) msg.data());
         if (bmss.get_overvoltage())
             set_label(ui->cell_overvoltage, 1, "BAD");
@@ -80,7 +81,7 @@ void MainWindow::on_update(quint32 id, quint8 length, QByteArray msg) {
 
         ui->current->display(bmss.get_current());   // FIND OUT FORMAT
     }
-    if (id == ID_MC_INTERNAL_STATES) {
+    if (id == MC_INT_STATES) {
         MC_internal_states mc_states((unsigned char*) msg.data());
         ui->vsm_state->setText(vsm_state_to_string(mc_states.get_vsm_state()));
         ui->inverter_state->setText(inverter_state_to_string(mc_states.get_inverter_state()));
@@ -88,7 +89,7 @@ void MainWindow::on_update(quint32 id, quint8 length, QByteArray msg) {
         ui->inverter_enabled->setText(mc_states.get_inverter_enable_state() ? "YES" : "NO");
         ui->inverter_lockout->setText(mc_states.get_inverter_enable_lockout() ? "YES" : "NO");
     }
-    if (id == ID_MC_FAULT_CODES) {
+    if (id == MC_FAULT_CODES) {
         MC_fault_codes mc_faults((unsigned char*) msg.data());
         quint16 post_lo = mc_faults.get_post_fault_lo();
         quint16 post_hi = mc_faults.get_post_fault_hi();
@@ -99,37 +100,37 @@ void MainWindow::on_update(quint32 id, quint8 length, QByteArray msg) {
         ui->mc_post_fault->setText(mc_post_fault != 0 ? QString::number(mc_post_fault, 16) : "None");
         ui->mc_run_fault->setText(mc_run_fault != 0 ? QString::number(mc_run_fault, 16) : "None");
     }
-    if (id == ID_MC_TORQUE_TIMER_INFORMATION) {
+    if (id == MC_TOR_TIMER_INFO) {
         MC_torque_timer_information mc_timer((unsigned char*) msg.data());
         ui->uptime->setText(QString::number(mc_timer.get_power_on_timer()));
         ui->commanded->display(mc_timer.get_commanded_torque() / 10.0);
         ui->feedback->display(mc_timer.get_torque_feedback() / 10.0);
     }
-    if (id == ID_BMS_VOLTAGES) {
+    if (id == BMS_VOLT) {
         BMS_voltages bmsv((unsigned char*) msg.data());
         ui->avg_voltage->display(bmsv.get_average() / 10.0);
         ui->low_voltage->display(bmsv.get_low() / 10.0);
         ui->high_voltage->display(bmsv.get_high() / 10.0);
         ui->total_voltage->display(bmsv.get_total() / 10.0);
     }
-    if (id == ID_BMS_TEMPERATURES) {
+    if (id == BMS_TEMP) {
         BMS_temperatures bms_temp((unsigned char*) msg.data());
         ui->bms_avg_temp->display(bms_temp.get_average_temperature() / 10.0);
         ui->bms_low_temp->display(bms_temp.get_low_temperature() / 10.0);
         ui->bms_high_temp->display(bms_temp.get_high_temperature() / 10.0);
     }
-    if (id == ID_MC_VOLTAGE_INFORMATION) {
+    if (id == MC_VOLT_INFO) {
         MC_voltage_information mc_voltage((unsigned char*) msg.data());
         ui->dc_bus_voltage->display(mc_voltage.get_dc_bus_voltage() / 10.0);
         ui->output_voltage->display(mc_voltage.get_output_voltage() / 10.0);
         ui->phase_ab_voltage->display(mc_voltage.get_phase_ab_voltage() / 10.0);
         ui->phase_bc_voltage->display(mc_voltage.get_phase_bc_voltage() / 10.0);
     }
-    if (id == ID_MC_TEMPERATURES_1) {
+    if (id == MC_TEMP_1) {
         MC_temperatures_1 mct1((unsigned char*) msg.data());
         ui->gate_driver->display(mct1.get_gate_driver_board_temperature() / 10.0);
     }
-    if (id == ID_MC_TEMPERATURES_3) {
+    if (id == MC_TEMP_3) {
         MC_temperatures_3 mct3((unsigned char*) msg.data());
         ui->motor_temp->display(mct3.get_motor_temperature() / 10.0);
     }

@@ -5,8 +5,8 @@
  * 
  * HEXID: E9
  * DESCR: Motor Controller Temperatures #1
- * MACRO: ID_MC_TEMPERATURES_1
- * STRUCT: CAN_message_mc_temperatures_1_t 
+ * MACRO: MCU_GPS_READ_GAMMA, previously: ID_MCU_GPS_READINGS_GAMMA
+ * STRUCT: MCUGpsGamma_t, previously: CAN_message_mcu_gps_readings_gamma_t
  * CLASS: MC_temperatures_1
  * DATA:
  *      fix_quality            [0]

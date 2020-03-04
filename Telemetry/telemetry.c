@@ -5,39 +5,34 @@
 #include <MQTTClient.h>
 
 struct {
-    uint64_t                                timestamp;
-    CAN_msg_rcu_status                      rcu_status;
-    CAN_msg_fcu_status                      fcu_status;
-    CAN_msg_fcu_readings                    fcu_readings;
-    CAN_message_bms_voltages_t              bms_voltages;
-    CAN_message_bms_detailed_voltages_t     bms_detailed_voltages;
-    CAN_message_bms_temperatures_t          bms_temperatures;
-    CAN_message_bms_detailed_temperatures_t bms_detailed_temperatures;
-    CAN_message_bms_onboard_temperatures_t  bms_onboard_temperatures;
-    CAN_message_bms_onboard_detailed_temperatures_t bms_onboard_detailed_temperatures;
-    CAN_message_bms_status_t                bms_status;
-    CAN_message_bms_balancing_status_t      bms_balancing_status;
-    CAN_message_ccu_status_t                ccu_status;
-    CAN_message_mc_temperatures_1_t         mc_temperatures_1;
-    CAN_message_mc_temperatures_2_t         mc_temperatures_2;
-    CAN_message_mc_temperatures_3_t         mc_temperatures_3;
-    CAN_message_mc_analog_input_voltages_t  mc_analog_input_voltages;
-    CAN_message_mc_digital_input_status_t   mc_digital_input_status;
-    CAN_message_mc_motor_position_information_t mc_motor_position_information;
-    CAN_message_mc_current_information_t    mc_current_information;
-    CAN_message_mc_voltage_information_t    mc_voltage_information;
-    CAN_message_mc_internal_states_t        mc_internal_states;
-    CAN_message_mc_fault_codes_t            mc_fault_codes;
-    CAN_message_mc_torque_timer_information_t mc_torque_timer_information;
-    CAN_message_mc_modulation_index_flux_weakening_output_information_t
-        mc_modulation_index_flux_weakening_output_information;
-    CAN_message_mc_firmware_information_t   mc_firmware_information;
-    CAN_message_mc_command_message_t        mc_command_message;
-    CAN_message_mc_read_write_parameter_command_t
-        mc_read_write_parameter_command;
-    CAN_message_mc_read_write_parameter_response_t
-        mc_read_write_parameter_response;
-    CAN_message_fcu_accelerometer_values_t  fcu_accelerometer_values;
+    uint64_t                         timestamp;
+    FCURead_t                        fcu_readings;
+    BMSVolt_t                        bms_voltages;
+    BMSDetVolt_t                     bms_detailed_voltages;
+    BMSTemp_t                        bms_temperatures;
+    BMSDetTemp_t                     bms_detailed_temperatures;
+    BMSOnbTemp_t                     bms_onboard_temperatures;
+    BMSOnbDetTemp_t                  bms_onboard_detailed_temperatures;
+    BMSStat_t                        bms_status;
+    BMSBalStat_t                     bms_balancing_status;
+    CCUStat_t                        ccu_status;
+    MCTemp1_t                        mc_temperatures_1;
+    MCTemp2_t                        mc_temperatures_2;
+    MCTemp3_t                        mc_temperatures_3;
+    MCAInpVolt_t                     mc_analog_input_voltages;
+    MCDInpVolt_t                     mc_digital_input_status;
+    MCMotorPosInfo_t                 mc_motor_position_information;
+    MCCurrInfo_t                     mc_current_information;
+    MCVoltInfo_t                     mc_voltage_information;
+    MCIntStates_t                    mc_internal_states;
+    MCFaultCodes_t                   mc_fault_codes;
+    MCTorTimerInfo_t                 mc_torque_timer_information;
+    MCModIndexFluxWeakeningOutInfo_t mc_modulation_index_flux_weakening_output_information;
+    MCFirmInfo_t                     mc_firmware_information;
+    MCCommMsg_t                      mc_command_message;
+    MCRWParamComm_t                  mc_read_write_parameter_command;
+    MCRWParamResp_t                  mc_read_write_parameter_response;
+    FCUAccel_t                       fcu_accelerometer_values;
 } current_status;
 
 static void process_message(uint64_t timestamp, Telem_message_t *msg)
@@ -47,43 +42,44 @@ static void process_message(uint64_t timestamp, Telem_message_t *msg)
     current_status.timestamp = timestamp;
 
     switch (msg->msg_id) {
-        case ID_RCU_STATUS:
+        // OBSOLETE
+        // case ID_RCU_STATUS:
+        // {
+        //     CAN_msg_rcu_status *data = &msg->contents.rcu_status;
+        //     printf("RCU STATE: %hhu\n"
+        //            "RCU FLAGS: 0x%hhX\n"
+        //            "GLV BATT VOLTAGE: %f V\n"
+        //            "RCU BMS FAULT: %hhu\n"
+        //            "RCU IMD FAULT: %hhu\n",
+        //            data->state,
+        //            data->flags,
+        //            data->glv_battery_voltage / 100.0,
+        //            (char)(!(data->flags & 1)),
+        //            (char)(!(data->flags & 2)));
+        //     current_status.rcu_status = *data;
+        //     break;
+        // }
+        // case ID_FCU_STATUS:
+        // {
+        //     CAN_msg_fcu_status *data = &msg->contents.fcu_status;
+        //     printf("FCU STATE: %hhu\n"
+        //            "FCU FLAGS: %hhX\n"
+        //            "FCU START BUTTON ID: %hhu\n"
+        //            "FCU BRAKE ACT: %hhu\n"
+        //            "FCU IMPLAUS ACCEL: %hhu\n"
+        //            "FCU IMPLAUSE BRAKE: %hhu\n",
+        //            data->state,
+        //            data->flags,
+        //            data->start_button_press_id,
+        //            (char)((data->flags & 8) >> 3),
+        //            (char)(data->flags & 1),
+        //            (char)((data->flags & 4) >> 2));
+        //     current_status.fcu_status = *data;
+        //     break;
+        // }
+        case FCU_READ:
         {
-            CAN_msg_rcu_status *data = &msg->contents.rcu_status;
-            printf("RCU STATE: %hhu\n"
-                   "RCU FLAGS: 0x%hhX\n"
-                   "GLV BATT VOLTAGE: %f V\n"
-                   "RCU BMS FAULT: %hhu\n"
-                   "RCU IMD FAULT: %hhu\n",
-                   data->state,
-                   data->flags,
-                   data->glv_battery_voltage / 100.0,
-                   (char)(!(data->flags & 1)),
-                   (char)(!(data->flags & 2)));
-            current_status.rcu_status = *data;
-            break;
-        }
-        case ID_FCU_STATUS:
-        {
-            CAN_msg_fcu_status *data = &msg->contents.fcu_status;
-            printf("FCU STATE: %hhu\n"
-                   "FCU FLAGS: %hhX\n"
-                   "FCU START BUTTON ID: %hhu\n"
-                   "FCU BRAKE ACT: %hhu\n"
-                   "FCU IMPLAUS ACCEL: %hhu\n"
-                   "FCU IMPLAUSE BRAKE: %hhu\n",
-                   data->state,
-                   data->flags,
-                   data->start_button_press_id,
-                   (char)((data->flags & 8) >> 3),
-                   (char)(data->flags & 1),
-                   (char)((data->flags & 4) >> 2));
-            current_status.fcu_status = *data;
-            break;
-        }
-        case ID_FCU_READINGS:
-        {
-            CAN_msg_fcu_readings *data = &msg->contents.fcu_readings;
+            FCURead_t *data = &msg->contents.fcu_readings;
             printf("FCU PEDAL ACCEL 1: %hu\n"
                    "FCU PEDAL ACCEL 2: %hu\n"
                    "FCU PEDAL BRAKE: %hu\n",
@@ -93,19 +89,20 @@ static void process_message(uint64_t timestamp, Telem_message_t *msg)
             current_status.fcu_readings = *data;
             break;
         }
-        case ID_FCU_ACCELEROMETER:
+        case FCU_ACCEL:
         {
             break;  // TODO
         }
-        case ID_RCU_RESTART_MC:
+        // OBSOLETE
+        // case ID_RCU_RESTART_MC:
+        // {
+        //     break;  // TODO
+        // }
+        case BMS_ONB_TEMP:
+        case BMS_ONB_DET_TEMP:
+        case BMS_VOLT:
         {
-            break;  // TODO
-        }
-        case ID_BMS_ONBOARD_TEMPERATURES:
-        case ID_BMS_ONBOARD_DETAILED_TEMPERATURES:
-        case ID_BMS_VOLTAGES:
-        {
-            CAN_message_bms_voltages_t *data = &msg->contents.bms_voltages;
+            BMSVolt_t *data = &msg->contents.bms_voltages;
             printf("BMS VOLTAGE AVERAGE: %f V\n"
                    "BMS VOLTAGE LOW: %f V\n"
                    "BMS VOLTAGE HIGH: %f V\n"
@@ -117,13 +114,13 @@ static void process_message(uint64_t timestamp, Telem_message_t *msg)
             current_status.bms_voltages = *data;
             break;
         }
-        case ID_BMS_DETAILED_VOLTAGES:
+        case BMS_DET_VOLT:
         {
             break;  // TODO need to check docs
         }
-        case ID_BMS_TEMPERATURES:
+        case BMS_TEMP:
         {
-            CAN_message_bms_temperatures_t *data = &msg->contents.bms_temperatures;
+            BMSTemp_t *data = &msg->contents.bms_temperatures;
             printf("BMS AVERAGE TEMPERATURE: %f C\n"
                    "BMS LOW TEMPERATURE: %f C\n"
                    "BMS HIGH TEMPERATURE: %f C\n",
@@ -133,13 +130,13 @@ static void process_message(uint64_t timestamp, Telem_message_t *msg)
             current_status.bms_temperatures = *data;
             break;
         }
-        case ID_BMS_DETAILED_TEMPERATURES:
+        case BMS_DET_TEMP:
         {
             break;  // TODO need to check docs
         }
-        case ID_BMS_STATUS:
+        case BMS_STAT:
         {
-            CAN_message_bms_status_t *data = &msg->contents.bms_status;
+            BMSStat_t *data = &msg->contents.bms_status;
             printf("BMS STATE: %hhu\n"
                    "BMS ERROR FLAGS: 0x%hX\n"
                    "BMS CURRENT: %f A\n",
@@ -149,14 +146,15 @@ static void process_message(uint64_t timestamp, Telem_message_t *msg)
             current_status.bms_status = *data;
             break;
         }
-        case ID_BMS_BALANCING_STATUS:
+        case BMS_BAL_STAT:
             break;
-        case ID_FH_WATCHDOG_TEST:
+        // OBSOLETE
+        // case ID_FH_WATCHDOG_TEST:
+        //     break;
+        case CCU_STAT:
             break;
-        case ID_CCU_STATUS:
-            break;
-        case ID_MC_TEMPERATURES_1: {
-            CAN_message_mc_temperatures_1_t *data = &msg->contents.mc_temperatures_1;
+        case MC_TEMP_1: {
+            MCTemp1_t *data = &msg->contents.mc_temperatures_1;
             printf("MODULE A TEMP: %f C\n"
                    "MODULE B TEMP: %f C\n"
                    "MODULE C TEMP: %f C\n"
@@ -168,8 +166,8 @@ static void process_message(uint64_t timestamp, Telem_message_t *msg)
             current_status.mc_temperatures_1 = *data;
             break;
         }
-        case ID_MC_TEMPERATURES_2: {
-            CAN_message_mc_temperatures_2_t *data = &msg->contents.mc_temperatures_2;
+        case MC_TEMP_2: {
+            MCTemp2_t *data = &msg->contents.mc_temperatures_2;
             printf("CONTROL BOARD TEMP: %f C\n"
                    "RTD 1 TEMP: %f C\n"
                    "RTD 2 TEMP: %f C\n"
@@ -181,8 +179,8 @@ static void process_message(uint64_t timestamp, Telem_message_t *msg)
             current_status.mc_temperatures_2 = *data;
             break;
         }
-        case ID_MC_TEMPERATURES_3: {
-            CAN_message_mc_temperatures_3_t *data = &msg->contents.mc_temperatures_3;
+        case MC_TEMP_3: {
+            MCTemp3_t *data = &msg->contents.mc_temperatures_3;
             printf("RTD 4 TEMP: %f C\n"
                    "RTD 5 TEMP: %f C\n"
                    "MOTOR TEMP: %f C\n"
@@ -194,15 +192,15 @@ static void process_message(uint64_t timestamp, Telem_message_t *msg)
             current_status.mc_temperatures_3 = *data;
             break;
         }
-        case ID_MC_ANALOG_INPUTS_VOLTAGES:
+        case MC_A_INP_VOLT:
         {
             break;
         }
-        case ID_MC_DIGITAL_INPUT_STATUS:
+        case MC_D_INP_VOLT:
             break;
-        case ID_MC_MOTOR_POSITION_INFORMATION:
+        case MC_MOTOR_POS_INFO:
         {
-            CAN_message_mc_motor_position_information_t *data =
+            MCMotorPosInfo_t *data =
                 &msg->contents.mc_motor_position_information;
             printf("MOTOR ANGLE: %f\n"
                    "MOTOR SPEED: %hd RPM\n"
@@ -215,9 +213,9 @@ static void process_message(uint64_t timestamp, Telem_message_t *msg)
             current_status.mc_motor_position_information = *data;
             break;
         }
-        case ID_MC_CURRENT_INFORMATION:
+        case MC_CURR_INFO:
         {
-            CAN_message_mc_current_information_t *data = &msg->contents.mc_current_information;
+            MCCurrInfo_t *data = &msg->contents.mc_current_information;
             printf("PHASE A CURRENT: %f A\n"
                    "PHASE B CURRENT: %f A\n"
                    "PHASE C CURRENT: %f A\n"
@@ -229,9 +227,9 @@ static void process_message(uint64_t timestamp, Telem_message_t *msg)
             current_status.mc_current_information = *data;
             break;
         }
-        case ID_MC_VOLTAGE_INFORMATION:
+        case MC_VOLT_INFO:
         {
-            CAN_message_mc_voltage_information_t *data = &msg->contents.mc_voltage_information;
+            MCVoltInfo_t *data = &msg->contents.mc_voltage_information;
             printf("DC BUS VOLTAGE: %f V\n"
                    "OUTPUT VOLTAGE: %f V\n"
                    "PHASE AB VOLTAGE: %f V\n"
@@ -243,13 +241,14 @@ static void process_message(uint64_t timestamp, Telem_message_t *msg)
             current_status.mc_voltage_information = *data;
             break;
         }
-        case ID_MC_FLUX_INFORMATION:
-            break;
-        case ID_MC_INTERNAL_VOLTAGES:
-            break;
-        case ID_MC_INTERNAL_STATES:
+        // OBSOLETE
+        // case ID_MC_FLUX_INFORMATION:
+        //     break;
+        // case ID_MC_INTERNAL_VOLTAGES:
+        //     break;
+        case MC_INT_STATES:
         {
-            CAN_message_mc_internal_states_t *data = &msg->contents.mc_internal_states;
+            MCIntStates_t *data = &msg->contents.mc_internal_states;
             printf("VSM STATE: %hu\n"
                    "INVERTER STATE: %hhu\n"
                    "INVERTER RUN MODE: %hhu\n"
@@ -268,9 +267,9 @@ static void process_message(uint64_t timestamp, Telem_message_t *msg)
                    data->direction_command);
             current_status.mc_internal_states = *data;
         }
-        case ID_MC_FAULT_CODES:
+        case MC_FAULT_CODES:
         {
-            CAN_message_mc_fault_codes_t *data = &msg->contents.mc_fault_codes;
+            MCFaultCodes_t *data = &msg->contents.mc_fault_codes;
             printf("POST FAULT LO: 0x%hX\n"
                    "POST FAULT HI: 0x%hX\n"
                    "RUN FAULT LO: 0x%hX\n"
@@ -282,9 +281,9 @@ static void process_message(uint64_t timestamp, Telem_message_t *msg)
             current_status.mc_fault_codes = *data;
             break;
         }
-        case ID_MC_TORQUE_TIMER_INFORMATION:
+        case MC_TOR_TIMER_INFO:
         {
-            CAN_message_mc_torque_timer_information_t *data =
+            MCTorTimerInfo_t *data =
                 &msg->contents.mc_torque_timer_information;
             printf("COMMANDED TORQUE: %f Nm\n"
                    "TORQUE FEEDBACK: %f Nm\n"
@@ -295,22 +294,23 @@ static void process_message(uint64_t timestamp, Telem_message_t *msg)
             current_status.mc_torque_timer_information = *data;
             break;
         }
-        case ID_MC_MODULATION_INDEX_FLUX_WEAKENING_OUTPUT_INFORMATION:
+        case MC_MOD_INDEX_FLUX_WEAKENING_OUT_INFO:
             break;
-        case ID_MC_FIRMWARE_INFORMATION:
+        case MC_FIRM_INFO:
             break;
-        case ID_MC_DIAGNOSTIC_DATA:
-            break;
-        case ID_MC_COMMAND_MESSAGE: {
-            CAN_message_mc_command_message_t *data = &msg->contents.mc_command_message;
+        // OBSOLETE
+        // case ID_MC_DIAGNOSTIC_DATA:
+        //     break;
+        case MC_COMM_MSG: {
+            MCCommMsg_t *data = &msg->contents.mc_command_message;
             // TODO add the other members of this struct??
             printf("FCU REQUESTED TORQUE: %f\n",
                    data->torque_command / 10.);
             current_status.mc_command_message = *data;
         }
-        case ID_MC_READ_WRITE_PARAMETER_COMMAND:
+        case MC_RW_PARAM_COMM:
             break;
-        case ID_MC_READ_WRITE_PARAMETER_RESPONSE:
+        case MC_RW_PARAM_RESP:
             break;
         default:
             fprintf(stderr, "Error: unknown message type!\n");
@@ -346,7 +346,7 @@ static int msg_arrived(void *context, char *topic_name, int topic_len,
         if (payload_str[i] == ',') {
             payload_str[i] = 0;
             uint64_t timestamp = atoll(payload_str);
-            Telem_message_t payload;
+            telemMsg_t payload;
             cobs_decode((uint8_t *)&payload_str[i + 1], 32, (uint8_t *)&payload);
             uint16_t checksum_calc = fletcher16((uint8_t *)&payload, sizeof(payload));
             if (false) {//payload.checksum != checksum_calc) {

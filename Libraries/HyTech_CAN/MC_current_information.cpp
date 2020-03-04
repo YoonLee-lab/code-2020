@@ -5,8 +5,8 @@
  * 
  * HEXID: A6
  * DESCR: MC Current Information
- * MACRO: ID_MC_CURRENT_INFORMATION
- * STRUCT: CAN_message_mc_current_information_t 
+ * MACRO: MC_CURR_INFO, previously: ID_MC_CURRENT_INFORMATION
+ * STRUCT: MCCurrInfo_t, previously: CAN_message_mc_current_information_t 
  * CLASS: MC_current_information
  * DATA:
  *      phase_a_current [0:1]

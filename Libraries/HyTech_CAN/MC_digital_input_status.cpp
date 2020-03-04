@@ -5,8 +5,8 @@
  * 
  * HEXID: A4
  * DESCR: MC Digital Input Status
- * MACRO: ID_MC_DIGITAL_INPUT_STATUS
- * STRUCT: CAN_message_mc_digital_input_status_t 
+ * MACRO: MC_D_INP_VOLT, previously: ID_MC_DIGITAL_INPUT_STATUS
+ * STRUCT: Struct: MCDInpVolt_t, previously: CAN_message_mc_digital_input_status_t 
  * CLASS: MC_digital_input_status
  * DATA:
  *      digital_input_1 [0]

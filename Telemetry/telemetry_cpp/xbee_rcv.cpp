@@ -90,13 +90,14 @@ int main(int argc, char **argv) {
                             // }
                             // std::cout << std::endl;
 
-                            if (id == ID_RCU_STATUS) {
-                                RCU_status rcu_status(message);
-                                std::cout << "Battery voltage: " << std::dec << rcu_status.get_glv_battery_voltage() / 10 << std::endl;
-                                std::cout << "Temperature: " << rcu_status.get_temperature() / 100 << std::endl;
-                                std::cout << std::endl;
-                            }
-                            if (id == ID_BMS_VOLTAGES) {
+                            //  OBSOLETE
+                            // if (id == ID_RCU_STATUS) {
+                            //     RCU_status rcu_status(message);
+                            //     std::cout << "Battery voltage: " << std::dec << rcu_status.get_glv_battery_voltage() / 10 << std::endl;
+                            //     std::cout << "Temperature: " << rcu_status.get_temperature() / 100 << std::endl;
+                            //     std::cout << std::endl;
+                            // }
+                            if (id == BMS_VOLT) {
                                 BMS_voltages bms_voltages(message);
                                 std::cout << "Cell avg voltage: " << std::dec << bms_voltages.get_average() / 10 << std::endl;
                                 std::cout << "Cell low voltage: " << bms_voltages.get_low() / 10 << std::endl;
@@ -104,23 +105,24 @@ int main(int argc, char **argv) {
                                 std::cout << "Total pack voltage: " << bms_voltages.get_total() / 10 << std::endl;
                                 std::cout << std::endl;
                             }
-                            if (id == ID_FCU_STATUS) {
-                                FCU_status fcu_status(message);
-                                std::cout << "FCU State: " << std::dec << fcu_status.get_state() << std::endl;
-                                if (fcu_status.get_accelerator_implausibility()) {
-                                    std::cout << "Accelerator Implausibility Detected" << std::endl;
-                                }
-                                if (fcu_status.get_accelerator_boost_mode()) {
-                                    std::cout << "Accel Boost Mode ACTIVE" << std::endl;
-                                }
-                                if (fcu_status.get_brake_implausibility()) {
-                                    std::cout << "Brake Implausibility Detected" << std::endl;
-                                }
-                                if (fcu_status.get_brake_pedal_active()) {
-                                    std::cout << "Brake pedal active" << std::endl;
-                                }
-                                std::cout << std::endl;
-                            }
+                            // OBSOLETE
+                            // if (id == ID_FCU_STATUS) {
+                            //     FCU_status fcu_status(message);
+                            //     std::cout << "FCU State: " << std::dec << fcu_status.get_state() << std::endl;
+                            //     if (fcu_status.get_accelerator_implausibility()) {
+                            //         std::cout << "Accelerator Implausibility Detected" << std::endl;
+                            //     }
+                            //     if (fcu_status.get_accelerator_boost_mode()) {
+                            //         std::cout << "Accel Boost Mode ACTIVE" << std::endl;
+                            //     }
+                            //     if (fcu_status.get_brake_implausibility()) {
+                            //         std::cout << "Brake Implausibility Detected" << std::endl;
+                            //     }
+                            //     if (fcu_status.get_brake_pedal_active()) {
+                            //         std::cout << "Brake pedal active" << std::endl;
+                            //     }
+                            //     std::cout << std::endl;
+                            // }
                         }
                     }
                     index = 0;

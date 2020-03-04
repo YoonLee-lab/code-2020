@@ -5,8 +5,8 @@
  * 
  * HEXID: D5
  * DESCR: Battery Monitoring System Onboard Temps
- * MACRO: ID_BMS_ONBOARD_TEMPERATURES
- * STRUCT: CAN_message_bms_onboard_temperatures_t 
+ * MACRO: BMS_ONB_TEMP, previously: ID_BMS_ONBOARD_TEMPERATURES
+ * STRUCT: BMSOnbTemp_t, previously: CAN_message_bms_onboard_temperatures_t 
  * CLASS: BMS_onboard_temperatures
  * DATA:
  *      average_temperature [0:1]
@@ -18,7 +18,7 @@
 #include "HyTech_CAN.h"
 
 /**
- * Constructor, defining an empty message for MC_temperatures_3
+ * Constructor, defining an empty message for BMS_onboard_temperatures
  */
 BMS_onboard_temperatures::BMS_onboard_temperatures() {
     message = {};

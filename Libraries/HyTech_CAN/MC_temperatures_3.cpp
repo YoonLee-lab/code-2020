@@ -5,8 +5,8 @@
  * 
  * HEXID: A2
  * DESCR: Motor Controller Temperatures #3
- * MACRO: ID_MC_TEMPERATURES_3
- * STRUCT: CAN_message_mc_temperatures_3_t 
+ * MACRO: MC_TEMP_3, previously: ID_MC_TEMPERATURES_3
+ * STRUCT: MCTemp3_t, previously: CAN_message_mc_temperatures_3_t 
  * CLASS: MC_temperatures_3
  * DATA:
  *      rtd_4_temperature [0:1]

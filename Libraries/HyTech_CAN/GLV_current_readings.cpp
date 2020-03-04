@@ -5,8 +5,8 @@
  * 
  * HEXID: CC
  * DESCR: GLV Current Readings
- * MACRO: ID_GLV_CURRENT_READINGS
- * STRUCT: CAN_message_glv_current_readings_t 
+ * MACRO: GLV_CURR_READ, previously: ID_GLV_CURRENT_READINGS
+ * STRUCT: GLVCurrRead_t, previously: CAN_message_glv_current_readings_t 
  * CLASS: GLV_current_readings
  * DATA:
  *      ecu_current_value     [0:2]
@@ -17,7 +17,7 @@
 //Constructors
 
 /**
- * Constructor, defining an empty message for MC_temperatures_3
+ * Constructor, defining an empty message for GLV_current_readings
  */
 GLV_current_readings::GLV_current_readings(){
     message = {};

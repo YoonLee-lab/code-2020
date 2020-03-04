@@ -2,12 +2,14 @@
  * MC_modulation_index_flux_weakening_output_information.cpp
  * CAN message parser: RMS Motor Controller modulation index & flux weakening output information message
  * Created by Ryan Gallaway, December 1, 2016.
- * Documentation by Meghavarnika Budati, January 31, 2020. WIP
+ * Documentation by Meghavarnika Budati, January 31, 2020.
  * 
  * HEXID: AD
  * DESCR: MC Modulation Index Flux Weakening Output Information
- * MACRO: ID_MC_MODULATION_INDEX_FLUX_WEAKENING_OUTPUT_INFORMATION
- * STRUCT: CAN_message_mc_modulation_index_flux_weakening_output_information_t 
+ * MACRO: MC_MOD_INDEX_FLUX_WEAKENING_OUT_INFO,
+ *        previously: ID_MC_MODULATION_INDEX_FLUX_WEAKENING_OUTPUT_INFORMATION
+ * STRUCT: MCModIndexFluxWeakeningOutInfo_t,
+ *        previously: CAN_message_mc_modulation_index_flux_weakening_output_information_t 
  * CLASS: MC_modulation_index_flux_weakening_output_information
  * DATA:
  *      modulation_index      [0:1]
@@ -22,7 +24,8 @@
 /**
  * Constructor, defining an empty message for MC_modulation_index_flux_weakening_output_information
  */
-MC_modulation_index_flux_weakening_output_information::MC_modulation_index_flux_weakening_output_information() {
+MC_modulation_index_flux_weakening_output_information::
+    MC_modulation_index_flux_weakening_output_information() {
     message = {};
 }
 
@@ -30,7 +33,8 @@ MC_modulation_index_flux_weakening_output_information::MC_modulation_index_flux_
  * Constructor, loading in the data from buffer
  * @param buf: buffer to load data from
  */
-MC_modulation_index_flux_weakening_output_information::MC_modulation_index_flux_weakening_output_information(uint8_t buf[8]) {
+MC_modulation_index_flux_weakening_output_information::
+    MC_modulation_index_flux_weakening_output_information(uint8_t buf[8]) {
     load(buf);
 }
 

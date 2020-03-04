@@ -140,32 +140,32 @@ void print_temps() {
  */
 void parse_can_message() {
     while (CAN.read(rx_msg)) {
-        if (rx_msg.id == ID_BMS_DETAILED_TEMPERATURES) {
+        if (rx_msg.id == BMS_DET_TEMP) {
             BMS_detailed_temperatures temp = BMS_detailed_temperatures(rx_msg.buf);
             bms_detailed_temperatures[temp.get_ic_id()].load(rx_msg.buf);
         }
 
-        if (rx_msg.id == ID_BMS_DETAILED_VOLTAGES) {
+        if (rx_msg.id == BMS_DET_VOLT) {
             BMS_detailed_voltages temp = BMS_detailed_voltages(rx_msg.buf);
             bms_detailed_voltages[temp.get_ic_id()][temp.get_group_id()].load(rx_msg.buf);
         }
 
-        if (rx_msg.id == ID_BMS_VOLTAGES)
+        if (rx_msg.id == BMS_VOLT)
         {
             bms_voltages.load(rx_msg.buf);
         }
 
-        if (rx_msg.id == ID_BMS_TEMPERATURES)
+        if (rx_msg.id == BMS_TEMP)
         {
             bms_temperatures.load(rx_msg.buf);
         }
 
-        if (rx_msg.id == ID_BMS_ONBOARD_TEMPERATURES)
+        if (rx_msg.id == BMS_ONB_TEMP)
         {
             bms_onboard_temperatures.load(rx_msg.buf);
         }
 
-        if (rx_msg.id == ID_BMS_ONBOARD_DETAILED_TEMPERATURES)
+        if (rx_msg.id == BMS_ONB_DET_TEMP)
         {
             BMS_onboard_detailed_temperatures temp = BMS_onboard_detailed_temperatures(rx_msg.buf);
             bms_onboard_detailed_temperatures[temp.get_ic_id()].load(rx_msg.buf);

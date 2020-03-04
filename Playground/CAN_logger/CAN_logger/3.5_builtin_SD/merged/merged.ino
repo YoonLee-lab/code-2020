@@ -85,64 +85,64 @@ void loop()
     parse_can_message();
   }
   
-  if (timer.check()) {
-      send_xbee();
-      rcu_status.write(xb_msg.buf);
-      xb_msg.len = sizeof(CAN_message_rcu_status_t);
-      xb_msg.id = ID_RCU_STATUS;
-      write_xbee_data();
-    }
+//   if (timer.check()) { OBSOLETE
+//       send_xbee();
+//       rcu_status.write(xb_msg.buf);
+//       xb_msg.len = sizeof(CAN_message_rcu_status_t);
+//       xb_msg.id = FCU_READ;
+//       write_xbee_data();
+//     }
 }
 
 void parse_can_message() {
     while (CAN.read(msg)) {
-        if (msg.id == ID_FCU_STATUS) {
-            fcu_status.load(msg.buf);
-        }
-        if (msg.id == ID_FCU_READINGS) {
+        // if (msg.id == ID_FCU_STATUS) { OBSOLETE
+        //     fcu_status.load(msg.buf);
+        // }
+        if (msg.id == FCU_READ) {
             fcu_readings.load(msg.buf);
         }
-        if (msg.id == ID_MC_COMMAND_MESSAGE) {
+        if (msg.id == MC_COMM_MSG) {
             mc_command_message.load(msg.buf);
         }
-        if (msg.id == ID_MC_TEMPERATURES_1) {
+        if (msg.id == MC_TEMP_1) {
             mc_temperatures_1.load(msg.buf);
         }
-        if (msg.id == ID_MC_TEMPERATURES_3) {
+        if (msg.id == MC_TEMP_3) {
             mc_temperatures_3.load(msg.buf);
         }
-        if (msg.id == ID_MC_MOTOR_POSITION_INFORMATION) {
+        if (msg.id == MC_MOTOR_POS_INFO) {
             mc_motor_position_information.load(msg.buf);
         }
-        if (msg.id == ID_MC_CURRENT_INFORMATION) {
+        if (msg.id == MC_CURR_INFO) {
             mc_current_information.load(msg.buf);
         }
-        if (msg.id == ID_MC_VOLTAGE_INFORMATION) {
+        if (msg.id == MC_VOLT_INFO) {
             mc_voltage_information.load(msg.buf);
         }
-        if (msg.id == ID_MC_INTERNAL_STATES) {
+        if (msg.id == MC_INT_STATES) {
             mc_internal_states.load(msg.buf);
         }
-        if (msg.id == ID_MC_FAULT_CODES) {
+        if (msg.id == MC_FAULT_CODES) {
             mc_fault_codes.load(msg.buf);
         }
-        if (msg.id == ID_MC_TORQUE_TIMER_INFORMATION) {
+        if (msg.id == MC_TOR_TIMER_INFO) {
             mc_torque_timer_information.load(msg.buf);
         }
-        if (msg.id == ID_BMS_VOLTAGES) {
+        if (msg.id == BMS_VOLT) {
             bms_voltages.load(msg.buf);
         }
-        if (msg.id == ID_BMS_TEMPERATURES) {
+        if (msg.id == BMS_TEMP) {
             bms_temperatures.load(msg.buf);
         }
-        if (msg.id == ID_BMS_DETAILED_TEMPERATURES) {
+        if (msg.id == BMS_DET_TEMP) {
             BMS_detailed_temperatures temp = BMS_detailed_temperatures(msg.buf);
             bms_detailed_temperatures[temp.get_ic_id()].load(msg.buf);
         }
-        if (msg.id == ID_BMS_STATUS) {
+        if (msg.id == BMS_STAT) {
             bms_status.load(msg.buf);
         }
-        if (msg.id == ID_BMS_DETAILED_VOLTAGES) {
+        if (msg.id == BMS_DET_VOLT) {
             BMS_detailed_voltages temp = BMS_detailed_voltages(msg.buf);
             bms_detailed_voltages[temp.get_ic_id()][temp.get_group_id()].load(msg.buf);
         }
@@ -152,8 +152,8 @@ void parse_can_message() {
 void send_xbee() {
     
         mc_temperatures_1.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_temperatures_1_t);
-        xb_msg.id = ID_MC_TEMPERATURES_1;
+        xb_msg.len = sizeof(MCTemp1_t);
+        xb_msg.id = MC_TEMP_1;
         write_xbee_data();
         /*XB.print("MODULE A TEMP: ");
         XB.println(mc_temperatures_1.get_module_a_temperature() / (double) 10, 1);
@@ -167,8 +167,8 @@ void send_xbee() {
 
     
         mc_temperatures_3.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_temperatures_3_t);
-        xb_msg.id = ID_MC_TEMPERATURES_3;
+        xb_msg.len = sizeof(MCTemp3_t);
+        xb_msg.id = MC_TEMP_3;
         write_xbee_data();
         /*//XB.print("RTD 4 TEMP: "); // These aren't needed since we aren't using RTDs
         //XB.println(mc_temperatures_3.get_rtd_4_temperature());
@@ -182,8 +182,8 @@ void send_xbee() {
 
     
         mc_motor_position_information.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_motor_position_information_t);
-        xb_msg.id = ID_MC_MOTOR_POSITION_INFORMATION;
+        xb_msg.len = sizeof(MCMotorPosInfo_t);
+        xb_msg.id = MC_MOTOR_POS_INFO;
         write_xbee_data();
         /*XB.print("MOTOR ANGLE: ");
         XB.println(mc_motor_position_information.get_motor_angle());
@@ -197,8 +197,8 @@ void send_xbee() {
 
     
         mc_current_information.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_current_information_t);
-        xb_msg.id = ID_MC_CURRENT_INFORMATION;
+        xb_msg.len = sizeof(MCCurrInfo_t);
+        xb_msg.id = MC_CURR_INFO;
         write_xbee_data();
         /*XB.print("PHASE A CURRENT: ");
         XB.println(mc_current_information.get_phase_a_current() / (double) 10, 1);
@@ -212,8 +212,8 @@ void send_xbee() {
 
     
         mc_voltage_information.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_voltage_information_t);
-        xb_msg.id = ID_MC_VOLTAGE_INFORMATION;
+        xb_msg.len = sizeof(MCVoltInfo_t);
+        xb_msg.id = MC_VOLT_INFO;
         write_xbee_data();
         /*XB.print("DC BUS VOLTAGE: ");
         XB.println(mc_voltage_information.get_dc_bus_voltage() / (double) 10, 1);
@@ -227,8 +227,8 @@ void send_xbee() {
 
     
         mc_internal_states.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_internal_states_t);
-        xb_msg.id = ID_MC_INTERNAL_STATES;
+        xb_msg.len = sizeof(MCIntStates_t);
+        xb_msg.id = MC_INT_STATES;
         write_xbee_data();
         /*XB.print("VSM STATE: ");
         XB.println(mc_internal_states.get_vsm_state());
@@ -250,8 +250,8 @@ void send_xbee() {
 
     
         mc_fault_codes.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_fault_codes_t);
-        xb_msg.id = ID_MC_FAULT_CODES;
+        xb_msg.len = sizeof(MCFaultCodes_t);
+        xb_msg.id = MC_FAULT_CODES;
         write_xbee_data();
         /*XB.print("POST FAULT LO: 0x");
         XB.println(mc_fault_codes.get_post_fault_lo(), HEX);
@@ -265,8 +265,8 @@ void send_xbee() {
 
     
         mc_torque_timer_information.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_torque_timer_information_t);
-        xb_msg.id = ID_MC_TORQUE_TIMER_INFORMATION;
+        xb_msg.len = sizeof(MCTorTimerInfo_t);
+        xb_msg.id = MC_TOR_TIMER_INFO;
         write_xbee_data();
         /*XB.print("COMMANDED TORQUE: ");
         XB.println(mc_torque_timer_information.get_commanded_torque() / (double) 10, 1);
@@ -278,8 +278,8 @@ void send_xbee() {
 
     
         bms_voltages.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_bms_voltages_t);
-        xb_msg.id = ID_BMS_VOLTAGES;
+        xb_msg.len = sizeof(BMSVolt_t);
+        xb_msg.id = BMS_VOLT;
         write_xbee_data();
         /*XB.print("BMS VOLTAGE AVERAGE: ");
         XB.println(bms_voltages.get_average() / (double) 10000, 4);
@@ -295,8 +295,8 @@ void send_xbee() {
         for (int ic = 0; ic < 8; ic++) {
             for (int group = 0; group < 3; group++) {
                 bms_detailed_voltages[ic][group].write(xb_msg.buf);
-                xb_msg.len = sizeof(CAN_message_bms_detailed_voltages_t);
-                xb_msg.id = ID_BMS_DETAILED_VOLTAGES;
+                xb_msg.len = sizeof(BMSDetVolt_t);
+                xb_msg.id = BMS_DET_VOLT;
                 write_xbee_data();
             }
         }
@@ -304,8 +304,8 @@ void send_xbee() {
 
     
         bms_temperatures.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_bms_temperatures_t);
-        xb_msg.id = ID_BMS_TEMPERATURES;
+        xb_msg.len = sizeof(BMSTemp_t);
+        xb_msg.id = BMS_TEMP;
         write_xbee_data();
         /*XB.print("BMS AVERAGE TEMPERATURE: ");
         XB.println(bms_temperatures.get_average_temperature() / (double) 100, 2);
@@ -318,16 +318,16 @@ void send_xbee() {
     
         for (int ic = 0; ic < 8; ic++) {
             bms_detailed_temperatures[ic].write(xb_msg.buf);
-            xb_msg.len = sizeof(CAN_message_bms_detailed_temperatures_t);
-            xb_msg.id = ID_BMS_DETAILED_TEMPERATURES;
+            xb_msg.len = sizeof(BMSDetTemp_t);
+            xb_msg.id = BMS_DET_TEMP;
             write_xbee_data();
         }
     
 
     
         bms_status.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_bms_status_t);
-        xb_msg.id = ID_BMS_STATUS;
+        xb_msg.len = sizeof(BMSStat_t);
+        xb_msg.id = BMS_STAT;
         write_xbee_data();
         /*XB.print("BMS STATE: ");
         XB.println(bms_status.get_state());
@@ -337,28 +337,28 @@ void send_xbee() {
         XB.println(bms_status.get_current() / (double) 100, 2);*/
     
 
-    
-        fcu_status.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_fcu_status_t);
-        xb_msg.id = ID_FCU_STATUS;
-        write_xbee_data();
-        /*XB.print("FCU BRAKE ACT: ");
-        XB.println(fcu_status.get_brake_pedal_active());
-        XB.print("FCU STATE: ");
-        XB.println(fcu_status.get_state());*/
+        // OBSOLETE CODE    
+        // fcu_status.write(xb_msg.buf);
+        // xb_msg.len = sizeof(CAN_message_fcu_status_t);
+        // xb_msg.id = ID_FCU_STATUS;
+        // write_xbee_data();
+        // /*XB.print("FCU BRAKE ACT: ");
+        // XB.println(fcu_status.get_brake_pedal_active());
+        // XB.print("FCU STATE: ");
+        // XB.println(fcu_status.get_state());*/
     
 
     
         fcu_readings.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_fcu_readings_t);
-        xb_msg.id = ID_FCU_READINGS;
+        xb_msg.len = sizeof(FCURead_t);
+        xb_msg.id = FCU_READ;
         write_xbee_data();
     
 
     
         mc_command_message.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_command_message_t);
-        xb_msg.id = ID_MC_COMMAND_MESSAGE;
+        xb_msg.len = sizeof(MCCommMsg_t);
+        xb_msg.id = MC_COMM_MSG;
         write_xbee_data();
         /*XB.print("CMD_MSG TORQUE COMMAND: ");
         XB.println(mc_command_message.get_torque_command() / (double) 10, 1);

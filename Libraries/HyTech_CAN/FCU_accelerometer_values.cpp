@@ -4,8 +4,8 @@
  * Documentation by Meghavarnika Budati, February 2, 2020.
  * 
  * HEXID: DF
- * MACRO: ID_FCU_ACCELEROMETER
- * STRUCT: CAN_message_fcu_accelerometer_values_t 
+ * MACRO: FCU_ACCEL, previously: ID_FCU_ACCELEROMETER
+ * STRUCT: FCUAccel_t, previously: CAN_message_fcu_accelerometer_values_t 
  * CLASS: FCU_accelerometer_values
  * DATA:
  *      XValue_x100  [0:1]
@@ -16,7 +16,7 @@
 #include "HyTech_CAN.h"
 
 /**
- * Constructor, defining an empty message for MC_temperatures_1
+ * Constructor, defining an empty message for FCU_accelerometer_values
  */
 FCU_accelerometer_values::FCU_accelerometer_values() {
    message = {};

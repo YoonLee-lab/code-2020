@@ -5,8 +5,8 @@
  * 
  * HEXID: E2
  * DESCR: BMS Coulomb Counts
- * MACRO: ID_BMS_COULOMB_COUNTS
- * STRUCT: CAN_message_bms_coulomb_counts_t 
+ * MACRO: BMS_COUL_COUNTS, previously: ID_BMS_COULOMB_COUNTS
+ * STRUCT: BMSCoulCounts_t, previously: CAN_message_bms_coulomb_counts_t 
  * CLASS: BMS_coulomb_counts
  * DATA:
  *      total_charge     [0:3]
@@ -16,7 +16,7 @@
 #include "HyTech_CAN.h"
 
 /**
- * Constructor, defining an empty message for MC_temperatures_1
+ * Constructor, defining an empty message for BMS_coulomb_counts
  */
 BMS_coulomb_counts::BMS_coulomb_counts() {
     message = {};

@@ -1,5 +1,6 @@
 /*
  * HyTech 2018 Vehicle Rear Control Unit
+ * should be obsolete rn
  * Monitor Shutdown Circuit initialization.
  * Control power to motor controller, fans, and pump.
  * Send wireless telemetry data via XBee.
@@ -34,7 +35,7 @@ Metro timer = Metro(3000);
 /*
  * Global variables
  */
-RCU_status rcu_status;
+// RCU_status rcu_status; OBSOLETE
 MC_command_message mc_command_message;
 MC_temperatures_1 mc_temperatures_1;
 MC_temperatures_3 mc_temperatures_3;
@@ -49,7 +50,7 @@ BMS_detailed_voltages bms_detailed_voltages[8][3];
 BMS_temperatures bms_temperatures;
 BMS_detailed_temperatures bms_detailed_temperatures[8];
 BMS_status bms_status;
-FCU_status fcu_status;
+// FCU_status fcu_status; OBSOLETE
 FCU_readings fcu_readings;
 
 boolean bms_faulting = false;
@@ -86,12 +87,12 @@ void loop() {
      * Send status over CAN and XBee
      */
     
-    if (timer.check()) {
-        rcu_status.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_rcu_status_t);
-        xb_msg.id = ID_RCU_STATUS;
-        write_xbee_data();
-    }
+    // if (timer.check()) { OBSOLETE
+    //     rcu_status.write(xb_msg.buf);
+    //     xb_msg.len = sizeof(CAN_message_rcu_status_t);
+    //     xb_msg.id = ID_RCU_STATUS;
+    //     write_xbee_data();
+    // }
     
 }
 

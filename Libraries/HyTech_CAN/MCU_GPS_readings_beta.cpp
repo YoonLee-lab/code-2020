@@ -4,9 +4,9 @@
  * Documentation by Meghavarnika Budati, February 2, 2020.
  * 
  * HEXID: E8
- * DESCR: Motor Controller Temperatures #1
- * MACRO: ID_ECU_GPS_READINGS_BETA
- * STRUCT: CAN_message_mcu_gps_readings_beta_t 
+ * DESCR: MCU_GPS Beta message
+ * MACRO: MCU_GPS_READ_BETA, previously: ID_ECU_GPS_READINGS_BETA
+ * STRUCT: MCUGpsBeta_t, previously: CAN_message_mcu_gps_readings_beta_t 
  * CLASS: MCU_GPS_readings_beta
  * DATA:
  *      altitude [0:3] int16
@@ -16,7 +16,7 @@
 #include "HyTech_CAN.h"
 
 /**
- * Constructor, defining an empty message for MC_temperatures_1
+ * Constructor, defining an empty message for MCU_GPS_readings_beta
  */
 MCU_GPS_readings_beta::MCU_GPS_readings_beta() {
     message = {};

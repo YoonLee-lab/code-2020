@@ -1,12 +1,12 @@
 /**
  * MC_firmware_information.cpp - CAN message parser: RMS Motor Controller firmware information message
  * Created by Nathan Cheek, November 23, 2016.
- * Documentation by Meghavarnika Budati, January 31, 2020. WIP
+ * Documentation by Meghavarnika Budati, January 31, 2020.
  * 
  * HEXID: AE
  * DESCR: MC Firmware Information
- * MACRO: ID_MC_FIRMWARE_INFORMATION
- * STRUCT: CAN_message_mc_firmware_information_t 
+ * MACRO: MC_FIRM_INFO, previously: ID_MC_FIRMWARE_INFORMATION
+ * STRUCT: MCFirmInfo_t, previously: CAN_message_mc_firmware_information_t 
  * CLASS: MC_firmware_information
  * DATA:
  *      eeprom_version_project_code [0:1]
@@ -19,7 +19,7 @@
 #include "HyTech_CAN.h"
 
 /**
- * Constructor, defining an empty message for MC_fault_codes
+ * Constructor, defining an empty message for MC_firmware_information
  */
 MC_firmware_information::MC_firmware_information() {
     message = {};

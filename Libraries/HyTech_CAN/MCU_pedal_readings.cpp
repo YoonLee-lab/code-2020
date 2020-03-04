@@ -1,11 +1,11 @@
 /**
  * MCU_pedal_readings.cpp - CAN message parser: Main Control Unit pedal readings message
  * Created Feb, 2019.
- * Documentation by Meghavarnika Budati, February 2, 2020. WIP
+ * Documentation by Meghavarnika Budati, February 2, 2020.
  * 
  * HEXID: C4
- * MACRO: ID_MCU_PEDAL_READINGS
- * STRUCT: CAN_message_mcu_pedal_readings_t 
+ * MACRO: MCU_PEDAL_READ, previously: ID_MCU_PEDAL_READINGS
+ * STRUCT: MCUPedalRead_t, previously: CAN_message_mcu_pedal_readings_t 
  * CLASS: MCU_pedal_readings
  * DATA:
  *      accelerator_pedal_raw_1 [0:1]
@@ -79,7 +79,9 @@ void MCU_pedal_readings::load(uint8_t buf[8]) {
  *     - Torque map mode selection
  */
 
-MCU_pedal_readings::MCU_pedal_readings(uint16_t accelerator_pedal_raw_1, uint16_t accelerator_pedal_raw_2, uint16_t brake_pedal_raw, uint8_t pedal_flags, uint8_t torque_map_mode) {
+MCU_pedal_readings::MCU_pedal_readings(uint16_t accelerator_pedal_raw_1,
+    uint16_t accelerator_pedal_raw_2, uint16_t brake_pedal_raw, uint8_t pedal_flags,
+    uint8_t torque_map_mode) {
     set_accelerator_pedal_raw_1(accelerator_pedal_raw_1);
     set_accelerator_pedal_raw_2(accelerator_pedal_raw_2);
     set_brake_pedal_raw(brake_pedal_raw);

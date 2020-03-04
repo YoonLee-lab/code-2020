@@ -5,8 +5,8 @@
  * 
  * HEXID: AC
  * DESCR: MC Torque Timer Information
- * MACRO: ID_MC_TORQUE_TIMER_INFORMATION
- * STRUCT: CAN_message_mc_torque_timer_information_t 
+ * MACRO: MC_TOR_TIMER_INFO, previously: ID_MC_TORQUE_TIMER_INFORMATION
+ * STRUCT: MCTorTimerInfo_t, previously: CAN_message_mc_torque_timer_information_t 
  * CLASS: MC_torque_timer_information
  * DATA:
  *      commanded_torque [0:1]

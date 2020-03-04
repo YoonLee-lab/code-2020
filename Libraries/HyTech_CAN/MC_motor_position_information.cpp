@@ -5,8 +5,8 @@
  * 
  * HEXID: A5
  * DESCR: MC Motor Position Information
- * MACRO: ID_MC_MOTOR_POSITION_INFORMATION
- * STRUCT: CAN_message_mc_motor_position_information_t 
+ * MACRO: MC_MOTOR_POS_INFO, previously: ID_MC_MOTOR_POSITION_INFORMATION
+ * STRUCT: MCMotorPosInfo_t, previously: CAN_message_mc_motor_position_information_t 
  * CLASS: MC_motor_position_information
  * DATA:
  *      motor_angle                 [0:1]

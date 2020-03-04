@@ -127,60 +127,61 @@ void loop() {
 
 void parse_can_message() {
     while (CAN.read(rx_msg)) {
-        if (rx_msg.id == ID_FCU_STATUS) {
-            fcu_status.load(rx_msg.buf);
-        }
-        if (rx_msg.id == ID_FCU_READINGS) {
+        // OBSOLETE
+        // if (rx_msg.id == ID_FCU_STATUS) {
+        //     fcu_status.load(rx_msg.buf);
+        // }
+        if (rx_msg.id == FCU_READ) {
             fcu_readings.load(rx_msg.buf);
         }
-        if (rx_msg.id == ID_MC_COMMAND_MESSAGE) {
+        if (rx_msg.id == MC_COMM_MSG) {
             mc_command_message.load(rx_msg.buf);
         }
-        if (rx_msg.id == ID_MC_TEMPERATURES_1) {
+        if (rx_msg.id == MC_TEMP_1) {
             mc_temperatures_1.load(rx_msg.buf);
         }
-        if (rx_msg.id == ID_MC_TEMPERATURES_3) {
+        if (rx_msg.id == MC_TEMP_3) {
             mc_temperatures_3.load(rx_msg.buf);
         }
-        if (rx_msg.id == ID_MC_MOTOR_POSITION_INFORMATION) {
+        if (rx_msg.id == MC_MOTOR_POS_INFO) {
             mc_motor_position_information.load(rx_msg.buf);
         }
-        if (rx_msg.id == ID_MC_CURRENT_INFORMATION) {
+        if (rx_msg.id == MC_CURR_INFO) {
             mc_current_information.load(rx_msg.buf);
         }
-        if (rx_msg.id == ID_MC_VOLTAGE_INFORMATION) {
+        if (rx_msg.id == MC_VOLT_INFO) {
             mc_voltage_information.load(rx_msg.buf);
         }
-        if (rx_msg.id == ID_MC_INTERNAL_STATES) {
+        if (rx_msg.id == MC_INT_STATES) {
             mc_internal_states.load(rx_msg.buf);
         }
-        if (rx_msg.id == ID_MC_FAULT_CODES) {
+        if (rx_msg.id == MC_FAULT_CODES) {
             mc_fault_codes.load(rx_msg.buf);
         }
-        if (rx_msg.id == ID_MC_TORQUE_TIMER_INFORMATION) {
+        if (rx_msg.id == MC_TOR_TIMER_INFO) {
             mc_torque_timer_information.load(rx_msg.buf);
         }
-        if (rx_msg.id == ID_BMS_VOLTAGES) {
+        if (rx_msg.id == BMS_VOLT) {
             bms_voltages.load(rx_msg.buf);
         }
-        if (rx_msg.id == ID_BMS_TEMPERATURES) {
+        if (rx_msg.id == BMS_TEMP) {
             bms_temperatures.load(rx_msg.buf);
         }
-        if (rx_msg.id == ID_BMS_DETAILED_TEMPERATURES) {
+        if (rx_msg.id == BMS_DET_TEMP) {
             BMS_detailed_temperatures temp = BMS_detailed_temperatures(rx_msg.buf);
             bms_detailed_temperatures[temp.get_ic_id()].load(rx_msg.buf);
         }
-        if (rx_msg.id == ID_BMS_STATUS) {
+        if (rx_msg.id == BMS_STAT) {
             bms_status.load(rx_msg.buf);
         }
-        if (rx_msg.id == ID_BMS_DETAILED_VOLTAGES) {
+        if (rx_msg.id == BMS_DET_VOLT) {
             BMS_detailed_voltages temp = BMS_detailed_voltages(rx_msg.buf);
             bms_detailed_voltages[temp.get_ic_id()][temp.get_group_id()].load(rx_msg.buf);
         }
-        if (rx_msg.id == ID_MCU_STATUS) {
+        if (rx_msg.id == MC_STAT) {
             mcu_status.load(rx_msg.buf);
         }
-        if (rx_msg.id == ID_MCU_PEDAL_READINGS) {
+        if (rx_msg.id == MCU_PEDAL_READ) {
             mcu_pedal_readings.load(rx_msg.buf);
         }
     }
@@ -240,64 +241,64 @@ int write_xbee_data() {
 void send_xbee() {
     if (timer_debug_rms_temperatures_1.check()) {
         mc_temperatures_1.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_temperatures_1_t);
-        xb_msg.id = ID_MC_TEMPERATURES_1;
+        xb_msg.len = sizeof(MCTemp1_t);
+        xb_msg.id = MC_TEMP_1;
         write_xbee_data();
     }
 
     if (timer_debug_rms_temperatures_3.check()) {
         mc_temperatures_3.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_temperatures_3_t);
-        xb_msg.id = ID_MC_TEMPERATURES_3;
+        xb_msg.len = sizeof(MCTemp1_3);
+        xb_msg.id = MC_TEMP_3;
         write_xbee_data();
     }
 
     if (timer_debug_rms_motor_position_information.check()) {
         mc_motor_position_information.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_motor_position_information_t);
-        xb_msg.id = ID_MC_MOTOR_POSITION_INFORMATION;
+        xb_msg.len = sizeof(MCMotorPosInfo_t);
+        xb_msg.id = MC_MOTOR_POS_INFO;
         write_xbee_data();
     }
 
     if (timer_debug_rms_current_information.check()) {
         mc_current_information.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_current_information_t);
-        xb_msg.id = ID_MC_CURRENT_INFORMATION;
+        xb_msg.len = sizeof(MCCurrInfo_t);
+        xb_msg.id = MC_CURR_INFO;
         write_xbee_data();
     }
 
     if (timer_debug_rms_voltage_information.check()) {
         mc_voltage_information.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_voltage_information_t);
-        xb_msg.id = ID_MC_VOLTAGE_INFORMATION;
+        xb_msg.len = sizeof(MCVoltInfo_t);
+        xb_msg.id = MC_VOLT_INFO;
         write_xbee_data();
     }
 
     if (timer_debug_rms_internal_states.check()) {
         mc_internal_states.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_internal_states_t);
-        xb_msg.id = ID_MC_INTERNAL_STATES;
+        xb_msg.len = sizeof(MCIntStates_t);
+        xb_msg.id = MC_INT_STATES;
         write_xbee_data();
     }
 
     if (timer_debug_rms_fault_codes.check()) {
         mc_fault_codes.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_fault_codes_t);
-        xb_msg.id = ID_MC_FAULT_CODES;
+        xb_msg.len = sizeof(MCFaultCodes_t);
+        xb_msg.id = MC_FAULT_CODES;
         write_xbee_data();
     }
 
     if (timer_debug_rms_torque_timer_information.check()) {
         mc_torque_timer_information.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_torque_timer_information_t);
-        xb_msg.id = ID_MC_TORQUE_TIMER_INFORMATION;
+        xb_msg.len = sizeof(MCTorTimerInfo_t);
+        xb_msg.id = MC_TOR_TIMER_INFO;
         write_xbee_data();
     }
 
     if (timer_debug_bms_voltages.check()) {
         bms_voltages.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_bms_voltages_t);
-        xb_msg.id = ID_BMS_VOLTAGES;
+        xb_msg.len = sizeof(BMSVolt_t);
+        xb_msg.id = BMS_VOLT;
         write_xbee_data();
     }
 
@@ -305,8 +306,8 @@ void send_xbee() {
         for (int ic = 0; ic < 8; ic++) {
             for (int group = 0; group < 3; group++) {
                 bms_detailed_voltages[ic][group].write(xb_msg.buf);
-                xb_msg.len = sizeof(CAN_message_bms_detailed_voltages_t);
-                xb_msg.id = ID_BMS_DETAILED_VOLTAGES;
+                xb_msg.len = sizeof(BMSDetVolt_t);
+                xb_msg.id = BMS_DET_VOLT;
                 write_xbee_data();
             }
         }
@@ -314,59 +315,60 @@ void send_xbee() {
 
     if (timer_debug_bms_temperatures.check()) {
         bms_temperatures.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_bms_temperatures_t);
-        xb_msg.id = ID_BMS_TEMPERATURES;
+        xb_msg.len = sizeof(BMSTemp_t);
+        xb_msg.id = BMS_TEMP;
         write_xbee_data();
     }
 
     if (timer_debug_bms_detailed_temperatures.check()) {
         for (int ic = 0; ic < 8; ic++) {
             bms_detailed_temperatures[ic].write(xb_msg.buf);
-            xb_msg.len = sizeof(CAN_message_bms_detailed_temperatures_t);
-            xb_msg.id = ID_BMS_DETAILED_TEMPERATURES;
+            xb_msg.len = sizeof(BMSDetTemp_t);
+            xb_msg.id = BMS_DET_TEMP;
             write_xbee_data();
         }
     }
 
     if (timer_debug_bms_status.check()) {
         bms_status.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_bms_status_t);
-        xb_msg.id = ID_BMS_STATUS;
+        xb_msg.len = sizeof(BMSStat_t);
+        xb_msg.id = BMS_STAT;
         write_xbee_data();
     }
 
-    if (timer_debug_fcu_status.check()) {
-        fcu_status.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_fcu_status_t);
-        xb_msg.id = ID_FCU_STATUS;
-        write_xbee_data();
-    }
+    // OBSOLETE
+    // if (timer_debug_fcu_status.check()) {
+    //     fcu_status.write(xb_msg.buf);
+    //     xb_msg.len = sizeof(CAN_message_fcu_status_t);
+    //     xb_msg.id = ID_FCU_STATUS;
+    //     write_xbee_data();
+    // }
 
     if (timer_debug_fcu_readings.check()) {
         fcu_readings.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_fcu_readings_t);
-        xb_msg.id = ID_FCU_READINGS;
+        xb_msg.len = sizeof(FCURead_t);
+        xb_msg.id = FCU_READ;
         write_xbee_data();
     }
 
     if (timer_debug_rms_command_message.check()) {
         mc_command_message.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mc_command_message_t);
-        xb_msg.id = ID_MC_COMMAND_MESSAGE;
+        xb_msg.len = sizeof(MCCommMsg_t);
+        xb_msg.id = MC_COMM_MSG;
         write_xbee_data();
     }
 
     if (timer_debug_mcu_status.check()) {
         mcu_status.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mcu_status_t);
-        xb_msg.id = ID_MCU_STATUS;
+        xb_msg.len = sizeof(MCUStat_t);
+        xb_msg.id = MC_STAT;
         write_xbee_data();
     }
 
     if (timer_debug_mcu_pedal_readings.check()) {
         mcu_pedal_readings.write(xb_msg.buf);
-        xb_msg.len = sizeof(CAN_message_mcu_pedal_readings_t);
-        xb_msg.id = ID_MCU_PEDAL_READINGS;
+        xb_msg.len = sizeof(MCUPedalRead_t);
+        xb_msg.id = MCU_PEDAL_READ;
         write_xbee_data();
     }
 }

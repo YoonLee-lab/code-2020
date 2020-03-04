@@ -10,6 +10,9 @@
  */
 
 /**
+ * DOCUMENTATION:
+ * https://docs.google.com/document/d/1Wt2YLL93o2cYXGNJFQi_t4vT7_77oTf3JhUFi9HwC8g/edit?usp=sharing
+ * 
  * IMPORTANT:
  * If you're adding more structs/functions to this, please follow the HEX order. I have rearranged the file to be
  * easier to read and add stuff to. Please don't change the order without a good reason. Add comments wherever you

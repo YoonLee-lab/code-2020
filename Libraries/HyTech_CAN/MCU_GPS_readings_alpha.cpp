@@ -4,8 +4,8 @@
  * Documentation by Meghavarnika Budati, February 2, 2020.
  * 
  * HEXID: E7
- * MACRO: ID_ECU_GPS_READINGS_ALPHA
- * STRUCT: CAN_message_mcu_gps_readings_alpha_t 
+ * MACRO: MCU_GPS_READ_ALPHA, previously: ID_ECU_GPS_READINGS_ALPHA
+ * STRUCT: MCUGpsAlpha_t, previously: CAN_message_mcu_gps_readings_alpha_t 
  * CLASS: MCU_GPS_readings_alpha
  * DATA:
  *      latitude  [0:3]
@@ -15,7 +15,7 @@
 #include "HyTech_CAN.h"
 
 /**
- * Constructor, defining an empty message for MC_temperatures_1
+ * Constructor, defining an empty message for MCU_GPS_readings_alpha
  */
 MCU_GPS_readings_alpha::MCU_GPS_readings_alpha() {
     message = {};

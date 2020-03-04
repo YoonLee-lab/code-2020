@@ -4,8 +4,8 @@
  * Documentation by Meghavarnika Budati, February 2, 2020.
  * 
  * HEXID: D3
- * MACRO: ID_FCU_READINGS
- * STRUCT: CAN_message_fcu_readings_t 
+ * MACRO: FCU_READ, previously: ID_FCU_READINGS
+ * STRUCT: FCURead_t, previously: CAN_message_fcu_readings_t 
  * CLASS: FCU_readings
  * DATA:
  *      accelerator_pedal_raw_1 [0:1]

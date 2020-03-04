@@ -1,12 +1,12 @@
 /**
  * MC_read_write_parameter_response.cpp - CAN message parser: RMS Motor Controller read / write parameter response message - response from PM
  * Created by Nathan Cheek, November 22, 2016.
-  * Documentation by Meghavarnika Budati, January 31, 2020. WIP
+  * Documentation by Meghavarnika Budati, January 31, 2020.
  * 
  * HEXID: C2
  * DESCR: MC Read/Write Parameter Response
- * MACRO: ID_MC_READ_WRITE_PARAMETER_RESPONSE
- * STRUCT: CAN_message_mc_read_write_parameter_response_t 
+ * MACRO: MC_RW_PARAM_RESP, previously: ID_MC_READ_WRITE_PARAMETER_RESPONSE
+ * STRUCT: MCRWParamResp_t, previously: CAN_message_mc_read_write_parameter_response_t 
  * CLASS: MC_read_write_parameter_response
  * DATA:
  *      parameter_address [0:1]
@@ -19,7 +19,7 @@
 #include "HyTech_CAN.h"
 
 /**
- * Constructor, defining an empty message for MC_fault_codes
+ * Constructor, defining an empty message for MC_read_write_parameter_response
  */
 MC_read_write_parameter_response::MC_read_write_parameter_response() {
     message = {};

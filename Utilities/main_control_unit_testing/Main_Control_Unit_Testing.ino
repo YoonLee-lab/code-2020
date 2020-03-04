@@ -293,8 +293,8 @@ void loop() {
 
         // Send Main Control Unit status message
         mcu_status.write(tx_msg.buf);
-        tx_msg.id = ID_MCU_STATUS;
-        tx_msg.len = sizeof(CAN_message_mcu_status_t);
+        tx_msg.id = MC_STAT;
+        tx_msg.len = sizeof(MCUStat_t);
         CAN.write(tx_msg);
 
         // Update the pedal readings to send over CAN
@@ -304,15 +304,15 @@ void loop() {
 
         // Send Main Control Unit pedal reading message
         mcu_pedal_readings.write(tx_msg.buf);
-        tx_msg.id = ID_MCU_PEDAL_READINGS;
-        tx_msg.len = sizeof(CAN_message_mcu_pedal_readings_t);
+        tx_msg.id = MCU_PEDAL_READ;
+        tx_msg.len = sizeof(MCUPedalRead_t);
         CAN.write(tx_msg);
 
         // Send couloumb counting information
         bms_coulomb_counts.set_total_charge(total_charge_amount);
         bms_coulomb_counts.set_total_discharge(total_discharge_amount);
-        tx_msg.id = ID_BMS_COULOMB_COUNTS;
-        tx_msg.len = sizeof(CAN_message_bms_coulomb_counts_t);
+        tx_msg.id = BMS_COUL_COUNTS;
+        tx_msg.len = sizeof(BMSCoulCounts_t);
         CAN.write(tx_msg);
     }
 
@@ -423,7 +423,7 @@ void loop() {
             if (!pedal_input_testing)
             {
               mc_command_message.write(tx_msg.buf);
-              tx_msg.id = ID_MC_COMMAND_MESSAGE;
+              tx_msg.id = MC_COMM_MSG;
               tx_msg.len = 8;
               CAN.write(tx_msg);
             }
@@ -443,7 +443,7 @@ void loop() {
         // }
 
         mc_command_message.write(tx_msg.buf);
-        tx_msg.id = ID_MC_COMMAND_MESSAGE;
+        tx_msg.id = MC_COMM_MSG;
         tx_msg.len = 8;
         CAN.write(tx_msg);
     }
@@ -464,7 +464,7 @@ void print_menu() {
  */
 void parse_can_message() {
     while (CAN.read(rx_msg)) {
-        if (rx_msg.id == ID_MC_VOLTAGE_INFORMATION) {
+        if (rx_msg.id == MC_VOLT_INFO) {
             MC_voltage_information mc_voltage_information = MC_voltage_information(rx_msg.buf);
             if (mc_voltage_information.get_dc_bus_voltage() >= MIN_HV_VOLTAGE && mcu_status.get_state() == MCU_STATE_TRACTIVE_SYSTEM_NOT_ACTIVE) {
                 set_state(MCU_STATE_TRACTIVE_SYSTEM_ACTIVE);
@@ -474,7 +474,7 @@ void parse_can_message() {
             }
         }
 
-        if (rx_msg.id == ID_MC_INTERNAL_STATES) {
+        if (rx_msg.id == MC_INT_STATES) {
             MC_internal_states mc_internal_states = MC_internal_states(rx_msg.buf);
             if (mc_internal_states.get_inverter_enable_state() && mcu_status.get_state() == MCU_STATE_ENABLING_INVERTER) {
                 //set_state(MCU_STATE_WAITING_READY_TO_DRIVE_SOUND);
@@ -485,23 +485,23 @@ void parse_can_message() {
             }
         }
 
-        if (rx_msg.id == ID_MC_MOTOR_POSITION_INFORMATION) {
+        if (rx_msg.id == MC_MOTOR_POS_INFO) {
             mc_motor_position_information.load(rx_msg.buf);
         }
 
-        if (rx_msg.id == ID_BMS_STATUS) {
+        if (rx_msg.id == BMS_STAT) {
             bms_status.load(rx_msg.buf);
         }
 
-        if (rx_msg.id == ID_BMS_TEMPERATURES) {
+        if (rx_msg.id == BMS_TEMP) {
             bms_temperatures.load(rx_msg.buf);
         }
 
-        if (rx_msg.id == ID_BMS_VOLTAGES) {
+        if (rx_msg.id == BMS_VOLT) {
             bms_voltages.load(rx_msg.buf);
         }
 
-        if (rx_msg.id == ID_MC_CURRENT_INFORMATION) {
+        if (rx_msg.id == MC_CURR_INFO) {
             if (mcu_status.get_state() == MCU_STATE_READY_TO_DRIVE) {
                 mc_current_informtarion.load(rx_msg.buf);
                 update_couloumb_count();

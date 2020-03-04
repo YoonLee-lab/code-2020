@@ -5,8 +5,8 @@
  * 
  * HEXID: DA
  * DESCR: BMS Detailed Temperatures
- * MACRO: ID_BMS_DETAILED_TEMPERATURES
- * STRUCT: CAN_message_bms_detailed_temperatures_t 
+ * MACRO: BMS_DET_TEMP, previously: ID_BMS_DETAILED_TEMPERATURES
+ * STRUCT: BMSDetTemp_t, previously: CAN_message_bms_detailed_temperatures_t 
  * CLASS: BMS_detailed_temperatures
  * DATA:
  *      ic_id         [0]
@@ -19,7 +19,7 @@
 #include "HyTech_CAN.h"
 
 /**
- * Constructor, defining an empty message for MC_temperatures_1
+ * Constructor, defining an empty message for BMS_detailed_temperatures
  */
 BMS_detailed_temperatures::BMS_detailed_temperatures() {
     message = {};

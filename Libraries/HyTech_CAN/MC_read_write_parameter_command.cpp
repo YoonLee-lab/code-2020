@@ -5,8 +5,8 @@
  * 
  * HEXID: C1
  * DESCR: MC Read/Write Parameter Command
- * MACRO: ID_MC_READ_WRITE_PARAMETER_COMMAND
- * STRUCT: CAN_message_mc_read_write_parameter_command_t 
+ * MACRO: MC_RW_PARAM_COMM, previously: ID_MC_READ_WRITE_PARAMETER_COMMAND
+ * STRUCT: MCRWParamComm_t, previously: CAN_message_mc_read_write_parameter_command_t 
  * CLASS: MC_read_write_parameter_command
  * DATA:
  *      parameter_address [0:1]
@@ -19,7 +19,7 @@
 #include "HyTech_CAN.h"
 
 /**
- * Constructor, defining an empty message for MC_fault_codes
+ * Constructor, defining an empty message for MC_read_write_parameter_command
  */
 MC_read_write_parameter_command::MC_read_write_parameter_command() {
     message = {};
@@ -39,7 +39,8 @@ MC_read_write_parameter_command::MC_read_write_parameter_command(uint8_t buf[8])
  * @param rw_command: read/write command
  * @param data: data
  */
-MC_read_write_parameter_command::MC_read_write_parameter_command(uint16_t parameter_address, bool rw_command, uint32_t data) {
+MC_read_write_parameter_command::MC_read_write_parameter_command(
+    uint16_t parameter_address, bool rw_command, uint32_t data) {
     message = {};
     set_parameter_address(parameter_address);
     set_rw_command(rw_command);

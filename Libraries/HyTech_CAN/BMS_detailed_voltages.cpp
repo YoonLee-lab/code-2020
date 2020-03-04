@@ -5,8 +5,8 @@
  * 
  * HEXID: D8
  * DESCR: BMS Detailed Voltages
- * MACRO: ID_BMS_DETAILED_VOLTAGES
- * STRUCT: CAN_message_bms_detailed_voltages_t 
+ * MACRO: BMS_DET_VOLT, previously: ID_BMS_DETAILED_VOLTAGES
+ * STRUCT: BMSDetVolt_t, previously: CAN_message_bms_detailed_voltages_t 
  * CLASS: BMS_detailed_voltages
  * DATA:
  *      ic_id     [0]
@@ -19,7 +19,7 @@
 #include "HyTech_CAN.h"
 
 /**
- * Constructor, defining an empty message for MC_temperatures_1
+ * Constructor, defining an empty message for BMS_detailed_voltages
  */
 BMS_detailed_voltages::BMS_detailed_voltages() {
     message = {};
