@@ -13,7 +13,7 @@
 </head>
 <body>
   	<h1>Hytech Telemetry CSV Uploader</h1>
-  	<form method="POST" enctype="multipart/form-data" action="/upload" onsubmit="document.getElementById('txt').innerText = 'Uploading. Keep your pants on, this takes a while because your file is thicc.'">
+  	<form method="POST" enctype="multipart/form-data" action="/upload" onsubmit="let el = document.getElementById('submit'); el.parentNode.removeChild(el); document.getElementById('txt').innerText = 'Uploading. Keep your pants on, this takes a while because your file is thicc.'">
    		<div>
       			<label>Upload CSV</label>
       			<input required type="file" name="csv" accept=".csv" />
@@ -23,7 +23,7 @@
       			<input required type="text" name="db_name" />
     		</div>
     		<div>
-      			<input type="Submit" value="Upload" />
+      			<input type="Submit" value="Upload" id="submit"/>
     		</div>
   	</form>
   	<div id="txt" />
