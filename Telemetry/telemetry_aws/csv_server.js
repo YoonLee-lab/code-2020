@@ -36,6 +36,6 @@ const restart = branch => get_branches().includes(branch) && child_process.execS
 
 app.get('/status', (req, res) => res.sendFile(path.resolve(__dirname, 'views/status.html')))
 app.get('/config', (req, res) => { let [ status, current_branch ] = get_status(); res.json({ status, current_branch, branches: get_branches() }); })
-app.post('/refresh', (req, res) => { console.log(req.body); res.redirect('/status'); })
+app.post('/refresh', (req, res) => { restart(req.body.new_branch); res.redirect('/status'); })
 
 app.listen(PORT, () => console.log("Grafana upload server running on port " + PORT));
