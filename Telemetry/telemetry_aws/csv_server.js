@@ -32,7 +32,7 @@ app.post('/upload', (req, res) => {
 
 const get_status = () => child_process.execSync('sh ~/update_scripts/status.sh').toString().split('\n').map(x => x.trim()).filter(x => x.length);
 const get_branches = () => child_process.execSync('sh ~/update_scripts/branches.sh').toString().split('\n').filter(x => x.length);
-const restart = branch => get_branches().includes(branch) && child_process.execSync('sh ~/update_scripts/restart.sh').toString();
+const restart = branch => get_branches().includes(branch) && child_process.execSync('sh ~/update_scripts/restart.sh ' + branch).toString();
 
 app.get('/status', (req, res) => res.sendFile(path.resolve(__dirname, 'views/status.html')))
 app.get('/config', (req, res) => { let [ status, current_branch ] = get_status(); res.json({ status, current_branch, branches: get_branches() }); })
